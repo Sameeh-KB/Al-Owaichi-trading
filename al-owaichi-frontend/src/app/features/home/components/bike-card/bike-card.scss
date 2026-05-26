@@ -1,42 +1,37 @@
 :host { display: block; }
 
+// ── Card shell ─────────────────────────────────────────
 .bike-card {
   background: var(--card);
   border: 1px solid var(--border);
-  border-radius: var(--radius);
-  overflow: hidden;
   display: flex;
   flex-direction: column;
-  transition: box-shadow var(--ease), border-color var(--ease);
-  animation: fadeIn .3s ease both;
-
-  &[data-brand='haojue'] { border-left: 3px solid var(--accent); }
-  &[data-brand='zontes']  { border-left: 3px solid #2563eb; }
-  &[data-brand='linhai']  { border-left: 3px solid #16a34a; }
+  overflow: hidden;
+  transition: box-shadow var(--ease-md), transform var(--ease-md), border-color var(--ease-md);
+  animation: fadeIn .35s ease both;
 
   &:hover {
     box-shadow: var(--shadow-hover);
+    transform: translateY(-3px);
+    border-color: transparent;
+
+    .card-img { transform: scale(1.06); }
+    .btn-details { color: var(--text); }
   }
 }
 
-// Clickable wrapper — image + body together act as one link
-.card-link {
-  display: flex;
-  flex-direction: column;
-  flex: 1;
+// ── Image area ────────────────────────
+.card-image-link {
+  display: block;
   text-decoration: none;
-  color: inherit;
-  cursor: pointer;
+  flex-shrink: 0;
 }
 
-// ── Image ──────────────────────────────
 .card-img-wrap {
   position: relative;
-  height: 192px;
+  height: 220px;
   background: var(--spec-bg);
-  border-bottom: 1px solid var(--border);
   overflow: hidden;
-  flex-shrink: 0;
 }
 
 .card-img {
@@ -44,9 +39,14 @@
   height: 100%;
   object-fit: cover;
   display: block;
-  transition: transform .45s ease;
+  transition: transform .5s cubic-bezier(.25,.46,.45,.94);
+}
 
-  .bike-card:hover & { transform: scale(1.035); }
+.card-img-gradient {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to bottom, transparent 40%, rgba(0,0,0,.55) 100%);
+  pointer-events: none;
 }
 
 .card-img-placeholder {
@@ -59,11 +59,7 @@
   gap: 10px;
 }
 
-.placeholder-emoji {
-  font-size: 44px;
-  line-height: 1;
-}
-
+.placeholder-emoji { font-size: 44px; line-height: 1; }
 .placeholder-model {
   font-size: 10px;
   font-weight: 700;
@@ -73,79 +69,97 @@
   font-family: 'IBM Plex Mono', monospace;
 }
 
-// Brand badge — sharp top corner
+// Brand badge — uniform dark pill, no brand colours
 .card-brand-tag {
   position: absolute;
-  top: 0;
-  inset-inline-start: 0;
-  padding: 5px 11px;
-  font-size: 9px;
+  bottom: 10px;
+  inset-inline-start: 10px;
+  padding: 4px 10px;
+  font-size: 8.5px;
   font-weight: 700;
   letter-spacing: 1.5px;
   text-transform: uppercase;
-  color: #fff;
+  color: rgba(255,255,255,.85);
+  background: rgba(0,0,0,.62);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
   z-index: 2;
   font-family: 'IBM Plex Mono', monospace;
-  border-radius: 0 0 var(--radius) 0;
-
-  &.haojue { background: var(--accent); }
-  &.zontes  { background: #2563eb; }
-  &.linhai  { background: #16a34a; }
 }
 
-// ── Body ───────────────────────────────
+// Type badge — top-right, same uniform dark treatment
+.card-type-badge {
+  position: absolute;
+  top: 10px;
+  inset-inline-end: 10px;
+  background: rgba(0,0,0,.58);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  padding: 3px 9px;
+  font-size: 8.5px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: rgba(255,255,255,.7);
+  z-index: 2;
+  font-family: 'IBM Plex Mono', monospace;
+}
+
+// ── Card body ─────────────────────────
 .card-body {
-  padding: 18px 20px;
+  padding: 18px 20px 14px;
   display: flex;
   flex-direction: column;
   flex: 1;
 }
 
-.card-type {
-  font-size: 9.5px;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 1.3px;
-  color: var(--accent);
-  margin-bottom: 4px;
+.card-title-link {
+  text-decoration: none;
+  color: inherit;
+  display: block;
+  margin-bottom: 10px;
 }
 
 .card-model {
-  font-size: 19px;
-  font-weight: 700;
+  font-size: 21px;
+  font-weight: 800;
   color: var(--text);
-  letter-spacing: -.01em;
-  margin-bottom: 12px;
-  line-height: 1.2;
+  letter-spacing: -.025em;
+  line-height: 1.15;
+  transition: color var(--ease);
+
+  .card-title-link:hover & { color: var(--cta); }
 }
 
 .card-specs {
   display: flex;
+  gap: 4px;
   margin-bottom: 12px;
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  overflow: hidden;
+  flex-wrap: wrap;
 }
 
 .spec-item {
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: 5px;
   font-size: 11px;
-  font-weight: 500;
-  color: var(--text);
+  font-weight: 600;
+  color: var(--text-muted);
   background: var(--spec-bg);
-  padding: 6px 12px;
-  border-right: 1px solid var(--border);
+  border: 1px solid var(--border);
+  padding: 5px 11px;
   font-family: 'IBM Plex Mono', monospace;
   letter-spacing: .2px;
-
-  &:last-child { border-right: none; }
+  flex-shrink: 0;
 }
 
 .spec-icon {
-  font-size: 11px;
-  opacity: .65;
+  flex-shrink: 0;
+  width: 12px;
+  height: 12px;
+  opacity: .55;
+
+  svg { width: 100%; height: 100%; display: block; stroke: currentColor; }
 }
 
 .card-desc {
@@ -153,105 +167,94 @@
   color: var(--text-muted);
   line-height: 1.65;
   flex: 1;
-  margin-bottom: 0;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
 
-// ── Footer ─────────────────────────────
+// ── Footer ────────────────────────────
 .card-footer {
+  display: flex;
+  flex-direction: column;
   border-top: 1px solid var(--border);
-  padding: 14px 20px;
+  margin-top: 14px;
+}
+
+.btn-details {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 12px;
+  padding: 12px 20px;
+  font-size: 10.5px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1.2px;
+  color: var(--text-muted);
+  text-decoration: none;
+  transition: background-color var(--ease), color var(--ease);
+  font-family: 'IBM Plex Mono', monospace;
+  border-bottom: 1px solid var(--border);
+
+  svg { width: 14px; height: 14px; flex-shrink: 0; transition: transform var(--ease); }
+
+  &:hover {
+    background: var(--bg-alt);
+    color: var(--text);
+    svg { transform: translateX(3px); }
+  }
 }
 
-// "View Details →" link
-.details-link {
-  display: inline-flex;
+.btn-whatsapp {
+  display: flex;
   align-items: center;
-  gap: 6px;
+  justify-content: center;
+  gap: 8px;
+  background: transparent;
+  color: #25d366;
+  padding: 12px 20px;
   font-size: 10.5px;
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 1px;
-  color: var(--text-muted);
   text-decoration: none;
-  transition: color var(--ease), gap var(--ease);
   font-family: 'IBM Plex Mono', monospace;
-
-  .arrow {
-    font-size: 14px;
-    line-height: 1;
-    transition: transform var(--ease);
-  }
+  transition: background-color var(--ease), color var(--ease);
 
   &:hover {
-    color: var(--accent);
-    .arrow { transform: translateX(3px); }
-  }
-}
-
-// WhatsApp button
-.wa-btn {
-  display: inline-flex;
-  align-items: center;
-  gap: 7px;
-  background: #25d366;
-  color: #fff;
-  padding: 9px 15px;
-  text-decoration: none;
-  font-size: 11.5px;
-  font-weight: 700;
-  transition: background-color var(--ease), border-color var(--ease);
-  white-space: nowrap;
-  font-family: inherit;
-  letter-spacing: .3px;
-  text-transform: uppercase;
-  border: 2px solid #25d366;
-  border-radius: var(--radius);
-
-  &:hover {
-    background: #128c7e;
-    border-color: #128c7e;
+    background: #25d366;
+    color: #fff;
+    .wa-icon { fill: #fff; }
   }
 }
 
 .wa-icon {
   width: 14px;
   height: 14px;
-  fill: #fff;
+  fill: #25d366;
   flex-shrink: 0;
+  transition: fill var(--ease);
 }
 
 // ── RTL ───────────────────────────────
 :host-context([dir='rtl']) {
-  .bike-card {
-    &[data-brand='haojue'] { border-left: 1px solid var(--border); border-right: 3px solid var(--accent); }
-    &[data-brand='zontes']  { border-left: 1px solid var(--border); border-right: 3px solid #2563eb; }
-    &[data-brand='linhai']  { border-left: 1px solid var(--border); border-right: 3px solid #16a34a; }
-  }
-
-  .card-body   { text-align: right; }
-  .card-specs  { flex-direction: row-reverse; }
-  .card-footer { flex-direction: row-reverse; }
-  .wa-btn      { flex-direction: row-reverse; }
-
-  .spec-item {
-    border-right: none;
-    border-left: 1px solid var(--border);
-    &:last-child { border-left: none; }
+  .card-body  { text-align: right; }
+  .card-specs { flex-direction: row-reverse; }
+  .btn-details {
+    flex-direction: row-reverse;
+    svg { transform: scaleX(-1); }
+    &:hover svg { transform: scaleX(-1) translateX(-3px); }
   }
 }
 
 // ── Responsive ────────────────────────
 @media (max-width: 480px) {
-  .card-footer { flex-direction: column; align-items: stretch; }
-  .wa-btn      { justify-content: center; }
+  .card-img-wrap { height: 180px; }
+  .card-model    { font-size: 18px; }
 }
 
 // ── Entrance animation ────────────────
 @keyframes fadeIn {
-  from { opacity: 0; transform: translateY(10px); }
+  from { opacity: 0; transform: translateY(12px); }
   to   { opacity: 1; transform: translateY(0); }
 }

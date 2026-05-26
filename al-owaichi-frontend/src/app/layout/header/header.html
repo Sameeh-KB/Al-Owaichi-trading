@@ -3,19 +3,46 @@
     <div class="header-inner">
 
       <!-- Logo -->
-      <div class="logo">
-        <div class="logo-mark">AOT</div>
+      <a class="logo" [routerLink]="['/']">
+        <div class="logo-mark">
+          <svg viewBox="0 0 32 32" fill="none" aria-hidden="true">
+            <rect width="32" height="32" fill="var(--cta)"/>
+            <text x="16" y="22" text-anchor="middle"
+                  font-family="IBM Plex Mono,monospace"
+                  font-size="11" font-weight="700" fill="#fff"
+                  letter-spacing="0.5">AOT</text>
+          </svg>
+        </div>
         <div class="logo-text">
           <span class="logo-name">Al Owaichi Trading</span>
           <span class="logo-tagline">{{ langSvc.t().logoTagline }}</span>
         </div>
-      </div>
+      </a>
+
+      <!-- Primary nav (desktop) -->
+      <nav class="primary-nav" aria-label="Primary navigation">
+        <a class="nav-link" [routerLink]="['/products']" routerLinkActive="nav-link--active">
+          {{ langSvc.t().navProducts }}
+        </a>
+        <a class="nav-link" [routerLink]="['/brands']" routerLinkActive="nav-link--active">
+          {{ langSvc.t().navBrands }}
+        </a>
+        <a class="nav-link" [routerLink]="['/showroom']" routerLinkActive="nav-link--active">
+          {{ langSvc.t().navShowroom }}
+        </a>
+        <a class="nav-link nav-link--cta"
+           href="https://wa.me/96170000000"
+           target="_blank"
+           rel="noopener noreferrer">
+          {{ langSvc.t().navInquire }}
+        </a>
+      </nav>
 
       <!-- Controls -->
       <div class="header-controls">
 
         <!-- Language toggle -->
-        <button class="ctrl-btn lang-btn"
+        <button class="ctrl-btn"
                 (click)="langSvc.toggle()"
                 [attr.aria-label]="'Toggle language'">
           <svg class="ctrl-icon" viewBox="0 0 24 24" fill="none"
@@ -30,10 +57,9 @@
         </button>
 
         <!-- Theme toggle -->
-        <button class="ctrl-btn theme-btn"
+        <button class="ctrl-btn"
                 (click)="themeSvc.toggle()"
                 aria-label="Toggle colour mode">
-          <!-- Moon — visible in light mode -->
           @if (themeSvc.theme() === 'light') {
             <svg class="ctrl-icon" viewBox="0 0 24 24" fill="none"
                  stroke="currentColor" stroke-width="2"
@@ -42,7 +68,6 @@
               <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
             </svg>
           }
-          <!-- Sun — visible in dark mode -->
           @if (themeSvc.theme() === 'dark') {
             <svg class="ctrl-icon" viewBox="0 0 24 24" fill="none"
                  stroke="currentColor" stroke-width="2"

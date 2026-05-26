@@ -15,8 +15,11 @@ import { Footer } from './layout/footer/footer';
     <app-footer />
   `,
   styles: [`
-    :host { display: flex; flex-direction: column; min-height: 100vh; }
-    main  { flex: 1; }
+    :host {
+      display: grid;
+      grid-template-rows: auto 1fr auto;
+      min-height: 100vh;
+    }
   `],
 })
 export class App {}

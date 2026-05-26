@@ -1,23 +1,81 @@
 <section class="hero">
-  <div class="hero-bg-overlay"></div>
-  <div class="container hero-content">
 
-    <!-- Brand names row -->
-    <div class="brand-tags">
-      @for (brand of langSvc.t().heroBrands; track brand; let last = $last) {
-        <span class="brand-tag">{{ brand }}</span>
-        @if (!last) {
-          <span class="brand-sep">|</span>
+  <div class="hero-overlay" aria-hidden="true"></div>
+  <div class="hero-stripe"  aria-hidden="true"></div>
+
+  <div class="container hero-inner">
+
+    <!-- Left: text -->
+    <div class="hero-content">
+      <p class="hero-overline">{{ langSvc.t().heroOverline }}</p>
+
+      <h1 class="hero-title">
+        <span class="hero-title-line1">{{ heroLine1() }}</span>
+        <span class="hero-title-line2">{{ heroLine2() }}</span>
+      </h1>
+
+      <p class="hero-sub">{{ langSvc.t().heroSub }}</p>
+
+      <div class="brand-tags">
+        @for (brand of langSvc.t().heroBrands; track brand; let last = $last) {
+          <span class="brand-tag">{{ brand }}</span>
+          @if (!last) { <span class="brand-sep" aria-hidden="true">·</span> }
         }
-      }
+      </div>
+
+      <div class="hero-actions">
+        <a class="btn-primary" [routerLink]="['/products']">
+          {{ langSvc.t().browseCatalog }}
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+               stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"
+               aria-hidden="true">
+            <line x1="5" y1="12" x2="19" y2="12"/>
+            <polyline points="12 5 19 12 12 19"/>
+          </svg>
+        </a>
+        <a class="btn-ghost" [routerLink]="['/showroom']">
+          {{ langSvc.t().navShowroom }}
+        </a>
+      </div>
     </div>
 
-    <h1 class="hero-title">{{ langSvc.t().heroTitle }}</h1>
-    <p  class="hero-sub">{{ langSvc.t().heroSub }}</p>
-
-    <button class="hero-cta" (click)="scrollToCatalog.emit()">
-      {{ langSvc.t().browseCatalog }}
-    </button>
+    <!-- Right: emblem -->
+    <div class="hero-emblem" aria-hidden="true">
+      <div class="emblem-ring emblem-ring--outer"></div>
+      <div class="emblem-ring emblem-ring--mid"></div>
+      <div class="emblem-core">
+        <span class="emblem-text">AOT</span>
+        <span class="emblem-sub">MOTO</span>
+      </div>
+    </div>
 
   </div>
+
+  <!-- Stat bar -->
+  <div class="stat-bar">
+    <div class="container">
+      <div class="stats">
+        <div class="stat">
+          <span class="stat-number">{{ langSvc.t().statBrands }}</span>
+          <span class="stat-label">{{ langSvc.t().statBrandsLabel }}</span>
+        </div>
+        <div class="stat-divider" aria-hidden="true"></div>
+        <div class="stat">
+          <span class="stat-number">{{ langSvc.t().statModels }}</span>
+          <span class="stat-label">{{ langSvc.t().statModelsLabel }}</span>
+        </div>
+        <div class="stat-divider" aria-hidden="true"></div>
+        <div class="stat">
+          <span class="stat-number">{{ langSvc.t().statService }}</span>
+          <span class="stat-label">{{ langSvc.t().statServiceLabel }}</span>
+        </div>
+        <div class="stat-divider" aria-hidden="true"></div>
+        <div class="stat">
+          <span class="stat-number">{{ langSvc.t().statDelivery }}</span>
+          <span class="stat-label">{{ langSvc.t().statDeliveryLabel }}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
 </section>

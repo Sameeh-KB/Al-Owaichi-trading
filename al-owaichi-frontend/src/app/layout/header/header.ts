@@ -1,12 +1,14 @@
 import { Component, inject, signal, HostListener } from '@angular/core';
-import { ThemeService } from '../../core/services/theme.service';
+import { RouterLink, RouterLinkActive } from '@angular/router';
+import { ThemeService }    from '../../core/services/theme.service';
 import { LanguageService } from '../../core/services/language.service';
 
 @Component({
-  selector: 'app-header',
-  standalone: true,
+  selector:    'app-header',
+  standalone:  true,
+  imports:     [RouterLink, RouterLinkActive],
   templateUrl: './header.html',
-  styleUrl: './header.scss',
+  styleUrl:    './header.scss',
 })
 export class Header {
   protected readonly themeSvc = inject(ThemeService);

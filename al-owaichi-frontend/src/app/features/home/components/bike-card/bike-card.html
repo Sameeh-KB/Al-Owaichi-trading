@@ -1,8 +1,7 @@
 <article class="bike-card" [attr.data-brand]="bike().brand">
 
-  <!-- Clickable area: image + main body → routes to /bike/:slug -->
-  <a class="card-link" [routerLink]="['/bike', bike().slug]">
-
+  <!-- Image (full-bleed) + overlay link -->
+  <a class="card-image-link" [routerLink]="['/bike', bike().slug]" (click)="onCardClick()" tabindex="-1" aria-hidden="true">
     <div class="card-img-wrap">
       @if (bike().image) {
         <img class="card-img"
@@ -15,46 +14,73 @@
           <span class="placeholder-model">{{ bike().model }}</span>
         </div>
       }
+
+      <!-- Dark gradient overlay for text contrast -->
+      <div class="card-img-gradient" aria-hidden="true"></div>
+
+      <!-- Brand badge — bottom left over image -->
       <span class="card-brand-tag" [class]="bike().brand">
         {{ bike().brand.toUpperCase() }}
       </span>
+
+      <!-- Type badge — top right -->
+      <span class="card-type-badge">{{ type() }}</span>
     </div>
-
-    <div class="card-body">
-      <span class="card-type">{{ type() }}</span>
-      <h3  class="card-model">{{ bike().model }}</h3>
-
-      <div class="card-specs">
-        <span class="spec-item">
-          <span class="spec-icon">⚙</span>{{ bike().engine }}
-        </span>
-        <span class="spec-item">
-          <span class="spec-icon">⚡</span>{{ bike().power }}
-        </span>
-      </div>
-
-      <p class="card-desc">{{ desc() }}</p>
-    </div>
-
   </a>
 
-  <!-- Footer stays outside the link so the WA button is a separate target -->
+  <!-- Card body -->
+  <div class="card-body">
+    <a class="card-title-link" [routerLink]="['/bike', bike().slug]" (click)="onCardClick()">
+      <h3 class="card-model">{{ bike().model }}</h3>
+    </a>
+
+    <!-- Spec strip -->
+    <div class="card-specs">
+      <div class="spec-item">
+        <span class="spec-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+               stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="3"/>
+            <path d="M12 1v4M12 19v4M4.22 4.22l2.83 2.83M16.95 16.95l2.83 2.83M1 12h4M19 12h4M4.22 19.78l2.83-2.83M16.95 7.05l2.83-2.83"/>
+          </svg>
+        </span>
+        <span>{{ bike().engine }}</span>
+      </div>
+      <div class="spec-item">
+        <span class="spec-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+               stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>
+          </svg>
+        </span>
+        <span>{{ bike().power }}</span>
+      </div>
+    </div>
+
+    <p class="card-desc">{{ desc() }}</p>
+  </div>
+
+  <!-- Footer: stacked action buttons (Moto Elite style) -->
   <div class="card-footer">
-    <a class="details-link"
+    <a class="btn-details"
        [routerLink]="['/bike', bike().slug]"
        [attr.aria-label]="'View details for ' + bike().model">
       {{ langSvc.t().viewDetails }}
-      <span class="arrow">→</span>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+           stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"
+           aria-hidden="true">
+        <line x1="5" y1="12" x2="19" y2="12"/>
+        <polyline points="12 5 19 12 12 19"/>
+      </svg>
     </a>
 
-    <a class="wa-btn"
+    <a class="btn-whatsapp"
        [href]="waUrl()"
        target="_blank"
        rel="noopener noreferrer"
+       (click)="onWhatsApp()"
        [attr.aria-label]="'Inquire about ' + bike().model + ' on WhatsApp'">
-      <svg class="wa-icon" viewBox="0 0 24 24"
-           xmlns="http://www.w3.org/2000/svg"
-           aria-hidden="true">
+      <svg class="wa-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
         <path [attr.d]="waPath" />
       </svg>
       {{ langSvc.t().inquire }}

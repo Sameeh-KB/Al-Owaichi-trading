@@ -12,52 +12,69 @@
   --accent:         #ea580c;   /* orange-600 */
   --accent-hover:   #c2410c;   /* orange-700 */
   --accent-rgb:     234, 88, 12;
-  --navy:           #1c1c1c;   /* dark charcoal — hero / about / footer bg */
+
+  // Red CTA (Moto Elite inspired — high-contrast action colour)
+  --cta:            #dc2626;   /* red-600 */
+  --cta-hover:      #b91c1c;   /* red-700 */
+  --cta-rgb:        220, 38, 38;
+
+  --navy:           #0f0f0f;   /* deep black — hero / detail hero bg */
+  --navy-2:         #1a1a1a;   /* card dark bg in hero overlays */
 
   // Light mode surfaces  (white + orange)
   --bg:             #fafafa;
   --bg-alt:         #f4f4f4;
   --card:           #ffffff;
-  --header-bg:      #ffffff;
+  --header-bg:      rgba(255,255,255,0.95);
   --border:         #e5e5e5;
   --border-subtle:  #f0f0f0;
-  --text:           #171717;
+  --text:           #0f0f0f;
   --text-muted:     #737373;
-  --spec-bg:        #f9f9f9;
+  --text-inv:       #ffffff;
+  --spec-bg:        #f4f4f4;
   --scrollbar:      #d4d4d4;
 
   // Shadows
-  --shadow-sm:    0 1px 2px rgba(0,0,0,.06), 0 2px 8px rgba(0,0,0,.04);
-  --shadow-md:    0 4px 16px rgba(0,0,0,.09);
-  --shadow-hover: 0 6px 24px rgba(234,88,12,.15);
+  --shadow-sm:    0 1px 3px rgba(0,0,0,.07), 0 2px 8px rgba(0,0,0,.05);
+  --shadow-md:    0 4px 20px rgba(0,0,0,.10);
+  --shadow-lg:    0 8px 40px rgba(0,0,0,.14);
+  --shadow-hover: 0 8px 32px rgba(220,38,38,.18);
 
   // Geometry
-  --radius: 2px;
-  --ease:   0.16s ease;
+  --radius:  0px;
+  --radius-sm: 0px;
+  --ease:    0.16s ease;
+  --ease-md: 0.24s ease;
 }
 
 [data-theme='dark'] {
-  // Brighter orange pops on dark backgrounds
-  --accent:         #f97316;   /* orange-500 */
+  --accent:         #f97316;
   --accent-hover:   #ea580c;
   --accent-rgb:     249, 115, 22;
-  --navy:           #111111;   /* near-black for hero/about/footer in dark mode */
 
-  // Dark mode surfaces  (dark grey + orange)
-  --bg:             #171717;
-  --bg-alt:         #1f1f1f;
-  --card:           #1f1f1f;
-  --header-bg:      #121212;
-  --border:         #2e2e2e;
-  --border-subtle:  #262626;
-  --text:           #fafafa;
-  --text-muted:     #a3a3a3;
-  --spec-bg:        #262626;
-  --scrollbar:      #3f3f3f;
+  --cta:            #ef4444;
+  --cta-hover:      #dc2626;
+  --cta-rgb:        239, 68, 68;
 
-  --shadow-sm:    0 1px 2px rgba(0,0,0,.55), 0 2px 8px rgba(0,0,0,.4);
-  --shadow-md:    0 4px 16px rgba(0,0,0,.6);
-  --shadow-hover: 0 6px 24px rgba(249,115,22,.2);
+  --navy:           #080808;
+  --navy-2:         #141414;
+
+  --bg:             #111111;
+  --bg-alt:         #191919;
+  --card:           #1a1a1a;
+  --header-bg:      rgba(12,12,12,0.97);
+  --border:         #2a2a2a;
+  --border-subtle:  #222222;
+  --text:           #f5f5f5;
+  --text-muted:     #888888;
+  --text-inv:       #ffffff;
+  --spec-bg:        #222222;
+  --scrollbar:      #333333;
+
+  --shadow-sm:    0 1px 3px rgba(0,0,0,.6), 0 2px 8px rgba(0,0,0,.45);
+  --shadow-md:    0 4px 20px rgba(0,0,0,.65);
+  --shadow-lg:    0 8px 40px rgba(0,0,0,.8);
+  --shadow-hover: 0 8px 32px rgba(239,68,68,.25);
 }
 
 // ── Base ────────────────────────────────────────────────
@@ -78,16 +95,30 @@ body {
 
 // ── Container ───────────────────────────────────────────
 .container {
-  max-width: 1200px;
+  max-width: 1280px;
   margin: 0 auto;
-  padding: 0 24px;
+  padding: 0 32px;
+
+  @media (max-width: 768px) { padding: 0 20px; }
 }
 
 // ── Scrollbar ───────────────────────────────────────────
-::-webkit-scrollbar            { width: 5px; }
+::-webkit-scrollbar            { width: 4px; }
 ::-webkit-scrollbar-track      { background: var(--bg); }
 ::-webkit-scrollbar-thumb      { background: var(--scrollbar); border-radius: 0; }
 ::-webkit-scrollbar-thumb:hover{ background: var(--text-muted); }
 
 // ── Typography utility ──────────────────────────────────
 .mono { font-family: 'IBM Plex Mono', monospace; }
+
+// ── Overline label (reusable) ────────────────────────────
+.overline {
+  display: inline-block;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--cta);
+  font-family: 'IBM Plex Mono', monospace;
+  margin-bottom: 10px;
+}

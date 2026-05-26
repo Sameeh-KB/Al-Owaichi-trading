@@ -3,33 +3,47 @@ export type Lang = 'en' | 'ar';
 export interface Translations {
   // Header
   logoTagline: string;
-  langLabel: string;
+  langLabel:   string;
+  navProducts: string;
+  navShowroom: string;
+  navBrands:   string;
+  navInquire:  string;
   // Hero
-  heroBrands: string[];
-  heroTitle: string;
-  heroSub: string;
+  heroBrands:   string[];
+  heroOverline: string;
+  heroTitle:    string;
+  heroSub:      string;
   browseCatalog: string;
+  // Hero stat bar
+  statBrands:   string;
+  statModels:   string;
+  statService:  string;
+  statDelivery: string;
+  statBrandsLabel:   string;
+  statModelsLabel:   string;
+  statServiceLabel:  string;
+  statDeliveryLabel: string;
   // Catalog
-  ourModels: string;
+  ourModels:   string;
   tapToInquire: string;
-  allModels: string;
-  showing: string;
-  models: string;
+  allModels:   string;
+  showing:     string;
+  models:      string;
   // Card
   priceRequest: string;
-  inquire: string;
-  viewDetails: string;
+  inquire:      string;
+  viewDetails:  string;
   // Detail page
-  backToCatalog: string;
-  overview: string;
-  keyFeatures: string;
+  backToCatalog:  string;
+  overview:       string;
+  keyFeatures:    string;
   specifications: string;
-  notFoundTitle: string;
-  notFoundSub: string;
+  notFoundTitle:  string;
+  notFoundSub:    string;
   // About strip
   authorizedDealer: string;
-  basedInLebanon: string;
-  whatsappInquiry: string;
+  basedInLebanon:   string;
+  whatsappInquiry:  string;
   afterSalesService: string;
   // Footer
   footerNote: string;
@@ -39,14 +53,27 @@ export interface Translations {
 
 export const TRANSLATIONS: Record<Lang, Translations> = {
   en: {
-    logoTagline:      'Official Motorcycle Dealer — Lebanon',
+    logoTagline:      'Official Motorcycle Dealer',
     langLabel:        'العربية',
-    heroBrands:       ['HAOJUE', 'ZONTES', 'LINHAI'],
+    navProducts:      'Products',
+    navShowroom:      'Showroom',
+    navBrands:        'Brands',
+    navInquire:       'Inquire Now',
+    heroBrands:       ['HAOJUE', 'ZONTES', 'LINHAI', 'DAYANG', 'NEXY', 'QJMOTOR', 'YAMAHA'],
+    heroOverline:     'Official Dealer · Lebanon',
     heroTitle:        'Find Your Perfect Ride',
-    heroSub:          'Browse our full collection of premium motorcycles & scooters. Contact us directly on WhatsApp for pricing and availability.',
+    heroSub:          'Premium motorcycles & scooters from the world\'s leading brands. Contact us directly for pricing and availability.',
     browseCatalog:    'Browse Catalog',
+    statBrands:       '7',
+    statModels:       '14+',
+    statService:      '24h',
+    statDelivery:     '100%',
+    statBrandsLabel:  'Brands',
+    statModelsLabel:  'Models',
+    statServiceLabel: 'Response',
+    statDeliveryLabel:'Genuine Parts',
     ourModels:        'Our Models',
-    tapToInquire:     'Tap any model to inquire about pricing via WhatsApp',
+    tapToInquire:     'Browse our full range — tap any model for details and pricing',
     allModels:        'All Models',
     showing:          'Showing',
     models:           'models',
@@ -67,14 +94,27 @@ export const TRANSLATIONS: Record<Lang, Translations> = {
     waMsg: (model) => `Hi! I'm interested in the ${model}. Could you please send me details and pricing? Thank you.`,
   },
   ar: {
-    logoTagline:      'وكيل رسمي للدراجات النارية — لبنان',
+    logoTagline:      'وكيل رسمي للدراجات النارية',
     langLabel:        'English',
-    heroBrands:       ['هاوجيو', 'زونتيس', 'لينهاي'],
+    navProducts:      'المنتجات',
+    navShowroom:      'المعرض',
+    navBrands:        'الماركات',
+    navInquire:       'استفسر الآن',
+    heroBrands:       ['هاوجيو', 'زونتيس', 'لينهاي', 'دايانج', 'نيكسي', 'كيوجي', 'ياماها'],
+    heroOverline:     'وكيل رسمي · لبنان',
     heroTitle:        'اعثر على دراجتك المثالية',
-    heroSub:          'تصفح مجموعتنا الكاملة من الدراجات النارية والسكوتر الفاخرة. تواصل معنا مباشرة عبر واتساب للأسعار والتوفر.',
+    heroSub:          'دراجات نارية وسكوتر فاخرة من أبرز العلامات التجارية العالمية. تواصل معنا مباشرة للأسعار والتوفر.',
     browseCatalog:    'تصفح الكتالوج',
+    statBrands:       '٧',
+    statModels:       '١٤+',
+    statService:      '٢٤س',
+    statDelivery:     '١٠٠%',
+    statBrandsLabel:  'ماركة',
+    statModelsLabel:  'موديل',
+    statServiceLabel: 'استجابة',
+    statDeliveryLabel:'قطع أصلية',
     ourModels:        'موديلاتنا',
-    tapToInquire:     'اضغط على أي موديل للاستفسار عن السعر عبر واتساب',
+    tapToInquire:     'تصفح مجموعتنا الكاملة — اضغط على أي موديل للتفاصيل والأسعار',
     allModels:        'كل الموديلات',
     showing:          'عرض',
     models:           'موديل',

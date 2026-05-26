@@ -1,23 +1,23 @@
 import { Component, inject, computed, effect, signal } from '@angular/core';
-import { ActivatedRoute, RouterLink } from '@angular/router';
-import { toSignal } from '@angular/core/rxjs-interop';
-import { map } from 'rxjs';
+import { ActivatedRoute, RouterLink }                  from '@angular/router';
+import { toSignal }                                    from '@angular/core/rxjs-interop';
+import { map }                                         from 'rxjs';
 
-import { CatalogService } from '../../core/services/catalog.service';
+import { CatalogService }  from '../../core/services/catalog.service';
 import { LanguageService } from '../../core/services/language.service';
-import { BikeSpec } from '../../core/models/bike.model';
+import { BikeSpec }        from '../../core/models/bike.model';
 
 @Component({
-  selector: 'app-bike-detail',
-  standalone: true,
-  imports: [RouterLink],
+  selector:    'app-bike-detail',
+  standalone:  true,
+  imports:     [RouterLink],
   templateUrl: './bike-detail.html',
-  styleUrl: './bike-detail.scss',
+  styleUrl:    './bike-detail.scss',
 })
 export class BikeDetail {
-  private readonly route   = inject(ActivatedRoute);
-  protected readonly cat   = inject(CatalogService);
-  protected readonly lang  = inject(LanguageService);
+  private readonly route    = inject(ActivatedRoute);
+  protected readonly cat    = inject(CatalogService);
+  protected readonly lang   = inject(LanguageService);
 
   protected readonly slug = toSignal(
     this.route.paramMap.pipe(map((p) => p.get('slug') ?? '')),
@@ -26,7 +26,7 @@ export class BikeDetail {
 
   protected readonly bike = computed(() => this.cat.getBySlug(this.slug()));
 
-  /** Lightbox-style active gallery image (defaults to hero) */
+  /** Lightbox-style active gallery image */
   protected readonly activeImage = signal<string>('');
 
   protected readonly intro = computed(() => {
@@ -59,7 +59,7 @@ export class BikeDetail {
     return this.lang.buildWaUrl(this.cat.waNumber, b.model);
   });
 
-  /** All images: hero first, then gallery (dedup) */
+  /** All images: hero first, then gallery (deduped) */
   protected readonly allImages = computed<string[]>(() => {
     const b = this.bike();
     if (!b) return [];
@@ -70,12 +70,13 @@ export class BikeDetail {
   });
 
   constructor() {
-    // Scroll to top + reset active image when bike changes
+    // When bike loads: scroll to top, reset image, fire VIEW event
     effect(() => {
       const b = this.bike();
       if (b) {
         this.activeImage.set(this.allImages()[0] ?? '');
         window.scrollTo({ top: 0, behavior: 'auto' });
+        this.cat.track('VIEW', b.slug);
       }
     });
   }
@@ -92,5 +93,10 @@ export class BikeDetail {
 
   setImage(url: string): void {
     this.activeImage.set(url);
+    this.cat.track('GALLERY', this.slug());
+  }
+
+  onWhatsApp(): void {
+    this.cat.track('WHATSAPP', this.slug());
   }
 }

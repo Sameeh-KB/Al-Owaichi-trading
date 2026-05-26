@@ -3,6 +3,7 @@
 
     <!-- Section header -->
     <div class="section-header">
+      <p class="section-overline">Catalog</p>
       <h2 class="section-title">{{ langSvc.t().ourModels }}</h2>
       <p  class="section-sub">{{ langSvc.t().tapToInquire }}</p>
     </div>
@@ -21,19 +22,42 @@
         }
       </div>
 
-      <p class="results-count">
-        {{ langSvc.t().showing }}
-        <strong>{{ count() }}</strong>
-        {{ langSvc.t().models }}
-      </p>
-    </div>
-
-    <!-- Bike grid -->
-    <div class="bikes-grid">
-      @for (bike of filteredBikes(); track bike.model) {
-        <app-bike-card [bike]="bike" />
+      @if (!catalogSvc.loading()) {
+        <p class="results-count">
+          {{ langSvc.t().showing }}
+          <strong>{{ count() }}</strong>
+          {{ langSvc.t().models }}
+        </p>
       }
     </div>
+
+    <!-- Loading skeletons -->
+    @if (catalogSvc.loading()) {
+      <div class="bikes-grid">
+        @for (_ of [1,2,3,4,5,6]; track $index) {
+          <div class="skeleton-card">
+            <div class="skeleton-img"></div>
+            <div class="skeleton-body">
+              <div class="skeleton-line w40"></div>
+              <div class="skeleton-line w60"></div>
+              <div class="skeleton-line w80"></div>
+            </div>
+          </div>
+        }
+      </div>
+    }
+
+    <!-- Bike grid -->
+    @if (!catalogSvc.loading()) {
+      <div class="bikes-grid">
+        @for (bike of filteredBikes(); track bike.slug) {
+          <app-bike-card [bike]="bike" />
+        }
+        @empty {
+          <p class="no-results">No bikes match this filter.</p>
+        }
+      </div>
+    }
 
   </div>
 </section>

@@ -9,6 +9,7 @@ generator client {
 
 datasource db {
   provider = "postgresql"
+  url      = env("DATABASE_URL")
 }
 
 enum Role {
@@ -26,6 +27,14 @@ enum InquirySource {
   WHATSAPP
   FORM
   OTHER
+}
+
+enum EventType {
+  VIEW        // Bike detail page opened
+  CARD_CLICK  // Bike card clicked in catalog
+  WHATSAPP    // WhatsApp enquiry button tapped
+  INQUIRY     // Inquiry form submitted
+  GALLERY     // Gallery image opened
 }
 
 // ─── Admin user ──────────────────────────────────────────
@@ -80,6 +89,7 @@ model Bike {
   updatedAt   DateTime @updatedAt
 
   inquiries   Inquiry[]
+  events      BikeEvent[]
 
   @@index([brand])
   @@index([published])
@@ -108,6 +118,27 @@ model Inquiry {
   @@index([status])
   @@index([bikeId])
   @@map("inquiries")
+}
+
+// ─── Engagement analytics event ────────────────────────
+model BikeEvent {
+  id        String    @id @default(cuid())
+  bikeId    String?
+  bike      Bike?     @relation(fields: [bikeId], references: [id], onDelete: SetNull)
+
+  event     EventType
+  lang      String    @default("en")
+
+  /// Anonymous browser session token (set by client, not authenticated)
+  sessionId String?
+
+  createdAt DateTime  @default(now())
+
+  @@index([bikeId])
+  @@index([event])
+  @@index([createdAt])
+  @@index([bikeId, event])
+  @@map("bike_events")
 }
 
 // ─── Uploaded image file ────────────────────────────────

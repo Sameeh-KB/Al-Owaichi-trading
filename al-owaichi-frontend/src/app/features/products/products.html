@@ -1,0 +1,65 @@
+<!-- Page header -->
+<div class="page-header">
+  <div class="container">
+    <p class="page-overline">{{ langSvc.t().navProducts }}</p>
+    <h1 class="page-title">{{ langSvc.t().ourModels }}</h1>
+    <p class="page-sub">{{ langSvc.t().tapToInquire }}</p>
+  </div>
+</div>
+
+<div class="products-body">
+  <div class="container">
+
+    <!-- Filter bar -->
+    <div class="filter-wrap">
+      <div class="filter-tabs" role="tablist">
+        @for (tab of tabs; track tab.key) {
+          <button class="filter-btn"
+                  [class.active]="activeFilter() === tab.key"
+                  [attr.aria-selected]="activeFilter() === tab.key"
+                  role="tab"
+                  (click)="setFilter(tab.key)">
+            {{ tabLabel(tab) }}
+          </button>
+        }
+      </div>
+
+      @if (!catalogSvc.loading()) {
+        <p class="results-count">
+          {{ langSvc.t().showing }}
+          <strong>{{ count() }}</strong>
+          {{ langSvc.t().models }}
+        </p>
+      }
+    </div>
+
+    <!-- Loading skeletons -->
+    @if (catalogSvc.loading()) {
+      <div class="bikes-grid">
+        @for (_ of [1,2,3,4,5,6]; track $index) {
+          <div class="skeleton-card">
+            <div class="skeleton-img"></div>
+            <div class="skeleton-body">
+              <div class="skeleton-line w40"></div>
+              <div class="skeleton-line w60"></div>
+              <div class="skeleton-line w80"></div>
+            </div>
+          </div>
+        }
+      </div>
+    }
+
+    <!-- Bike grid -->
+    @if (!catalogSvc.loading()) {
+      <div class="bikes-grid">
+        @for (bike of filteredBikes(); track bike.slug) {
+          <app-bike-card [bike]="bike" />
+        }
+        @empty {
+          <p class="no-results">No bikes match this filter.</p>
+        }
+      </div>
+    }
+
+  </div>
+</div>

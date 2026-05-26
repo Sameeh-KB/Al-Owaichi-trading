@@ -1,0 +1,55 @@
+<!-- Page header -->
+<div class="page-header">
+  <div class="container">
+    <p class="page-overline">{{ langSvc.t().navBrands }}</p>
+    <h1 class="page-title">Our Brands</h1>
+    <p class="page-sub">Official dealer for 7 international motorcycle and scooter manufacturers.</p>
+  </div>
+</div>
+
+<!-- Brand cards grid -->
+<div class="brands-body">
+  <div class="container">
+    <div class="brands-grid">
+
+      @for (brand of brandList; track brand.key) {
+        <div class="brand-card">
+
+          <div class="brand-card-header">
+            <div class="brand-logo-wrap">
+              <img class="brand-logo"
+                   [src]="'/brand-logos/' + logo(brand)"
+                   [alt]="brand.manufacturer + ' logo'" />
+            </div>
+            <div class="brand-meta">
+              <span class="brand-name">{{ brand.manufacturer }}</span>
+              @if (brand.name !== brand.manufacturer) {
+                <span class="brand-product-line">{{ brand.name }} series</span>
+              }
+              <span class="brand-origin">{{ brand.origin }}</span>
+            </div>
+            @if (modelCount(brand.key) > 0) {
+              <span class="model-count">{{ modelCount(brand.key) }} models</span>
+            }
+          </div>
+
+          <p class="brand-desc">{{ desc(brand) }}</p>
+
+          <a class="brand-cta"
+             [routerLink]="['/products']"
+             [queryParams]="{ brand: brand.key }">
+            View Models
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                 stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"
+                 aria-hidden="true">
+              <line x1="5" y1="12" x2="19" y2="12"/>
+              <polyline points="12 5 19 12 12 19"/>
+            </svg>
+          </a>
+
+        </div>
+      }
+
+    </div>
+  </div>
+</div>

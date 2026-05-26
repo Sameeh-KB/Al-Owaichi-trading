@@ -1,9 +1,19 @@
 @if (bike(); as b) {
   <div class="detail">
 
-    <!-- Breadcrumb / back bar -->
-    <div class="breadcrumb-bar">
-      <div class="container">
+    <!-- ── Dark hero ── full-width image with overlay text ──────── -->
+    <section class="detail-hero">
+
+      <!-- Background image -->
+      <div class="detail-hero-bg">
+        <img [src]="activeImage()" [alt]="b.model" />
+        <div class="detail-hero-overlay"></div>
+      </div>
+
+      <!-- Content over image -->
+      <div class="container detail-hero-content">
+
+        <!-- Back link -->
         <a class="back-link" [routerLink]="['/']" fragment="catalog">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
                stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
@@ -12,70 +22,41 @@
           </svg>
           <span>{{ lang.t().backToCatalog }}</span>
         </a>
-        <nav class="crumbs">
-          <span class="crumb-brand" [class]="b.brand">{{ b.brand.toUpperCase() }}</span>
-          <span class="crumb-sep">›</span>
-          <span class="crumb-model">{{ b.model }}</span>
-        </nav>
-      </div>
-    </div>
 
-    <!-- Hero — image left, summary right -->
-    <section class="hero">
-      <div class="container hero-grid">
+        <!-- Hero text block -->
+        <div class="detail-hero-text">
+          <span class="detail-overline">
+            <span class="brand-chip">{{ b.brand.toUpperCase() }}</span>
+            {{ type() }}
+          </span>
+          <h1 class="detail-title">{{ b.model }}</h1>
+          <p class="detail-intro">{{ intro() }}</p>
 
-        <!-- Image stack -->
-        <div class="image-stack">
-          <div class="image-main">
-            <img [src]="activeImage()" [alt]="b.model" />
-            <span class="image-brand-tag" [class]="b.brand">
-              {{ b.brand.toUpperCase() }}
-            </span>
-          </div>
-          @if (allImages().length > 1) {
-            <div class="thumb-row">
-              @for (img of allImages(); track img) {
-                <button class="thumb"
-                        [class.active]="activeImage() === img"
-                        (click)="setImage(img)"
-                        type="button">
-                  <img [src]="img" [alt]="b.model" />
-                </button>
-              }
-            </div>
-          }
-        </div>
-
-        <!-- Summary block -->
-        <div class="summary">
-          <span class="badge-type">{{ type() }}</span>
-          <h1 class="title">{{ b.model }}</h1>
-          <p  class="intro">{{ intro() }}</p>
-
-          <!-- Quick spec strip -->
-          <div class="quick-specs">
-            <div class="quick-spec">
-              <span class="qs-icon">⚙</span>
-              <div>
-                <div class="qs-label">Engine</div>
-                <div class="qs-value">{{ b.engine }}</div>
+          <!-- Spec chips strip -->
+          <div class="spec-chips">
+            <div class="spec-chip">
+              <span class="chip-icon">⚙</span>
+              <div class="chip-body">
+                <div class="chip-label">Engine</div>
+                <div class="chip-value">{{ b.engine }}</div>
               </div>
             </div>
-            <div class="qs-sep"></div>
-            <div class="quick-spec">
-              <span class="qs-icon">⚡</span>
-              <div>
-                <div class="qs-label">Power</div>
-                <div class="qs-value">{{ b.power }}</div>
+            <div class="chip-divider"></div>
+            <div class="spec-chip">
+              <span class="chip-icon">⚡</span>
+              <div class="chip-body">
+                <div class="chip-label">Power</div>
+                <div class="chip-value">{{ b.power }}</div>
               </div>
             </div>
           </div>
 
-          <!-- WhatsApp CTA -->
-          <a class="cta-wa"
+          <!-- CTA -->
+          <a class="cta-inquire"
              [href]="waUrl()"
              target="_blank"
-             rel="noopener noreferrer">
+             rel="noopener noreferrer"
+             (click)="onWhatsApp()">
             <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
               <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
             </svg>
@@ -88,22 +69,40 @@
       </div>
     </section>
 
-    <!-- Overview -->
-    <section class="section">
+    <!-- ── Gallery thumbnails ─────────────────────────── -->
+    @if (allImages().length > 1) {
+      <div class="gallery-strip">
+        <div class="container">
+          <div class="thumb-row">
+            @for (img of allImages(); track img) {
+              <button class="thumb"
+                      [class.active]="activeImage() === img"
+                      (click)="setImage(img)"
+                      type="button">
+                <img [src]="img" [alt]="b.model" />
+              </button>
+            }
+          </div>
+        </div>
+      </div>
+    }
+
+    <!-- ── Overview ──────────────────────────────────── -->
+    <section class="content-section">
       <div class="container">
-        <h2 class="section-heading">{{ lang.t().overview }}</h2>
-        <p class="section-body">{{ desc() }}</p>
+        <p class="cs-overline">{{ lang.t().overview }}</p>
+        <p class="cs-body">{{ desc() }}</p>
       </div>
     </section>
 
-    <!-- Key features -->
-    <section class="section section-alt">
+    <!-- ── Key features ───────────────────────────────── -->
+    <section class="content-section content-section--alt">
       <div class="container">
-        <h2 class="section-heading">{{ lang.t().keyFeatures }}</h2>
+        <p class="cs-overline">{{ lang.t().keyFeatures }}</p>
         <ul class="feature-list">
           @for (f of features(); track f) {
             <li class="feature-item">
-              <svg class="feature-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+              <svg class="feature-check" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                    stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
                 <polyline points="20 6 9 17 4 12"/>
               </svg>
@@ -114,10 +113,10 @@
       </div>
     </section>
 
-    <!-- Specifications -->
-    <section class="section">
+    <!-- ── Specifications ─────────────────────────────── -->
+    <section class="content-section">
       <div class="container">
-        <h2 class="section-heading">{{ lang.t().specifications }}</h2>
+        <p class="cs-overline">{{ lang.t().specifications }}</p>
         <div class="spec-table">
           @for (s of b.specs; track s.label_en) {
             <div class="spec-row">

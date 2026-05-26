@@ -1,17 +1,20 @@
 :host {
   display: block;
+  position: sticky;
+  top: 0;
+  z-index: 200;
 }
 
 .header {
   background: var(--header-bg);
-  border-bottom: 1px solid var(--border);
-  position: sticky;
-  top: 0;
-  z-index: 200;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid transparent;
   transition: background-color .2s ease, border-color .2s ease, box-shadow .2s ease;
 
   &.scrolled {
-    box-shadow: var(--shadow-md);
+    border-bottom-color: var(--border);
+    box-shadow: 0 2px 24px rgba(0,0,0,.1);
   }
 }
 
@@ -19,7 +22,8 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  height: 58px;
+  height: 64px;
+  gap: 24px;
 }
 
 // ── Logo ──────────────────────────────
@@ -28,26 +32,17 @@
   align-items: center;
   gap: 12px;
   flex-shrink: 0;
+  text-decoration: none;
+  color: inherit;
 }
 
 .logo-mark {
-  width: 38px;
-  height: 38px;
-  background: var(--navy);
-  color: #fff;
-  font-size: 10px;
-  font-weight: 700;
-  letter-spacing: 0.5px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  width: 36px;
+  height: 36px;
   flex-shrink: 0;
-  border-radius: var(--radius);
-  font-family: 'IBM Plex Mono', monospace;
+  display: block;
 
-  [data-theme='dark'] & {
-    background: var(--accent);
-  }
+  svg { display: block; width: 100%; height: 100%; }
 }
 
 .logo-text {
@@ -57,25 +52,88 @@
 }
 
 .logo-name {
-  font-size: 15px;
-  font-weight: 700;
+  font-size: 14.5px;
+  font-weight: 800;
   color: var(--text);
-  letter-spacing: -.01em;
+  letter-spacing: -.02em;
   line-height: 1.2;
+  text-transform: uppercase;
 }
 
 .logo-tagline {
-  font-size: 9.5px;
-  font-weight: 400;
+  font-size: 9px;
+  font-weight: 500;
   color: var(--text-muted);
   text-transform: uppercase;
-  letter-spacing: 0.8px;
+  letter-spacing: 1.5px;
+  font-family: 'IBM Plex Mono', monospace;
 }
 
-// ── Controls (grouped button bar) ──────
+// ── Primary navigation ────────────────
+.primary-nav {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  flex: 1;
+  justify-content: center;
+}
+
+.nav-link {
+  display: inline-flex;
+  align-items: center;
+  padding: 6px 16px;
+  font-size: 11.5px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  text-decoration: none;
+  transition: color var(--ease);
+  font-family: 'IBM Plex Mono', monospace;
+  white-space: nowrap;
+
+  &:hover {
+    color: var(--text);
+  }
+
+  &--active {
+    color: var(--text);
+    position: relative;
+
+    &::after {
+      content: '';
+      position: absolute;
+      bottom: -2px;
+      left: 16px;
+      right: 16px;
+      height: 2px;
+      background: var(--cta);
+    }
+  }
+
+  // CTA nav link — red pill
+  &--cta {
+    background: var(--cta);
+    color: #fff !important;
+    padding: 7px 18px;
+    font-size: 11px;
+    border: 2px solid var(--cta);
+    transition: background-color var(--ease), border-color var(--ease);
+    margin-left: 8px;
+
+    &:hover {
+      background: var(--cta-hover);
+      border-color: var(--cta-hover);
+    }
+  }
+}
+
+// ── Controls ──────────────────────────
 .header-controls {
   display: flex;
   align-items: center;
+  gap: 0;
+  flex-shrink: 0;
 }
 
 .ctrl-btn {
@@ -85,26 +143,24 @@
   background: transparent;
   border: 1px solid var(--border);
   border-right: none;
-  height: 34px;
-  padding: 0 14px;
+  height: 32px;
+  padding: 0 12px;
   cursor: pointer;
-  font-size: 12px;
+  font-size: 11px;
   font-weight: 600;
   color: var(--text-muted);
   transition: background-color var(--ease), color var(--ease);
-  font-family: inherit;
-  letter-spacing: .25px;
-  border-radius: 0;
+  font-family: 'IBM Plex Mono', monospace;
+  letter-spacing: .5px;
   white-space: nowrap;
+  text-transform: uppercase;
 
   &:first-child {
-    border-radius: var(--radius) 0 0 var(--radius);
+    border-left: 1px solid var(--border);
   }
-
   &:last-child {
     border-right: 1px solid var(--border);
-    border-radius: 0 var(--radius) var(--radius) 0;
-    padding: 0 10px;
+    padding: 0 9px;
   }
 
   &:hover {
@@ -114,8 +170,8 @@
 }
 
 .ctrl-icon {
-  width: 15px;
-  height: 15px;
+  width: 14px;
+  height: 14px;
   flex-shrink: 0;
   stroke: currentColor;
 }
@@ -125,27 +181,27 @@
   .header-inner    { flex-direction: row-reverse; }
   .logo            { flex-direction: row-reverse; }
   .logo-text       { text-align: right; }
+  .primary-nav     { flex-direction: row-reverse; }
   .header-controls { flex-direction: row-reverse; }
 
   .ctrl-btn {
     border-right: 1px solid var(--border);
     border-left: none;
 
-    &:first-child {
-      border-radius: 0 var(--radius) var(--radius) 0;
-    }
-    &:last-child {
-      border-left: 1px solid var(--border);
-      border-right: 1px solid var(--border);
-      border-radius: var(--radius) 0 0 var(--radius);
-      padding: 0 10px;
-    }
+    &:first-child { border-right: 1px solid var(--border); border-left: none; }
+    &:last-child  { border-left: 1px solid var(--border); border-right: none; }
   }
+
+  .nav-link--cta { margin-left: 0; margin-right: 8px; }
 }
 
 // ── Responsive ────────────────────────
-@media (max-width: 480px) {
-  .header-inner { height: 52px; }
-  .logo-tagline { display: none; }
-  .logo-name    { font-size: 14px; }
+@media (max-width: 900px) {
+  .primary-nav { display: none; }
+}
+
+@media (max-width: 520px) {
+  .header-inner  { height: 56px; }
+  .logo-tagline  { display: none; }
+  .logo-name     { font-size: 13px; }
 }
