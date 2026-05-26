@@ -1,0 +1,1 @@
+/home/sameeh/Documents/Al Owaichi trading/backend/node_modules/@embedded-postgres/linux-x64/native/bin/postgres "-D" "/home/sameeh/Documents/Al Owaichi trading/backend/.pg-data" "-p" "5433"

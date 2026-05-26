@@ -1,0 +1,151 @@
+:host {
+  display: block;
+}
+
+.header {
+  background: var(--header-bg);
+  border-bottom: 1px solid var(--border);
+  position: sticky;
+  top: 0;
+  z-index: 200;
+  transition: background-color .2s ease, border-color .2s ease, box-shadow .2s ease;
+
+  &.scrolled {
+    box-shadow: var(--shadow-md);
+  }
+}
+
+.header-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 58px;
+}
+
+// ── Logo ──────────────────────────────
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-shrink: 0;
+}
+
+.logo-mark {
+  width: 38px;
+  height: 38px;
+  background: var(--navy);
+  color: #fff;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  border-radius: var(--radius);
+  font-family: 'IBM Plex Mono', monospace;
+
+  [data-theme='dark'] & {
+    background: var(--accent);
+  }
+}
+
+.logo-text {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+
+.logo-name {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--text);
+  letter-spacing: -.01em;
+  line-height: 1.2;
+}
+
+.logo-tagline {
+  font-size: 9.5px;
+  font-weight: 400;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+}
+
+// ── Controls (grouped button bar) ──────
+.header-controls {
+  display: flex;
+  align-items: center;
+}
+
+.ctrl-btn {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  background: transparent;
+  border: 1px solid var(--border);
+  border-right: none;
+  height: 34px;
+  padding: 0 14px;
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-muted);
+  transition: background-color var(--ease), color var(--ease);
+  font-family: inherit;
+  letter-spacing: .25px;
+  border-radius: 0;
+  white-space: nowrap;
+
+  &:first-child {
+    border-radius: var(--radius) 0 0 var(--radius);
+  }
+
+  &:last-child {
+    border-right: 1px solid var(--border);
+    border-radius: 0 var(--radius) var(--radius) 0;
+    padding: 0 10px;
+  }
+
+  &:hover {
+    background: var(--bg-alt);
+    color: var(--text);
+  }
+}
+
+.ctrl-icon {
+  width: 15px;
+  height: 15px;
+  flex-shrink: 0;
+  stroke: currentColor;
+}
+
+// ── RTL ───────────────────────────────
+:host-context([dir='rtl']) {
+  .header-inner    { flex-direction: row-reverse; }
+  .logo            { flex-direction: row-reverse; }
+  .logo-text       { text-align: right; }
+  .header-controls { flex-direction: row-reverse; }
+
+  .ctrl-btn {
+    border-right: 1px solid var(--border);
+    border-left: none;
+
+    &:first-child {
+      border-radius: 0 var(--radius) var(--radius) 0;
+    }
+    &:last-child {
+      border-left: 1px solid var(--border);
+      border-right: 1px solid var(--border);
+      border-radius: var(--radius) 0 0 var(--radius);
+      padding: 0 10px;
+    }
+  }
+}
+
+// ── Responsive ────────────────────────
+@media (max-width: 480px) {
+  .header-inner { height: 52px; }
+  .logo-tagline { display: none; }
+  .logo-name    { font-size: 14px; }
+}

@@ -1,0 +1,852 @@
+/* ═══════════════════════════════════════════════════════
+   Al Owaichi Trading — Motorcycle Catalog
+   Production UI · Corporate · IBM Plex Sans · Light/Dark
+   ═══════════════════════════════════════════════════════ */
+
+/* ── Reset ── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+/* ─────────────────────────────────────────────────────────
+   DESIGN TOKENS
+───────────────────────────────────────────────────────── */
+:root {
+    /* ── Invariant brand colours ── */
+    --accent:         #b45309;   /* deep amber */
+    --accent-hover:   #92400e;
+    --accent-light:   #d97706;   /* brighter amber used in dark mode */
+    --navy:           #0a1628;
+    --navy-2:         #0d1e38;
+
+    --wa:             #25D366;
+    --wa-hover:       #128C7E;
+
+    /* Brand badge colours */
+    --haojue-clr:     #0a1628;
+    --zontes-clr:     #1d4ed8;
+    --linhai-clr:     #15803d;
+
+    /* ── Light mode surfaces ── */
+    --bg:             #f0f2f5;
+    --bg-alt:         #e8eaed;
+    --card:           #ffffff;
+    --header-bg:      #ffffff;
+    --border:         #ced4db;
+    --border-subtle:  #e4e8ed;
+    --text:           #111827;
+    --text-muted:     #536070;
+    --spec-bg:        #f6f8fa;
+    --scrollbar:      #c4cbd5;
+
+    /* ── Shadows ── */
+    --shadow-sm:      0 1px 2px rgba(20,30,50,.06), 0 2px 8px rgba(20,30,50,.04);
+    --shadow-md:      0 4px 16px rgba(20,30,50,.09);
+    --shadow-hover:   0 6px 20px rgba(20,30,50,.13);
+
+    /* ── Geometry ── */
+    --radius:         2px;
+    --ease:           0.16s ease;
+}
+
+/* ── Dark mode overrides ── */
+[data-theme="dark"] {
+    --accent:         #d97706;   /* slightly brighter amber on dark */
+    --accent-hover:   #b45309;
+
+    --bg:             #0d1117;
+    --bg-alt:         #161b22;
+    --card:           #161b22;
+    --header-bg:      #0d1117;
+    --border:         #30363d;
+    --border-subtle:  #21262d;
+    --text:           #e6edf3;
+    --text-muted:     #8b949e;
+    --spec-bg:        #1c2430;
+    --scrollbar:      #30363d;
+
+    --shadow-sm:      0 1px 2px rgba(0,0,0,.5), 0 2px 8px rgba(0,0,0,.35);
+    --shadow-md:      0 4px 16px rgba(0,0,0,.55);
+    --shadow-hover:   0 6px 20px rgba(0,0,0,.65);
+}
+
+
+/* ─────────────────────────────────────────────────────────
+   BASE
+───────────────────────────────────────────────────────── */
+html { scroll-behavior: smooth; }
+
+body {
+    font-family: 'IBM Plex Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    transition: background-color .2s ease, color .2s ease;
+}
+
+html[lang="ar"] body,
+html[dir="rtl"] body {
+    font-family: 'Cairo', 'IBM Plex Sans', sans-serif;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 24px;
+}
+
+/* ── Scrollbar ── */
+::-webkit-scrollbar            { width: 5px; }
+::-webkit-scrollbar-track      { background: var(--bg); }
+::-webkit-scrollbar-thumb      { background: var(--scrollbar); border-radius: 0; }
+::-webkit-scrollbar-thumb:hover{ background: var(--text-muted); }
+
+
+/* ─────────────────────────────────────────────────────────
+   HEADER
+───────────────────────────────────────────────────────── */
+.header {
+    background: var(--header-bg);
+    border-bottom: 1px solid var(--border);
+    position: sticky;
+    top: 0;
+    z-index: 200;
+    transition: background-color .2s ease, border-color .2s ease;
+}
+
+/* Scroll shadow — added via JS */
+.header.scrolled {
+    box-shadow: var(--shadow-md);
+}
+
+.header-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 58px;
+}
+
+/* ── Logo ── */
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-shrink: 0;
+}
+
+.logo-mark {
+    width: 38px;
+    height: 38px;
+    background: var(--navy);
+    color: #fff;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    border-radius: var(--radius);
+    font-family: 'IBM Plex Mono', monospace;
+}
+
+[data-theme="dark"] .logo-mark {
+    background: var(--accent);
+    color: #fff;
+}
+
+.logo-text {
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+}
+
+.logo-name {
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--text);
+    letter-spacing: -.01em;
+    line-height: 1.2;
+}
+
+.logo-tagline {
+    font-size: 9.5px;
+    font-weight: 400;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+}
+
+/* ── Header control buttons (grouped) ── */
+.header-controls {
+    display: flex;
+    align-items: center;
+}
+
+.ctrl-btn {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    background: transparent;
+    border: 1px solid var(--border);
+    border-right: none;
+    height: 34px;
+    padding: 0 14px;
+    cursor: pointer;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--text-muted);
+    transition: background-color var(--ease), color var(--ease), border-color var(--ease);
+    font-family: inherit;
+    letter-spacing: .25px;
+    border-radius: 0;
+    white-space: nowrap;
+}
+
+/* last button closes the group */
+.ctrl-btn:last-child {
+    border-right: 1px solid var(--border);
+    padding: 0 10px;
+}
+
+.ctrl-btn:first-child {
+    border-radius: var(--radius) 0 0 var(--radius);
+}
+.ctrl-btn:last-child {
+    border-radius: 0 var(--radius) var(--radius) 0;
+}
+
+.ctrl-btn:hover {
+    background: var(--bg-alt);
+    color: var(--text);
+    border-color: var(--border);
+}
+
+.ctrl-icon {
+    width: 15px;
+    height: 15px;
+    flex-shrink: 0;
+    stroke: currentColor;
+}
+
+/* ── Theme button ── */
+.theme-btn { padding: 0 10px; }
+
+/* Show correct icon per mode */
+.theme-icon-moon { display: block; }
+.theme-icon-sun  { display: none;  }
+
+[data-theme="dark"] .theme-icon-moon { display: none;  }
+[data-theme="dark"] .theme-icon-sun  { display: block; }
+
+
+/* ─────────────────────────────────────────────────────────
+   HERO
+───────────────────────────────────────────────────────── */
+.hero {
+    background: var(--navy);
+    color: #fff;
+    padding: 72px 0 64px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+}
+
+/* Grid pattern overlay */
+.hero-bg-overlay {
+    position: absolute;
+    inset: 0;
+    background-image:
+        linear-gradient(rgba(255,255,255,.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,.04) 1px, transparent 1px);
+    background-size: 48px 48px;
+    pointer-events: none;
+}
+
+/* Amber accent stripe */
+.hero::before {
+    content: '';
+    position: absolute;
+    inset-inline-start: 0;
+    top: 0;
+    bottom: 0;
+    width: 3px;
+    background: var(--accent);
+}
+
+.hero-content {
+    position: relative;
+    z-index: 1;
+}
+
+/* Brand names row */
+.brand-tags {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 14px;
+    margin-bottom: 28px;
+    flex-wrap: wrap;
+}
+
+.brand-tag {
+    font-size: 10.5px;
+    font-weight: 700;
+    letter-spacing: 2.5px;
+    color: rgba(255,255,255,.45);
+    text-transform: uppercase;
+    font-family: 'IBM Plex Mono', monospace;
+}
+
+.brand-sep {
+    color: rgba(255,255,255,.18);
+    font-size: 14px;
+    font-weight: 300;
+}
+
+.hero-title {
+    font-size: clamp(28px, 5.5vw, 52px);
+    font-weight: 700;
+    line-height: 1.08;
+    letter-spacing: -.025em;
+    margin-bottom: 18px;
+}
+
+.hero-sub {
+    font-size: clamp(13px, 1.8vw, 15.5px);
+    color: rgba(255,255,255,.5);
+    max-width: 510px;
+    margin: 0 auto 36px;
+    line-height: 1.75;
+    font-weight: 400;
+}
+
+/* Outlined ghost button — very corporate */
+.hero-cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    background: var(--accent);
+    color: #fff;
+    padding: 12px 28px;
+    font-size: 12.5px;
+    font-weight: 700;
+    text-decoration: none;
+    letter-spacing: .6px;
+    text-transform: uppercase;
+    transition: background-color var(--ease), color var(--ease), border-color var(--ease);
+    border: 2px solid var(--accent);
+    border-radius: var(--radius);
+}
+
+.hero-cta::after {
+    content: '↓';
+    font-size: 13px;
+    font-weight: 400;
+    opacity: .7;
+}
+
+.hero-cta:hover {
+    background: transparent;
+    color: rgba(255,255,255,.85);
+    border-color: rgba(255,255,255,.4);
+}
+
+
+/* ─────────────────────────────────────────────────────────
+   CATALOG
+───────────────────────────────────────────────────────── */
+.catalog {
+    padding: 48px 0 64px;
+}
+
+/* Section header — title left, subtitle right */
+.section-header {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 24px;
+    padding-bottom: 18px;
+    border-bottom: 1px solid var(--border);
+}
+
+.section-title {
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--text);
+    letter-spacing: -.01em;
+}
+
+.section-sub {
+    font-size: 12.5px;
+    color: var(--text-muted);
+    font-weight: 400;
+}
+
+/* ── Filter bar ── */
+.filter-wrap {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-bottom: 24px;
+}
+
+/* Segmented control style */
+.filter-tabs {
+    display: inline-flex;
+    border: 1px solid var(--border);
+    background: var(--bg-alt);
+    border-radius: var(--radius);
+    overflow: hidden;
+}
+
+.filter-btn {
+    padding: 8px 18px;
+    border: none;
+    border-right: 1px solid var(--border);
+    background: transparent;
+    cursor: pointer;
+    font-size: 11.5px;
+    font-weight: 600;
+    color: var(--text-muted);
+    transition: background-color var(--ease), color var(--ease);
+    letter-spacing: .5px;
+    font-family: inherit;
+    text-transform: uppercase;
+    border-radius: 0;
+}
+
+.filter-btn:last-child { border-right: none; }
+
+.filter-btn:hover:not(.active) {
+    background: var(--card);
+    color: var(--text);
+}
+
+.filter-btn.active {
+    background: var(--navy);
+    color: #fff;
+    font-weight: 700;
+}
+
+[data-theme="dark"] .filter-btn.active {
+    background: var(--accent);
+}
+
+/* Results count */
+.results-count {
+    font-size: 12px;
+    color: var(--text-muted);
+    font-variant-numeric: tabular-nums;
+}
+
+.results-count strong {
+    color: var(--text);
+    font-weight: 700;
+    margin: 0 3px;
+}
+
+/* ── Grid ── */
+.bikes-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 20px;
+}
+
+
+/* ─────────────────────────────────────────────────────────
+   BIKE CARD
+───────────────────────────────────────────────────────── */
+.bike-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    transition: box-shadow var(--ease), border-color var(--ease), background-color var(--ease);
+    position: relative;
+    animation: fadeIn .3s ease both;
+}
+
+/* Coloured left stripe per brand */
+.bike-card[data-brand="haojue"] { border-left: 3px solid var(--haojue-clr); }
+.bike-card[data-brand="zontes"]  { border-left: 3px solid var(--zontes-clr); }
+.bike-card[data-brand="linhai"]  { border-left: 3px solid var(--linhai-clr); }
+
+.bike-card:hover {
+    box-shadow: var(--shadow-hover);
+    border-color: var(--border);
+}
+
+/* ── Card image ── */
+.card-img-wrap {
+    position: relative;
+    height: 192px;
+    background: var(--spec-bg);
+    border-bottom: 1px solid var(--border);
+    overflow: hidden;
+    flex-shrink: 0;
+}
+
+.card-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform .45s ease;
+}
+
+.bike-card:hover .card-img { transform: scale(1.035); }
+
+/* Placeholder when no image supplied */
+.card-img-placeholder {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-size: 44px;
+    gap: 10px;
+}
+
+.card-img-placeholder span:last-child {
+    font-size: 10px;
+    font-weight: 700;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 1.8px;
+    font-family: 'IBM Plex Mono', monospace;
+}
+
+.card-img.loaded { position: relative; z-index: 1; }
+
+/* Brand badge — sharp rectangle, top-left */
+.card-brand-tag {
+    position: absolute;
+    top: 0;
+    inset-inline-start: 0;
+    padding: 5px 11px;
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: #fff;
+    z-index: 2;
+    font-family: 'IBM Plex Mono', monospace;
+    border-radius: 0 0 var(--radius) 0;
+}
+
+.card-brand-tag.haojue { background: var(--haojue-clr); }
+.card-brand-tag.zontes { background: var(--zontes-clr); }
+.card-brand-tag.linhai { background: var(--linhai-clr); }
+
+/* ── Card body ── */
+.card-body {
+    padding: 18px 20px;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+}
+
+.card-type {
+    font-size: 9.5px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1.3px;
+    color: var(--accent);
+    margin-bottom: 4px;
+}
+
+.card-model {
+    font-size: 19px;
+    font-weight: 700;
+    color: var(--text);
+    letter-spacing: -.01em;
+    margin-bottom: 12px;
+    line-height: 1.2;
+}
+
+/* Specs — monospaced tabular data feel */
+.card-specs {
+    display: flex;
+    gap: 0;
+    flex-wrap: wrap;
+    margin-bottom: 12px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    overflow: hidden;
+}
+
+.spec-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 11px;
+    font-weight: 500;
+    color: var(--text);
+    background: var(--spec-bg);
+    padding: 6px 12px;
+    border-right: 1px solid var(--border);
+    font-family: 'IBM Plex Mono', monospace;
+    letter-spacing: .2px;
+}
+
+.spec-item:last-child { border-right: none; }
+
+.spec-icon {
+    font-size: 11px;
+    opacity: .65;
+}
+
+.card-desc {
+    font-size: 12.5px;
+    color: var(--text-muted);
+    line-height: 1.65;
+    flex: 1;
+    margin-bottom: 16px;
+}
+
+/* ── Card footer ── */
+.card-footer {
+    border-top: 1px solid var(--border);
+    padding-top: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+}
+
+.price-wrap { flex: 1; }
+
+.price-label {
+    font-size: 9px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--text-muted);
+    font-family: 'IBM Plex Mono', monospace;
+}
+
+/* WhatsApp button */
+.wa-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    background: var(--wa);
+    color: #fff;
+    padding: 9px 15px;
+    text-decoration: none;
+    font-size: 11.5px;
+    font-weight: 700;
+    transition: background-color var(--ease), border-color var(--ease);
+    white-space: nowrap;
+    font-family: inherit;
+    letter-spacing: .3px;
+    text-transform: uppercase;
+    border: 2px solid var(--wa);
+    border-radius: var(--radius);
+}
+
+.wa-btn:hover {
+    background: var(--wa-hover);
+    border-color: var(--wa-hover);
+}
+
+.wa-icon {
+    width: 14px;
+    height: 14px;
+    fill: #fff;
+    flex-shrink: 0;
+}
+
+
+/* ─────────────────────────────────────────────────────────
+   ABOUT STRIP
+───────────────────────────────────────────────────────── */
+.about-strip {
+    background: var(--navy);
+    border-top: 3px solid var(--accent);
+    padding: 28px 0;
+}
+
+.about-inner {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0;
+    flex-wrap: wrap;
+}
+
+.about-item {
+    display: flex;
+    align-items: center;
+    gap: 11px;
+    padding: 10px 28px;
+    flex: 1;
+    min-width: 160px;
+    justify-content: center;
+}
+
+.about-icon {
+    width: 18px;
+    height: 18px;
+    flex-shrink: 0;
+    stroke: rgba(255,255,255,.45);
+}
+
+.about-label {
+    font-size: 13px;
+    font-weight: 600;
+    color: rgba(255,255,255,.8);
+    white-space: nowrap;
+    letter-spacing: .15px;
+}
+
+.about-divider {
+    width: 1px;
+    height: 36px;
+    background: rgba(255,255,255,.08);
+    align-self: stretch;
+}
+
+
+/* ─────────────────────────────────────────────────────────
+   FOOTER
+───────────────────────────────────────────────────────── */
+.footer {
+    background: #060d1a;
+    border-top: 1px solid rgba(255,255,255,.06);
+    color: rgba(255,255,255,.38);
+    text-align: center;
+    padding: 32px 0;
+}
+
+.footer-inner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+}
+
+.footer-logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.footer-mark {
+    width: 26px;
+    height: 26px;
+    background: rgba(255,255,255,.08);
+    color: rgba(255,255,255,.6);
+    font-size: 8.5px;
+    font-weight: 700;
+    letter-spacing: .5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    font-family: 'IBM Plex Mono', monospace;
+    border-radius: var(--radius);
+}
+
+.footer-brand {
+    font-size: 13.5px;
+    font-weight: 700;
+    color: rgba(255,255,255,.72);
+    letter-spacing: .15px;
+}
+
+.footer-note { font-size: 11.5px; max-width: 440px; line-height: 1.65; }
+
+.footer-copy {
+    font-size: 10.5px;
+    color: rgba(255,255,255,.2);
+    letter-spacing: .3px;
+    font-family: 'IBM Plex Mono', monospace;
+}
+
+
+/* ─────────────────────────────────────────────────────────
+   RESPONSIVE
+───────────────────────────────────────────────────────── */
+@media (max-width: 768px) {
+    .hero           { padding: 52px 0 48px; }
+    .hero::before   { display: none; }   /* remove side stripe on small screens */
+    .bikes-grid     { grid-template-columns: repeat(auto-fill, minmax(270px, 1fr)); gap: 14px; }
+    .filter-wrap    { flex-direction: column; align-items: flex-start; }
+    .catalog        { padding: 36px 0 52px; }
+    .section-header { flex-direction: column; gap: 4px; }
+    .about-divider  { display: none; }
+    .about-item     { min-width: 140px; padding: 8px 16px; }
+}
+
+@media (max-width: 480px) {
+    .bikes-grid             { grid-template-columns: 1fr; gap: 12px; }
+    .logo-name              { font-size: 14px; }
+    .logo-tagline           { display: none; }
+    .hero-title             { font-size: 26px; }
+    .card-footer            { flex-direction: column; align-items: stretch; }
+    .wa-btn                 { justify-content: center; }
+    .filter-tabs            { width: 100%; }
+    .filter-btn             { flex: 1; text-align: center; padding: 9px 10px; }
+    .header-inner           { height: 52px; }
+}
+
+
+/* ─────────────────────────────────────────────────────────
+   RTL — Arabic direction overrides
+───────────────────────────────────────────────────────── */
+html[dir="rtl"] .header-inner    { flex-direction: row-reverse; }
+html[dir="rtl"] .header-controls { flex-direction: row-reverse; }
+html[dir="rtl"] .logo            { flex-direction: row-reverse; }
+html[dir="rtl"] .logo-text       { text-align: right; }
+html[dir="rtl"] .ctrl-btn        { border-right: 1px solid var(--border); border-left: none; }
+html[dir="rtl"] .ctrl-btn:last-child { border-left: 1px solid var(--border); border-right: 1px solid var(--border); }
+html[dir="rtl"] .ctrl-btn:first-child { border-radius: 0 var(--radius) var(--radius) 0; }
+html[dir="rtl"] .ctrl-btn:last-child  { border-radius: var(--radius) 0 0 var(--radius); }
+html[dir="rtl"] .filter-wrap     { flex-direction: row-reverse; flex-wrap: wrap; }
+html[dir="rtl"] .filter-tabs     { flex-direction: row-reverse; }
+html[dir="rtl"] .filter-btn      { border-right: none; border-left: 1px solid var(--border); }
+html[dir="rtl"] .filter-btn:last-child { border-left: none; }
+html[dir="rtl"] .card-body       { text-align: right; }
+html[dir="rtl"] .card-specs      { flex-direction: row-reverse; }
+html[dir="rtl"] .spec-item       { border-right: none; border-left: 1px solid var(--border); }
+html[dir="rtl"] .spec-item:last-child { border-left: none; }
+html[dir="rtl"] .card-footer     { flex-direction: row-reverse; }
+html[dir="rtl"] .wa-btn          { flex-direction: row-reverse; }
+html[dir="rtl"] .about-inner     { flex-direction: row-reverse; }
+html[dir="rtl"] .about-item      { flex-direction: row-reverse; }
+html[dir="rtl"] .brand-tags      { flex-direction: row-reverse; }
+html[dir="rtl"] .footer-logo     { flex-direction: row-reverse; }
+html[dir="rtl"] .section-header  { flex-direction: row-reverse; }
+
+/* Brand left-stripe flips to right in RTL */
+html[dir="rtl"] .bike-card[data-brand="haojue"] { border-left: 1px solid var(--border); border-right: 3px solid var(--haojue-clr); }
+html[dir="rtl"] .bike-card[data-brand="zontes"]  { border-left: 1px solid var(--border); border-right: 3px solid var(--zontes-clr); }
+html[dir="rtl"] .bike-card[data-brand="linhai"]  { border-left: 1px solid var(--border); border-right: 3px solid var(--linhai-clr); }
+
+
+/* ─────────────────────────────────────────────────────────
+   CARD ENTRANCE ANIMATION
+───────────────────────────────────────────────────────── */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+.bike-card:nth-child(1)  { animation-delay: .00s; }
+.bike-card:nth-child(2)  { animation-delay: .04s; }
+.bike-card:nth-child(3)  { animation-delay: .08s; }
+.bike-card:nth-child(4)  { animation-delay: .12s; }
+.bike-card:nth-child(5)  { animation-delay: .16s; }
+.bike-card:nth-child(6)  { animation-delay: .20s; }
+.bike-card:nth-child(7)  { animation-delay: .24s; }
+.bike-card:nth-child(8)  { animation-delay: .27s; }
+.bike-card:nth-child(9)  { animation-delay: .30s; }
+.bike-card:nth-child(10) { animation-delay: .32s; }

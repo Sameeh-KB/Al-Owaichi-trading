@@ -1,0 +1,120 @@
+:host { display: block; }
+
+.hero {
+  background: var(--navy);
+  color: #fff;
+  padding: 72px 0 64px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+// Grid pattern overlay
+.hero-bg-overlay {
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(255, 255, 255, .04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, .04) 1px, transparent 1px);
+  background-size: 48px 48px;
+  pointer-events: none;
+}
+
+// Amber accent stripe
+.hero::before {
+  content: '';
+  position: absolute;
+  inset-inline-start: 0;
+  top: 0;
+  bottom: 0;
+  width: 3px;
+  background: var(--accent);
+}
+
+.hero-content {
+  position: relative;
+  z-index: 1;
+}
+
+// Brand names
+.brand-tags {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  margin-bottom: 28px;
+  flex-wrap: wrap;
+}
+
+.brand-tag {
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: 2.5px;
+  color: rgba(255, 255, 255, .45);
+  text-transform: uppercase;
+  font-family: 'IBM Plex Mono', monospace;
+}
+
+.brand-sep {
+  color: rgba(255, 255, 255, .18);
+  font-size: 14px;
+  font-weight: 300;
+}
+
+.hero-title {
+  font-size: clamp(28px, 5.5vw, 52px);
+  font-weight: 700;
+  line-height: 1.08;
+  letter-spacing: -.025em;
+  margin-bottom: 18px;
+}
+
+.hero-sub {
+  font-size: clamp(13px, 1.8vw, 15.5px);
+  color: rgba(255, 255, 255, .5);
+  max-width: 510px;
+  margin: 0 auto 36px;
+  line-height: 1.75;
+  font-weight: 400;
+}
+
+// Ghost-on-hover CTA
+.hero-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  background: var(--accent);
+  color: #fff;
+  padding: 12px 28px;
+  font-size: 12.5px;
+  font-weight: 700;
+  text-decoration: none;
+  letter-spacing: .6px;
+  text-transform: uppercase;
+  transition: background-color var(--ease), color var(--ease), border-color var(--ease);
+  border: 2px solid var(--accent);
+  border-radius: var(--radius);
+  cursor: pointer;
+  font-family: inherit;
+
+  &::after {
+    content: '↓';
+    font-size: 13px;
+    font-weight: 400;
+    opacity: .7;
+  }
+
+  &:hover {
+    background: transparent;
+    color: rgba(255, 255, 255, .85);
+    border-color: rgba(255, 255, 255, .4);
+  }
+}
+
+// Responsive
+@media (max-width: 768px) {
+  .hero {
+    padding: 52px 0 48px;
+    &::before { display: none; }
+  }
+}

@@ -1,0 +1,93 @@
+/* ═══════════════════════════════════════════════════════
+   Al Owaichi Trading — Global Styles
+   Corporate · IBM Plex Sans · Light/Dark Mode
+   ═══════════════════════════════════════════════════════ */
+
+// ── Reset ───────────────────────────────────────────────
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+// ── Design tokens ───────────────────────────────────────
+:root {
+  // Brand / accent
+  --accent:         #ea580c;   /* orange-600 */
+  --accent-hover:   #c2410c;   /* orange-700 */
+  --accent-rgb:     234, 88, 12;
+  --navy:           #1c1c1c;   /* dark charcoal — hero / about / footer bg */
+
+  // Light mode surfaces  (white + orange)
+  --bg:             #fafafa;
+  --bg-alt:         #f4f4f4;
+  --card:           #ffffff;
+  --header-bg:      #ffffff;
+  --border:         #e5e5e5;
+  --border-subtle:  #f0f0f0;
+  --text:           #171717;
+  --text-muted:     #737373;
+  --spec-bg:        #f9f9f9;
+  --scrollbar:      #d4d4d4;
+
+  // Shadows
+  --shadow-sm:    0 1px 2px rgba(0,0,0,.06), 0 2px 8px rgba(0,0,0,.04);
+  --shadow-md:    0 4px 16px rgba(0,0,0,.09);
+  --shadow-hover: 0 6px 24px rgba(234,88,12,.15);
+
+  // Geometry
+  --radius: 2px;
+  --ease:   0.16s ease;
+}
+
+[data-theme='dark'] {
+  // Brighter orange pops on dark backgrounds
+  --accent:         #f97316;   /* orange-500 */
+  --accent-hover:   #ea580c;
+  --accent-rgb:     249, 115, 22;
+  --navy:           #111111;   /* near-black for hero/about/footer in dark mode */
+
+  // Dark mode surfaces  (dark grey + orange)
+  --bg:             #171717;
+  --bg-alt:         #1f1f1f;
+  --card:           #1f1f1f;
+  --header-bg:      #121212;
+  --border:         #2e2e2e;
+  --border-subtle:  #262626;
+  --text:           #fafafa;
+  --text-muted:     #a3a3a3;
+  --spec-bg:        #262626;
+  --scrollbar:      #3f3f3f;
+
+  --shadow-sm:    0 1px 2px rgba(0,0,0,.55), 0 2px 8px rgba(0,0,0,.4);
+  --shadow-md:    0 4px 16px rgba(0,0,0,.6);
+  --shadow-hover: 0 6px 24px rgba(249,115,22,.2);
+}
+
+// ── Base ────────────────────────────────────────────────
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'IBM Plex Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  transition: background-color .2s ease, color .2s ease;
+}
+
+[dir='rtl'] body {
+  font-family: 'Cairo', 'IBM Plex Sans', sans-serif;
+}
+
+// ── Container ───────────────────────────────────────────
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+// ── Scrollbar ───────────────────────────────────────────
+::-webkit-scrollbar            { width: 5px; }
+::-webkit-scrollbar-track      { background: var(--bg); }
+::-webkit-scrollbar-thumb      { background: var(--scrollbar); border-radius: 0; }
+::-webkit-scrollbar-thumb:hover{ background: var(--text-muted); }
+
+// ── Typography utility ──────────────────────────────────
+.mono { font-family: 'IBM Plex Mono', monospace; }

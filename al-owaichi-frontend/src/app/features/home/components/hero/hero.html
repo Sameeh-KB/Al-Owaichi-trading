@@ -1,0 +1,23 @@
+<section class="hero">
+  <div class="hero-bg-overlay"></div>
+  <div class="container hero-content">
+
+    <!-- Brand names row -->
+    <div class="brand-tags">
+      @for (brand of langSvc.t().heroBrands; track brand; let last = $last) {
+        <span class="brand-tag">{{ brand }}</span>
+        @if (!last) {
+          <span class="brand-sep">|</span>
+        }
+      }
+    </div>
+
+    <h1 class="hero-title">{{ langSvc.t().heroTitle }}</h1>
+    <p  class="hero-sub">{{ langSvc.t().heroSub }}</p>
+
+    <button class="hero-cta" (click)="scrollToCatalog.emit()">
+      {{ langSvc.t().browseCatalog }}
+    </button>
+
+  </div>
+</section>

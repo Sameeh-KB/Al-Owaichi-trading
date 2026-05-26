@@ -1,0 +1,39 @@
+<section class="catalog" id="catalog">
+  <div class="container">
+
+    <!-- Section header -->
+    <div class="section-header">
+      <h2 class="section-title">{{ langSvc.t().ourModels }}</h2>
+      <p  class="section-sub">{{ langSvc.t().tapToInquire }}</p>
+    </div>
+
+    <!-- Filter bar -->
+    <div class="filter-wrap">
+      <div class="filter-tabs" role="tablist">
+        @for (tab of tabs; track tab.key) {
+          <button class="filter-btn"
+                  [class.active]="activeFilter() === tab.key"
+                  [attr.aria-selected]="activeFilter() === tab.key"
+                  role="tab"
+                  (click)="setFilter(tab.key)">
+            {{ tabLabel(tab) }}
+          </button>
+        }
+      </div>
+
+      <p class="results-count">
+        {{ langSvc.t().showing }}
+        <strong>{{ count() }}</strong>
+        {{ langSvc.t().models }}
+      </p>
+    </div>
+
+    <!-- Bike grid -->
+    <div class="bikes-grid">
+      @for (bike of filteredBikes(); track bike.model) {
+        <app-bike-card [bike]="bike" />
+      }
+    </div>
+
+  </div>
+</section>

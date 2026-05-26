@@ -1,0 +1,127 @@
+:host { display: block; }
+
+.catalog {
+  padding: 48px 0 64px;
+}
+
+// ── Section header ─────────────────────
+.section-header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 24px;
+  padding-bottom: 18px;
+  border-bottom: 1px solid var(--border);
+}
+
+.section-title {
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--text);
+  letter-spacing: -.01em;
+}
+
+.section-sub {
+  font-size: 12.5px;
+  color: var(--text-muted);
+}
+
+// ── Filter bar ─────────────────────────
+.filter-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-bottom: 24px;
+}
+
+// Segmented-control style tabs
+.filter-tabs {
+  display: inline-flex;
+  border: 1px solid var(--border);
+  background: var(--bg-alt);
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+
+.filter-btn {
+  padding: 8px 18px;
+  border: none;
+  border-right: 1px solid var(--border);
+  background: transparent;
+  cursor: pointer;
+  font-size: 11.5px;
+  font-weight: 600;
+  color: var(--text-muted);
+  transition: background-color var(--ease), color var(--ease);
+  letter-spacing: .5px;
+  font-family: inherit;
+  text-transform: uppercase;
+  border-radius: 0;
+
+  &:last-child { border-right: none; }
+
+  &:hover:not(.active) {
+    background: var(--card);
+    color: var(--text);
+  }
+
+  &.active {
+    background: var(--navy);
+    color: #fff;
+    font-weight: 700;
+  }
+
+  [data-theme='dark'] &.active {
+    background: var(--accent);
+  }
+}
+
+.results-count {
+  font-size: 12px;
+  color: var(--text-muted);
+  font-variant-numeric: tabular-nums;
+
+  strong {
+    color: var(--text);
+    font-weight: 700;
+    margin: 0 3px;
+  }
+}
+
+// ── Grid ───────────────────────────────
+.bikes-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 20px;
+}
+
+// ── RTL ───────────────────────────────
+:host-context([dir='rtl']) {
+  .section-header { flex-direction: row-reverse; }
+  .filter-wrap    { flex-direction: row-reverse; }
+  .filter-tabs    { flex-direction: row-reverse; }
+
+  .filter-btn {
+    border-right: none;
+    border-left: 1px solid var(--border);
+    &:last-child { border-left: none; }
+  }
+}
+
+// ── Responsive ────────────────────────
+@media (max-width: 768px) {
+  .catalog        { padding: 36px 0 52px; }
+  .section-header { flex-direction: column; gap: 4px; }
+  .filter-wrap    { flex-direction: column; align-items: flex-start; }
+  .bikes-grid     { grid-template-columns: repeat(auto-fill, minmax(270px, 1fr)); gap: 14px; }
+}
+
+@media (max-width: 480px) {
+  .bikes-grid  { grid-template-columns: 1fr; gap: 12px; }
+  .filter-tabs { width: 100%; }
+  .filter-btn  { flex: 1; text-align: center; padding: 9px 10px; }
+}

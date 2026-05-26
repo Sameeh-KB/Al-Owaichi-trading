@@ -1,0 +1,64 @@
+<article class="bike-card" [attr.data-brand]="bike().brand">
+
+  <!-- Clickable area: image + main body → routes to /bike/:slug -->
+  <a class="card-link" [routerLink]="['/bike', bike().slug]">
+
+    <div class="card-img-wrap">
+      @if (bike().image) {
+        <img class="card-img"
+             [src]="bike().image"
+             [alt]="bike().model"
+             loading="lazy" />
+      } @else {
+        <div class="card-img-placeholder">
+          <span class="placeholder-emoji">{{ bike().emoji }}</span>
+          <span class="placeholder-model">{{ bike().model }}</span>
+        </div>
+      }
+      <span class="card-brand-tag" [class]="bike().brand">
+        {{ bike().brand.toUpperCase() }}
+      </span>
+    </div>
+
+    <div class="card-body">
+      <span class="card-type">{{ type() }}</span>
+      <h3  class="card-model">{{ bike().model }}</h3>
+
+      <div class="card-specs">
+        <span class="spec-item">
+          <span class="spec-icon">⚙</span>{{ bike().engine }}
+        </span>
+        <span class="spec-item">
+          <span class="spec-icon">⚡</span>{{ bike().power }}
+        </span>
+      </div>
+
+      <p class="card-desc">{{ desc() }}</p>
+    </div>
+
+  </a>
+
+  <!-- Footer stays outside the link so the WA button is a separate target -->
+  <div class="card-footer">
+    <a class="details-link"
+       [routerLink]="['/bike', bike().slug]"
+       [attr.aria-label]="'View details for ' + bike().model">
+      {{ langSvc.t().viewDetails }}
+      <span class="arrow">→</span>
+    </a>
+
+    <a class="wa-btn"
+       [href]="waUrl()"
+       target="_blank"
+       rel="noopener noreferrer"
+       [attr.aria-label]="'Inquire about ' + bike().model + ' on WhatsApp'">
+      <svg class="wa-icon" viewBox="0 0 24 24"
+           xmlns="http://www.w3.org/2000/svg"
+           aria-hidden="true">
+        <path [attr.d]="waPath" />
+      </svg>
+      {{ langSvc.t().inquire }}
+    </a>
+  </div>
+
+</article>

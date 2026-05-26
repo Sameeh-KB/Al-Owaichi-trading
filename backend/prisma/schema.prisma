@@ -1,0 +1,125 @@
+// ─────────────────────────────────────────────────────────
+// Al Owaichi Trading — Prisma schema
+// PostgreSQL, normalised + JSONB for spec tables
+// ─────────────────────────────────────────────────────────
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum Role {
+  ADMIN
+  STAFF
+}
+
+enum InquiryStatus {
+  NEW
+  CONTACTED
+  CLOSED
+}
+
+enum InquirySource {
+  WHATSAPP
+  FORM
+  OTHER
+}
+
+// ─── Admin user ──────────────────────────────────────────
+model User {
+  id           String   @id @default(cuid())
+  email        String   @unique
+  passwordHash String
+  name         String
+  role         Role     @default(ADMIN)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  uploads      Upload[]
+
+  @@map("users")
+}
+
+// ─── Bike catalogue entry ────────────────────────────────
+model Bike {
+  id          String   @id @default(cuid())
+  slug        String   @unique
+  brand       String
+  model       String
+
+  typeEn      String
+  typeAr      String
+
+  engine      String
+  power       String
+
+  descEn      String
+  descAr      String
+
+  introEn     String
+  introAr     String
+
+  /// Bullet-list features in EN & AR
+  featuresEn  String[]
+  featuresAr  String[]
+
+  /// Array of { label_en, label_ar, value, value_ar? }
+  specs       Json
+
+  emoji       String
+  image       String
+  gallery     String[]
+
+  published   Boolean  @default(true)
+  sortOrder   Int      @default(0)
+
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  inquiries   Inquiry[]
+
+  @@index([brand])
+  @@index([published])
+  @@map("bikes")
+}
+
+// ─── Customer inquiry / lead ────────────────────────────
+model Inquiry {
+  id        String         @id @default(cuid())
+  bikeId    String?
+  bike      Bike?          @relation(fields: [bikeId], references: [id], onDelete: SetNull)
+
+  name      String?
+  phone     String?
+  email     String?
+  message   String
+  source    InquirySource  @default(WHATSAPP)
+  lang      String         @default("en")
+
+  status    InquiryStatus  @default(NEW)
+  notes     String?
+
+  createdAt DateTime       @default(now())
+  updatedAt DateTime       @updatedAt
+
+  @@index([status])
+  @@index([bikeId])
+  @@map("inquiries")
+}
+
+// ─── Uploaded image file ────────────────────────────────
+model Upload {
+  id         String   @id @default(cuid())
+  filename   String
+  mimetype   String
+  size       Int
+  url        String   // public URL — /uploads/xxx.jpg
+  uploadedBy String?
+  user       User?    @relation(fields: [uploadedBy], references: [id], onDelete: SetNull)
+  createdAt  DateTime @default(now())
+
+  @@map("uploads")
+}
