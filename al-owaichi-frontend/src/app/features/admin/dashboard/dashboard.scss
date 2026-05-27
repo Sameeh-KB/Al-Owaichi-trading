@@ -1,0 +1,109 @@
+.page {
+  padding: 2rem;
+  max-width: 1200px;
+}
+
+.page-header {
+  margin-bottom: 2rem;
+  h1 { margin: 0 0 0.25rem; font-size: 1.75rem; color: #fff; }
+  .subtitle { margin: 0; color: #666; font-size: 0.9rem; }
+}
+
+.loading { color: #666; padding: 2rem 0; }
+.error-msg { color: #ef9a9a; padding: 1rem; background: rgba(229,57,53,.1); border-radius: 8px; }
+
+// ── Stat cards ─────────────────────────────────────────────
+.stat-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 1rem;
+  margin-bottom: 2.5rem;
+}
+
+.stat-card {
+  background: #1a1a1a;
+  border: 1px solid #252525;
+  border-radius: 12px;
+  padding: 1.25rem 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+
+  .stat-icon { font-size: 1.75rem; }
+  .stat-body { display: flex; flex-direction: column; gap: 2px; }
+  .stat-value { font-size: 1.6rem; font-weight: 700; color: #fff; }
+  .stat-label { font-size: 0.78rem; color: #777; text-transform: uppercase; letter-spacing: 0.05em; }
+}
+
+// ── Top bikes table ────────────────────────────────────────
+.top-bikes {
+  background: #1a1a1a;
+  border: 1px solid #252525;
+  border-radius: 12px;
+  padding: 1.5rem;
+  margin-bottom: 2rem;
+
+  h2 { margin: 0 0 1.25rem; font-size: 1rem; color: #ccc; font-weight: 600; }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.88rem;
+  }
+
+  th {
+    text-align: left;
+    color: #666;
+    font-weight: 600;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    padding: 0 0.75rem 0.75rem;
+    border-bottom: 1px solid #222;
+  }
+
+  td {
+    padding: 0.75rem;
+    border-bottom: 1px solid #1e1e1e;
+    color: #ccc;
+    &:last-child { border-bottom: none; }
+  }
+
+  tr:last-child td { border-bottom: none; }
+
+  .rank { color: #555; width: 2rem; text-align: center; }
+
+  .bike-name {
+    display: flex;
+    flex-direction: column;
+    .brand { font-size: 0.7rem; color: #e53935; font-weight: 700; text-transform: uppercase; }
+    .model { color: #fff; font-weight: 600; }
+  }
+
+  .total { font-weight: 700; color: #fff; }
+  .empty { text-align: center; color: #555; padding: 2rem; }
+}
+
+// ── Quick links ───────────────────────────────────────────
+.quick-links {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.quick-link {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.25rem;
+  background: #1a1a1a;
+  border: 1px solid #2a2a2a;
+  border-radius: 8px;
+  text-decoration: none;
+  color: #ccc;
+  font-size: 0.9rem;
+  font-weight: 500;
+  transition: border-color 0.15s, color 0.15s;
+
+  &:hover { border-color: #e53935; color: #fff; }
+}

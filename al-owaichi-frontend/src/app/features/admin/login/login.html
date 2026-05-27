@@ -1,0 +1,44 @@
+<div class="login-page">
+  <div class="login-card">
+    <div class="brand">
+      <span class="logo">🏍</span>
+      <h1>Al Owaichi <span>Admin</span></h1>
+    </div>
+
+    <form (ngSubmit)="submit()" #f="ngForm">
+      <div class="field">
+        <label for="email">Email</label>
+        <input
+          id="email"
+          type="email"
+          [(ngModel)]="email"
+          name="email"
+          required
+          placeholder="admin@alowaichi.com"
+          autocomplete="email"
+        />
+      </div>
+
+      <div class="field">
+        <label for="password">Password</label>
+        <input
+          id="password"
+          type="password"
+          [(ngModel)]="password"
+          name="password"
+          required
+          placeholder="••••••••"
+          autocomplete="current-password"
+        />
+      </div>
+
+      @if (error()) {
+        <p class="error">{{ error() }}</p>
+      }
+
+      <button type="submit" [disabled]="loading() || !f.valid" class="btn-login">
+        @if (loading()) { Signing in… } @else { Sign in }
+      </button>
+    </form>
+  </div>
+</div>

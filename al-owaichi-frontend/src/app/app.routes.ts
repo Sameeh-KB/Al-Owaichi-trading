@@ -22,6 +22,10 @@ export const routes: Routes = [
     loadComponent: () => import('./features/bike-detail/bike-detail').then((m) => m.BikeDetail),
   },
   {
+    path: 'admin',
+    loadChildren: () => import('./features/admin/admin.routes').then((m) => m.adminRoutes),
+  },
+  {
     path: '**',
     redirectTo: '',
   },

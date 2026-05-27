@@ -1,0 +1,72 @@
+<div class="page">
+  <header class="page-header">
+    <div>
+      <h1>Bikes</h1>
+      <p class="subtitle">Manage the product catalogue</p>
+    </div>
+    <button class="btn-primary" (click)="openCreate()">+ Add bike</button>
+  </header>
+
+  @if (loading()) {
+    <div class="loading">Loading bikes…</div>
+  } @else if (error()) {
+    <div class="error-msg">{{ error() }}</div>
+  } @else {
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Bike</th>
+            <th>Engine</th>
+            <th>Type</th>
+            <th>Status</th>
+            <th>Order</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (bike of bikes(); track bike.id) {
+            <tr>
+              <td class="bike-cell">
+                <img [src]="bike.image" [alt]="bike.model" class="thumb" />
+                <div class="bike-meta">
+                  <span class="brand">{{ bike.brand }}</span>
+                  <span class="model">{{ bike.model }}</span>
+                  <span class="slug">{{ bike.slug }}</span>
+                </div>
+              </td>
+              <td>{{ bike.engine }}</td>
+              <td>{{ bike.typeEn }}</td>
+              <td>
+                <button
+                  class="badge"
+                  [class.published]="bike.published"
+                  [class.draft]="!bike.published"
+                  (click)="togglePublished(bike)"
+                  title="Click to toggle"
+                >
+                  {{ bike.published ? 'Published' : 'Draft' }}
+                </button>
+              </td>
+              <td>{{ bike.sortOrder }}</td>
+              <td class="actions">
+                <button class="btn-icon" (click)="openEdit(bike)" title="Edit">✏️</button>
+                <button class="btn-icon danger" (click)="deleteBike(bike)" title="Delete">🗑</button>
+              </td>
+            </tr>
+          } @empty {
+            <tr><td colspan="6" class="empty">No bikes yet. <button (click)="openCreate()">Add the first one.</button></td></tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  }
+</div>
+
+@if (showModal()) {
+  <aot-bike-form-modal
+    [bike]="editTarget()"
+    (saved)="onSaved()"
+    (cancelled)="closeModal()"
+  />
+}

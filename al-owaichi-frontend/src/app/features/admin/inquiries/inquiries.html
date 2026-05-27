@@ -1,0 +1,110 @@
+<div class="page" [class.with-drawer]="selected()">
+
+  <!-- Left: list -->
+  <div class="list-panel">
+    <header class="page-header">
+      <div>
+        <h1>Inquiries</h1>
+        <p class="subtitle">Customer leads & CRM</p>
+      </div>
+    </header>
+
+    <!-- Filter tabs -->
+    <div class="filter-tabs">
+      <button [class.active]="filter() === ''"           (click)="filter.set('')">All</button>
+      <button [class.active]="filter() === 'NEW'"        (click)="filter.set('NEW')">🆕 New</button>
+      <button [class.active]="filter() === 'CONTACTED'"  (click)="filter.set('CONTACTED')">📞 Contacted</button>
+      <button [class.active]="filter() === 'CLOSED'"     (click)="filter.set('CLOSED')">✅ Closed</button>
+    </div>
+
+    @if (loading()) {
+      <div class="loading">Loading inquiries…</div>
+    } @else if (error()) {
+      <div class="error-msg">{{ error() }}</div>
+    } @else {
+      <ul class="inq-list">
+        @for (inq of filtered; track inq.id) {
+          <li
+            class="inq-item"
+            [class.selected]="selected()?.id === inq.id"
+            [class.status-new]="inq.status === 'NEW'"
+            [class.status-contacted]="inq.status === 'CONTACTED'"
+            [class.status-closed]="inq.status === 'CLOSED'"
+            (click)="select(inq)"
+          >
+            <div class="inq-top">
+              <span class="source-icon">{{ sourceIcon(inq.source) }}</span>
+              <span class="inq-name">{{ inq.name || '(anonymous)' }}</span>
+              <span class="inq-date">{{ inq.createdAt | date:'MMM d' }}</span>
+            </div>
+            <p class="inq-msg">{{ inq.message | slice:0:80 }}{{ inq.message.length > 80 ? '…' : '' }}</p>
+            @if (inq.bike) {
+              <span class="bike-tag">{{ inq.bike.brand }} {{ inq.bike.model }}</span>
+            }
+          </li>
+        } @empty {
+          <li class="empty">No inquiries matching this filter.</li>
+        }
+      </ul>
+    }
+  </div>
+
+  <!-- Right: detail drawer -->
+  @if (selected(); as inq) {
+    <aside class="detail-drawer">
+      <div class="drawer-header">
+        <h2>Inquiry detail</h2>
+        <button class="close-btn" (click)="selected.set(null)">✕</button>
+      </div>
+
+      <div class="drawer-body">
+        <!-- Contact -->
+        <section class="detail-section">
+          <h3>Contact</h3>
+          <dl>
+            <dt>Name</dt>   <dd>{{ inq.name || '—' }}</dd>
+            <dt>Phone</dt>  <dd>{{ inq.phone || '—' }}</dd>
+            <dt>Email</dt>  <dd>{{ inq.email || '—' }}</dd>
+            <dt>Source</dt> <dd>{{ sourceIcon(inq.source) }} {{ inq.source }}</dd>
+            <dt>Lang</dt>   <dd>{{ inq.lang }}</dd>
+          </dl>
+        </section>
+
+        @if (inq.bike) {
+          <section class="detail-section">
+            <h3>Bike</h3>
+            <p class="bike-ref">{{ inq.bike.brand }} {{ inq.bike.model }}</p>
+          </section>
+        }
+
+        <section class="detail-section">
+          <h3>Message</h3>
+          <p class="message-body">{{ inq.message }}</p>
+        </section>
+
+        <!-- Editable fields -->
+        <section class="detail-section">
+          <h3>Status</h3>
+          <select [(ngModel)]="editStatus" name="status" class="status-select">
+            <option value="NEW">🆕 New</option>
+            <option value="CONTACTED">📞 Contacted</option>
+            <option value="CLOSED">✅ Closed</option>
+          </select>
+        </section>
+
+        <section class="detail-section">
+          <h3>Notes</h3>
+          <textarea [(ngModel)]="editNotes" name="notes" rows="4" placeholder="Internal notes…"></textarea>
+        </section>
+
+        <div class="drawer-actions">
+          <button class="btn-delete" (click)="deleteSelected()">Delete</button>
+          <button class="btn-save" (click)="saveSelected()" [disabled]="saving()">
+            {{ saving() ? 'Saving…' : 'Save' }}
+          </button>
+        </div>
+      </div>
+    </aside>
+  }
+
+</div>

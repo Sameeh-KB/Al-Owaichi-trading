@@ -1,0 +1,126 @@
+<div class="modal-backdrop" (click)="cancelled.emit()">
+  <div class="modal" (click)="$event.stopPropagation()">
+
+    <div class="modal-header">
+      <h2>{{ title }}</h2>
+      <button class="close-btn" (click)="cancelled.emit()">✕</button>
+    </div>
+
+    <div class="modal-body">
+      <form (ngSubmit)="submit()" #f="ngForm">
+
+        <!-- Row: brand / model / slug -->
+        <div class="row-3">
+          <div class="field">
+            <label>Brand *</label>
+            <input [(ngModel)]="draft.brand" name="brand" required placeholder="HAOJUE" (blur)="autoSlug()" />
+          </div>
+          <div class="field">
+            <label>Model *</label>
+            <input [(ngModel)]="draft.model" name="model" required placeholder="UFR 150" (blur)="autoSlug()" />
+          </div>
+          <div class="field">
+            <label>Slug *</label>
+            <input [(ngModel)]="draft.slug" name="slug" required placeholder="haojue-ufr-150" />
+          </div>
+        </div>
+
+        <!-- Row: type EN / type AR -->
+        <div class="row-2">
+          <div class="field">
+            <label>Type (EN) *</label>
+            <input [(ngModel)]="draft.typeEn" name="typeEn" required placeholder="Sport" />
+          </div>
+          <div class="field">
+            <label>Type (AR) *</label>
+            <input [(ngModel)]="draft.typeAr" name="typeAr" required placeholder="رياضية" dir="rtl" />
+          </div>
+        </div>
+
+        <!-- Row: engine / power / emoji -->
+        <div class="row-3">
+          <div class="field">
+            <label>Engine *</label>
+            <input [(ngModel)]="draft.engine" name="engine" required placeholder="150cc" />
+          </div>
+          <div class="field">
+            <label>Power *</label>
+            <input [(ngModel)]="draft.power" name="power" required placeholder="14 hp" />
+          </div>
+          <div class="field">
+            <label>Emoji</label>
+            <input [(ngModel)]="draft.emoji" name="emoji" placeholder="🏍" />
+          </div>
+        </div>
+
+        <!-- Desc EN / AR -->
+        <div class="row-2">
+          <div class="field">
+            <label>Description (EN) *</label>
+            <textarea [(ngModel)]="draft.descEn" name="descEn" required rows="3" placeholder="Short English description"></textarea>
+          </div>
+          <div class="field">
+            <label>Description (AR) *</label>
+            <textarea [(ngModel)]="draft.descAr" name="descAr" required rows="3" placeholder="وصف قصير بالعربية" dir="rtl"></textarea>
+          </div>
+        </div>
+
+        <!-- Image URL -->
+        <div class="field">
+          <label>Main image URL *</label>
+          <input [(ngModel)]="draft.image" name="image" required placeholder="/uploads/bike.jpg" />
+        </div>
+
+        <!-- Features EN -->
+        <div class="field">
+          <label>Features (EN)</label>
+          <div class="tag-row">
+            @for (f of draft.featuresEn; track $index) {
+              <span class="tag">{{ f }} <button type="button" (click)="removeFeatEn($index)">×</button></span>
+            }
+            <input [(ngModel)]="featEnInput" name="_featEn" placeholder="Add feature…" (keydown.enter)="$event.preventDefault(); addFeatEn()" />
+            <button type="button" class="btn-sm" (click)="addFeatEn()">Add</button>
+          </div>
+        </div>
+
+        <!-- Features AR -->
+        <div class="field">
+          <label>Features (AR)</label>
+          <div class="tag-row" dir="rtl">
+            @for (f of draft.featuresAr; track $index) {
+              <span class="tag">{{ f }} <button type="button" (click)="removeFeatAr($index)">×</button></span>
+            }
+            <input [(ngModel)]="featArInput" name="_featAr" placeholder="أضف ميزة…" (keydown.enter)="$event.preventDefault(); addFeatAr()" />
+            <button type="button" class="btn-sm" (click)="addFeatAr()">إضافة</button>
+          </div>
+        </div>
+
+        <!-- Published / sort order -->
+        <div class="row-2">
+          <div class="field field-check">
+            <label class="check-label">
+              <input type="checkbox" [(ngModel)]="draft.published" name="published" />
+              Published
+            </label>
+          </div>
+          <div class="field">
+            <label>Sort order</label>
+            <input type="number" [(ngModel)]="draft.sortOrder" name="sortOrder" />
+          </div>
+        </div>
+
+        @if (error()) {
+          <p class="error">{{ error() }}</p>
+        }
+
+        <div class="modal-actions">
+          <button type="button" class="btn-cancel" (click)="cancelled.emit()">Cancel</button>
+          <button type="submit" class="btn-save" [disabled]="saving() || !f.valid">
+            {{ saving() ? 'Saving…' : 'Save bike' }}
+          </button>
+        </div>
+
+      </form>
+    </div>
+  </div>
+</div>
