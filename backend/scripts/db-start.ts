@@ -1,11 +1,7 @@
 /**
  * Boots the embedded Postgres server with UTF-8 encoding.
  *
- * When the data directory does not exist, we call pg_ctl initdb directly
- * with --encoding=UTF8 --locale=C so that Arabic / multilingual text works.
- * (The embedded-postgres wrapper doesn't expose these initdb flags, so we
- *  bypass it for initialisation only.)
- *
+ * Uses the correct platform binary (Linux / macOS / Windows) automatically.
  * Port 5434 avoids collisions with system Postgres (5432) and other services.
  */
 import * as fs   from 'fs';
@@ -14,11 +10,27 @@ import * as path from 'path';
 import { execFileSync } from 'child_process';
 import { buildDb, DB_DIR, DB_NAME, DB_USER, DB_PASSWORD, DB_PORT } from './embedded-db';
 
-const PG_BIN = path.resolve(
-  __dirname,
-  '../node_modules/@embedded-postgres/windows-x64/native/bin',
-);
-const PG_CTL = path.join(PG_BIN, 'pg_ctl.exe');
+// ── Resolve the correct pg_ctl binary for this OS ─────────────
+function getPgCtl(): string {
+  const platform = os.platform();
+  const arch     = os.arch();
+
+  const pkgMap: Record<string, string> = {
+    'linux-x64':   '@embedded-postgres/linux-x64',
+    'linux-arm64': '@embedded-postgres/linux-arm64',
+    'darwin-x64':  '@embedded-postgres/darwin-x64',
+    'darwin-arm64':'@embedded-postgres/darwin-arm64',
+    'win32-x64':   '@embedded-postgres/windows-x64',
+  };
+
+  const key = `${platform}-${arch}`;
+  const pkg  = pkgMap[key];
+  if (!pkg) throw new Error(`Unsupported platform: ${key}`);
+
+  const binDir  = path.resolve(__dirname, `../node_modules/${pkg}/native/bin`);
+  const exe     = platform === 'win32' ? 'pg_ctl.exe' : 'pg_ctl';
+  return path.join(binDir, exe);
+}
 
 (async () => {
   const pg = buildDb();
@@ -28,12 +40,12 @@ const PG_CTL = path.join(PG_BIN, 'pg_ctl.exe');
     console.log('[db] initialising data directory at', DB_DIR);
     fs.mkdirSync(DB_DIR, { recursive: true });
 
-    // Write password to a temp file (initdb requires --pwfile)
+    const pgCtl  = getPgCtl();
     const pwFile = path.join(os.tmpdir(), `pg_pw_${Date.now()}.txt`);
     fs.writeFileSync(pwFile, DB_PASSWORD, { encoding: 'utf8' });
 
     try {
-      execFileSync(PG_CTL, [
+      execFileSync(pgCtl, [
         'initdb',
         '-D', DB_DIR,
         '-o', [
@@ -49,19 +61,18 @@ const PG_CTL = path.join(PG_BIN, 'pg_ctl.exe');
     } finally {
       fs.unlinkSync(pwFile);
     }
+  }
 
-    // ── Start the server ─────────────────────────────────────
-    console.log('[db] starting embedded Postgres on port', DB_PORT);
-    await pg.start();
+  // ── Start the server ─────────────────────────────────────
+  console.log('[db] starting embedded Postgres on port', DB_PORT);
+  await pg.start();
 
-    // ── Create the application database ──────────────────────
-    console.log('[db] creating database', DB_NAME);
+  // ── Create the application database (first run only) ─────
+  try {
     await pg.createDatabase(DB_NAME);
-
-  } else {
-    // Data directory already exists — just start the server
-    console.log('[db] starting embedded Postgres on port', DB_PORT);
-    await pg.start();
+    console.log('[db] created database', DB_NAME);
+  } catch {
+    // already exists on subsequent runs — that's fine
   }
 
   console.log(`[db] ✅ ready — connect with: postgresql://${DB_USER}:${DB_PASSWORD}@localhost:${DB_PORT}/${DB_NAME}`);
