@@ -10,7 +10,7 @@
 }
 
 .loading { color: #666; padding: 2rem 0; }
-.error-msg { color: #ef9a9a; padding: 1rem; background: rgba(229,57,53,.1); border-radius: 8px; }
+.error-msg { color: #F5C08A; padding: 1rem; background: rgba(217,123,26,.1); border-radius: 8px; }
 
 // ── Stat cards ─────────────────────────────────────────────
 .stat-grid {
@@ -76,7 +76,7 @@
   .bike-name {
     display: flex;
     flex-direction: column;
-    .brand { font-size: 0.7rem; color: #e53935; font-weight: 700; text-transform: uppercase; }
+    .brand { font-size: 0.7rem; color: #D97B1A; font-weight: 700; text-transform: uppercase; }
     .model { color: #fff; font-weight: 600; }
   }
 
@@ -105,5 +105,5 @@
   font-weight: 500;
   transition: border-color 0.15s, color 0.15s;
 
-  &:hover { border-color: #e53935; color: #fff; }
+  &:hover { border-color: #D97B1A; color: #fff; }
 }

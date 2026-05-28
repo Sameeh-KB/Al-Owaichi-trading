@@ -8,20 +8,20 @@
 
 // ── Design tokens ───────────────────────────────────────
 :root {
-  // Brand / accent
-  --accent:         #ea580c;   /* orange-600 */
-  --accent-hover:   #c2410c;   /* orange-700 */
-  --accent-rgb:     234, 88, 12;
+  // Brand orange (exact colour from the Al Owaichi logo)
+  --accent:         #D97B1A;
+  --accent-hover:   #B8660F;
+  --accent-rgb:     217, 123, 26;
 
-  // Red CTA (Moto Elite inspired — high-contrast action colour)
-  --cta:            #dc2626;   /* red-600 */
-  --cta-hover:      #b91c1c;   /* red-700 */
-  --cta-rgb:        220, 38, 38;
+  // CTA = same orange (unified brand colour)
+  --cta:            #D97B1A;
+  --cta-hover:      #B8660F;
+  --cta-rgb:        217, 123, 26;
 
-  --navy:           #0f0f0f;   /* deep black — hero / detail hero bg */
-  --navy-2:         #1a1a1a;   /* card dark bg in hero overlays */
+  --navy:           #0f0f0f;
+  --navy-2:         #1a1a1a;
 
-  // Light mode surfaces  (white + orange)
+  // Light mode surfaces
   --bg:             #fafafa;
   --bg-alt:         #f4f4f4;
   --card:           #ffffff;
@@ -38,23 +38,23 @@
   --shadow-sm:    0 1px 3px rgba(0,0,0,.07), 0 2px 8px rgba(0,0,0,.05);
   --shadow-md:    0 4px 20px rgba(0,0,0,.10);
   --shadow-lg:    0 8px 40px rgba(0,0,0,.14);
-  --shadow-hover: 0 8px 32px rgba(220,38,38,.18);
+  --shadow-hover: 0 8px 32px rgba(217,123,26,.22);
 
   // Geometry
-  --radius:  0px;
+  --radius:    0px;
   --radius-sm: 0px;
-  --ease:    0.16s ease;
-  --ease-md: 0.24s ease;
+  --ease:      0.16s ease;
+  --ease-md:   0.24s ease;
 }
 
 [data-theme='dark'] {
-  --accent:         #f97316;
-  --accent-hover:   #ea580c;
-  --accent-rgb:     249, 115, 22;
+  --accent:         #E88C2A;
+  --accent-hover:   #D97B1A;
+  --accent-rgb:     232, 140, 42;
 
-  --cta:            #ef4444;
-  --cta-hover:      #dc2626;
-  --cta-rgb:        239, 68, 68;
+  --cta:            #E88C2A;
+  --cta-hover:      #D97B1A;
+  --cta-rgb:        232, 140, 42;
 
   --navy:           #080808;
   --navy-2:         #141414;
@@ -74,7 +74,7 @@
   --shadow-sm:    0 1px 3px rgba(0,0,0,.6), 0 2px 8px rgba(0,0,0,.45);
   --shadow-md:    0 4px 20px rgba(0,0,0,.65);
   --shadow-lg:    0 8px 40px rgba(0,0,0,.8);
-  --shadow-hover: 0 8px 32px rgba(239,68,68,.25);
+  --shadow-hover: 0 8px 32px rgba(232,140,42,.28);
 }
 
 // ── Base ────────────────────────────────────────────────
