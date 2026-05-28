@@ -8,30 +8,42 @@
   overflow: hidden;
 }
 
-// Grid / noise overlay
+// ── Logo watermark — light logo ghosted across the entire hero ─
+// The light logo (grey text + orange mark) at very low opacity
+// so the brand identity is literally the backdrop of the landing page.
+.hero-logo-watermark {
+  position: absolute;
+  inset: 0;
+  background: url('/logo-light.png') center/55% no-repeat;
+  opacity: 0.07;
+  pointer-events: none;
+  z-index: 0;
+  animation: breathe 12s ease-in-out infinite;
+}
+
+// Thin grid texture on top of watermark
 .hero-overlay {
   position: absolute;
   inset: 0;
   background-image:
-    linear-gradient(rgba(255,255,255,.025) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255,255,255,.025) 1px, transparent 1px);
+    linear-gradient(rgba(255,255,255,.018) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,.018) 1px, transparent 1px);
   background-size: 56px 56px;
   pointer-events: none;
-  z-index: 0;
+  z-index: 1;
 }
 
-// Diagonal red stripe — Moto Elite trademark
-.hero-stripe {
+// Warm orange radial glow — behind the right-side logo visual
+.hero-glow {
   position: absolute;
-  top: -60px;
-  right: -40px;
-  width: 520px;
-  height: 520px;
-  background: var(--cta);
-  opacity: .07;
-  transform: rotate(35deg);
+  right: -80px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 700px;
+  height: 700px;
+  background: radial-gradient(circle, rgba(217,123,26,.18) 0%, transparent 65%);
   pointer-events: none;
-  z-index: 0;
+  z-index: 1;
 }
 
 // ── Inner layout ───────────────────────────────────────
@@ -43,7 +55,7 @@
   padding-top: 80px;
   padding-bottom: 80px;
   position: relative;
-  z-index: 1;
+  z-index: 2;
 }
 
 // ── Left content ───────────────────────────────────────
@@ -84,13 +96,8 @@
   gap: 2px;
 }
 
-.hero-title-line1 {
-  color: rgba(255,255,255,.92);
-}
-
-.hero-title-line2 {
-  color: var(--cta);
-}
+.hero-title-line1 { color: rgba(255,255,255,.92); }
+.hero-title-line2 { color: var(--cta); }
 
 .hero-sub {
   font-size: clamp(13px, 1.5vw, 15px);
@@ -153,6 +160,7 @@
   text-transform: uppercase;
   border: 2px solid var(--cta);
   cursor: pointer;
+  text-decoration: none;
   font-family: inherit;
   transition: background-color var(--ease), border-color var(--ease), transform var(--ease);
 
@@ -190,69 +198,41 @@
   }
 }
 
-// ── Right emblem ──────────────────────
-.hero-emblem {
+// ── Right: nameless triangle mark — large with glowing drop shadow ─
+// The logo mark (orange + dark triangle) at a large size.
+// A multi-layer drop-shadow in the brand orange creates a dramatic
+// halo glow that bleeds into the dark background.
+.hero-logo-visual {
   position: relative;
-  width: 240px;
-  height: 240px;
   flex-shrink: 0;
   display: flex;
   align-items: center;
   justify-content: center;
-}
+  animation: float 6s ease-in-out infinite;
 
-.emblem-ring {
-  position: absolute;
-  border-radius: 50%;
-  border: 1px solid rgba(255,255,255,.07);
-
-  &--outer {
-    width: 100%;
-    height: 100%;
-    animation: spin 30s linear infinite;
-  }
-
-  &--mid {
-    width: 68%;
-    height: 68%;
-    animation: spin 20s linear infinite reverse;
-    border-color: rgba(220,38,38,.2);
+  img {
+    width: 420px;
+    height: auto;
+    display: block;
+    object-fit: contain;
+    filter:
+      drop-shadow(0 0  20px rgba(217, 123, 26, 0.90))
+      drop-shadow(0 0  60px rgba(217, 123, 26, 0.60))
+      drop-shadow(0 0 120px rgba(217, 123, 26, 0.35))
+      drop-shadow(0 0 200px rgba(217, 123, 26, 0.18));
+    opacity: 0.95;
   }
 }
 
-.emblem-core {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  width: 120px;
-  height: 120px;
-  background: var(--cta);
-  clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+// ── Animations ────────────────────────
+@keyframes float {
+  0%, 100% { transform: translateY(0px);   }
+  50%       { transform: translateY(-12px); }
 }
 
-.emblem-text {
-  font-size: 26px;
-  font-weight: 800;
-  color: #fff;
-  font-family: 'IBM Plex Mono', monospace;
-  letter-spacing: 1px;
-  line-height: 1;
-}
-
-.emblem-sub {
-  font-size: 8px;
-  font-weight: 700;
-  letter-spacing: 4px;
-  color: rgba(255,255,255,.7);
-  font-family: 'IBM Plex Mono', monospace;
-  text-transform: uppercase;
-  margin-top: 3px;
-}
-
-@keyframes spin {
-  from { transform: rotate(0deg); }
-  to   { transform: rotate(360deg); }
+@keyframes breathe {
+  0%, 100% { transform: scale(1);    opacity: 0.04; }
+  50%       { transform: scale(1.04); opacity: 0.06; }
 }
 
 // ── Stat bar ──────────────────────────
@@ -260,14 +240,13 @@
   background: rgba(255,255,255,.04);
   border-top: 1px solid rgba(255,255,255,.07);
   position: relative;
-  z-index: 1;
+  z-index: 2;
 
-  // Top accent line
   &::before {
     content: '';
     display: block;
     height: 2px;
-    background: linear-gradient(90deg, var(--cta) 0%, var(--accent) 50%, transparent 100%);
+    background: linear-gradient(90deg, var(--cta) 0%, rgba(217,123,26,.4) 60%, transparent 100%);
   }
 }
 
@@ -319,6 +298,7 @@
   .hero-inner    { direction: rtl; }
   .hero-title    { text-align: right; }
   .hero-sub      { text-align: right; }
+  .hero-glow     { right: auto; left: -80px; }
   .hero-overline {
     flex-direction: row-reverse;
     &::before { display: none; }
@@ -333,7 +313,7 @@
   }
   .brand-tags   { flex-direction: row-reverse; justify-content: flex-end; }
   .hero-actions { flex-direction: row-reverse; }
-  .hero-emblem  { display: none; }
+  .hero-logo-visual { display: none; }
 }
 
 // ── Responsive ────────────────────────
@@ -343,7 +323,22 @@
     padding-top: 60px;
     padding-bottom: 60px;
   }
-  .hero-emblem { display: none; }
+
+  .hero-logo-visual {
+    margin: 0 auto;
+    img { width: 300px; }
+  }
+
+  .hero-logo-watermark {
+    background-size: 85%;
+  }
+
+  .hero-glow {
+    right: 50%;
+    transform: translate(50%, -50%);
+    width: 500px;
+    height: 500px;
+  }
 }
 
 @media (max-width: 640px) {
@@ -351,9 +346,17 @@
   .stats         { gap: 0; flex-wrap: nowrap; }
   .stat-number   { font-size: 22px; }
   .stat-divider  { height: 28px; }
+
+  .hero-logo-visual img { width: 220px; }
 }
 
 @media (max-width: 480px) {
   .hero-actions { flex-direction: column; align-items: flex-start; }
   .btn-primary, .btn-ghost { width: 100%; justify-content: center; }
+  .hero-logo-visual { display: none; }
+
+  .hero-logo-watermark {
+    background-size: 130%;
+    opacity: 0.06;
+  }
 }
