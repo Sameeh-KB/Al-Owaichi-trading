@@ -40,52 +40,60 @@
           <span class="stat-label">Form inquiries</span>
         </div>
       </div>
+      <div class="stat-card">
+        <span class="stat-icon">🖼</span>
+        <div class="stat-body">
+          <span class="stat-value">{{ totalGallery | number }}</span>
+          <span class="stat-label">Gallery opens</span>
+        </div>
+      </div>
     </section>
 
     <!-- Top bikes table -->
     <section class="top-bikes">
       <h2>Top 5 bikes by engagement</h2>
-      <table>
-        <thead>
-          <tr>
-            <th>#</th>
-            <th>Bike</th>
-            <th>Views</th>
-            <th>Clicks</th>
-            <th>WhatsApp</th>
-            <th>Inquiries</th>
-            <th>Total</th>
-          </tr>
-        </thead>
-        <tbody>
-          @for (bike of topBikes; track bike.bikeId; let i = $index) {
+      @if (analytics().length === 0) {
+        <p class="empty-note">No events tracked yet — engagement data will appear here as visitors browse the site.</p>
+      } @else {
+        <table>
+          <thead>
             <tr>
-              <td class="rank">{{ i + 1 }}</td>
-              <td class="bike-name">
-                <span class="brand">{{ bike.brand }}</span>
-                <span class="model">{{ bike.model }}</span>
-              </td>
-              <td>{{ bike.totals['VIEW'] ?? 0 }}</td>
-              <td>{{ bike.totals['CARD_CLICK'] ?? 0 }}</td>
-              <td>{{ bike.totals['WHATSAPP'] ?? 0 }}</td>
-              <td>{{ bike.totals['INQUIRY'] ?? 0 }}</td>
-              <td class="total">{{ bike.total }}</td>
+              <th>#</th>
+              <th>Bike</th>
+              <th>Views</th>
+              <th>Clicks</th>
+              <th>WhatsApp</th>
+              <th>Inquiries</th>
+              <th>Gallery</th>
+              <th>Total</th>
             </tr>
-          } @empty {
-            <tr><td colspan="7" class="empty">No analytics data yet.</td></tr>
-          }
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            @for (bike of topBikes; track bike.bikeId; let i = $index) {
+              <tr>
+                <td class="rank">{{ i + 1 }}</td>
+                <td class="bike-name">
+                  <span class="brand">{{ bike.brand }}</span>
+                  <span class="model">{{ bike.model }}</span>
+                </td>
+                <td>{{ bike.views }}</td>
+                <td>{{ bike.cardClicks }}</td>
+                <td>{{ bike.whatsapp }}</td>
+                <td>{{ bike.inquiries }}</td>
+                <td>{{ bike.gallery }}</td>
+                <td class="total">{{ bike.total }}</td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      }
     </section>
 
     <!-- Quick links -->
     <section class="quick-links">
-      <a routerLink="/admin/bikes" class="quick-link">
-        <span>🏍</span> Manage Bikes
-      </a>
-      <a routerLink="/admin/inquiries" class="quick-link">
-        <span>📬</span> View Inquiries
-      </a>
+      <a routerLink="/admin/bikes"     class="quick-link"><span>🏍</span> Manage Bikes</a>
+      <a routerLink="/admin/inquiries" class="quick-link"><span>📬</span> View Inquiries</a>
+      <a routerLink="/admin/uploads"   class="quick-link"><span>🖼</span> Media Library</a>
     </section>
 
   }

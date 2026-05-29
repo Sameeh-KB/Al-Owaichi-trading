@@ -2,6 +2,8 @@ import {
   Controller,
   Delete,
   Get,
+  HttpCode,
+  HttpStatus,
   MaxFileSizeValidator,
   Param,
   ParseFilePipe,
@@ -14,6 +16,7 @@ import {
 import { FileInterceptor } from '@nestjs/platform-express';
 import { diskStorage } from 'multer';
 import { extname } from 'path';
+import * as fs from 'fs';
 import { v4 as uuidv4 } from 'uuid';
 import { ConfigService } from '@nestjs/config';
 import { UploadsService } from './uploads.service';
@@ -33,7 +36,8 @@ export class UploadsController {
     FileInterceptor('file', {
       storage: diskStorage({
         destination: (req, file, cb) => {
-          const dir = (req as any).uploadDir ?? './uploads';
+          const dir = process.env.UPLOAD_DIR ?? './uploads';
+          fs.mkdirSync(dir, { recursive: true });
           cb(null, dir);
         },
         filename: (req, file, cb) => {
@@ -41,14 +45,21 @@ export class UploadsController {
           cb(null, unique);
         },
       }),
+      fileFilter: (req, file, cb) => {
+        const allowed = ['image/jpeg', 'image/png', 'image/webp', 'image/gif'];
+        if (allowed.includes(file.mimetype)) {
+          cb(null, true);
+        } else {
+          cb(new Error('Only image files are allowed (jpeg, png, webp, gif)'), false);
+        }
+      },
+      limits: { fileSize: 10 * 1024 * 1024 },
     }),
   )
   async upload(
     @UploadedFile(
       new ParseFilePipe({
-        validators: [
-          new MaxFileSizeValidator({ maxSize: 10 * 1024 * 1024 }), // 10 MB hard cap
-        ],
+        validators: [new MaxFileSizeValidator({ maxSize: 10 * 1024 * 1024 })],
       }),
     )
     file: Express.Multer.File,
@@ -65,6 +76,7 @@ export class UploadsController {
 
   /** DELETE /api/admin/uploads/:id */
   @Delete(':id')
+  @HttpCode(HttpStatus.OK)
   remove(@Param('id') id: string) {
     return this.uploadsService.remove(id);
   }

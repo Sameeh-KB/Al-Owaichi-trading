@@ -1,0 +1,127 @@
+.page {
+  padding: 2rem;
+  max-width: 1200px;
+}
+
+.page-header {
+  display: flex; align-items: center; gap: 1rem; flex-wrap: wrap;
+  margin-bottom: 1.75rem;
+
+  h1 { margin: 0; font-size: 1.6rem; color: #fff; flex: 1; }
+
+  .subtitle { margin: 0; color: #666; font-size: 0.88rem; flex-basis: 100%; order: 2; }
+}
+
+.btn-upload {
+  padding: 0.65rem 1.2rem;
+  background: #D97B1A;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  font-weight: 700;
+  cursor: pointer;
+  font-size: 0.9rem;
+  &:hover:not(:disabled) { background: #B8660F; }
+  &:disabled { opacity: 0.5; cursor: not-allowed; }
+}
+
+.hidden-file-input { display: none; }
+
+// ── States ───────────────────────────────────────────────────
+.loading, .empty {
+  text-align: center; color: #666; padding: 4rem 2rem; font-size: 0.95rem;
+}
+
+.error-msg {
+  padding: 0.75rem 1.1rem;
+  background: rgba(217,123,26,.1);
+  border: 1px solid rgba(217,123,26,.3);
+  border-radius: 8px;
+  color: #F5C08A;
+  font-size: 0.88rem;
+  margin-bottom: 1.25rem;
+}
+
+// ── Grid ─────────────────────────────────────────────────────
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
+  gap: 1.1rem;
+}
+
+// ── Card ─────────────────────────────────────────────────────
+.card {
+  background: #1a1a1a;
+  border: 1px solid #2a2a2a;
+  border-radius: 10px;
+  overflow: hidden;
+  transition: border-color 0.2s;
+  &:hover { border-color: #D97B1A; }
+}
+
+.thumb-wrap {
+  aspect-ratio: 4/3;
+  background: #111;
+  overflow: hidden;
+}
+
+.thumb {
+  width: 100%; height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.3s;
+  .card:hover & { transform: scale(1.04); }
+}
+
+.card-body {
+  padding: 0.65rem 0.75rem;
+}
+
+.filename {
+  margin: 0 0 0.2rem;
+  font-size: 0.8rem;
+  color: #ccc;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.meta {
+  margin: 0 0 0.55rem;
+  font-size: 0.75rem;
+  color: #555;
+}
+
+.card-actions {
+  display: flex; align-items: center; gap: 0.4rem;
+}
+
+.btn-copy {
+  flex: 1;
+  padding: 0.35rem 0.55rem;
+  background: #222;
+  border: 1px solid #333;
+  border-radius: 6px;
+  color: #aaa;
+  font-size: 0.78rem;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s, border-color 0.2s;
+  &:hover { background: #2a2a2a; color: #fff; }
+  &.copied {
+    background: rgba(217,123,26,.15);
+    border-color: rgba(217,123,26,.4);
+    color: #D97B1A;
+  }
+}
+
+.btn-delete {
+  padding: 0.35rem 0.5rem;
+  background: #1e1e1e;
+  border: 1px solid #333;
+  border-radius: 6px;
+  color: #888;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: background 0.2s, color 0.2s;
+  &:hover { background: rgba(180,40,40,.2); color: #e06060; border-color: rgba(180,40,40,.4); }
+}

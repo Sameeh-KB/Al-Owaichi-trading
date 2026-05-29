@@ -17,17 +17,18 @@ export class AdminDashboard implements OnInit {
   loading   = signal(true);
   error     = signal('');
 
-  get totalViews()    { return this.analytics().reduce((s, b) => s + (b.totals['VIEW'] ?? 0), 0); }
-  get totalClicks()   { return this.analytics().reduce((s, b) => s + (b.totals['CARD_CLICK'] ?? 0), 0); }
-  get totalWhatsApp() { return this.analytics().reduce((s, b) => s + (b.totals['WHATSAPP'] ?? 0), 0); }
-  get totalInquiry()  { return this.analytics().reduce((s, b) => s + (b.totals['INQUIRY'] ?? 0), 0); }
+  get totalViews()    { return this.analytics().reduce((s, b) => s + b.views,      0); }
+  get totalClicks()   { return this.analytics().reduce((s, b) => s + b.cardClicks, 0); }
+  get totalWhatsApp() { return this.analytics().reduce((s, b) => s + b.whatsapp,   0); }
+  get totalInquiry()  { return this.analytics().reduce((s, b) => s + b.inquiries,  0); }
+  get totalGallery()  { return this.analytics().reduce((s, b) => s + b.gallery,    0); }
 
   get topBikes() { return [...this.analytics()].sort((a, b) => b.total - a.total).slice(0, 5); }
 
   ngOnInit() {
     this.api.getAnalytics().subscribe({
-      next: (data) => { this.analytics.set(data); this.loading.set(false); },
-      error: () => { this.error.set('Could not load analytics'); this.loading.set(false); },
+      next:  (data) => { this.analytics.set(data); this.loading.set(false); },
+      error: ()     => { this.error.set('Could not load analytics'); this.loading.set(false); },
     });
   }
 }

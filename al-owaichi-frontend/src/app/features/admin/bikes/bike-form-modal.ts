@@ -1,9 +1,9 @@
 import {
-  Component, EventEmitter, inject, Input, OnChanges, Output, signal
+  Component, EventEmitter, inject, Input, OnChanges, Output, signal, ViewChild, ElementRef
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { AdminApiService, AdminBike } from '../services/admin-api.service';
+import { AdminApiService, AdminBike, UploadFile } from '../services/admin-api.service';
 
 type BikeDraft = Partial<AdminBike>;
 
@@ -21,8 +21,11 @@ export class BikeFormModal implements OnChanges {
   @Output() saved     = new EventEmitter<void>();
   @Output() cancelled = new EventEmitter<void>();
 
-  saving = signal(false);
-  error  = signal('');
+  @ViewChild('fileInput') fileInput!: ElementRef<HTMLInputElement>;
+
+  saving    = signal(false);
+  uploading = signal(false);
+  error     = signal('');
 
   draft: BikeDraft = this.blank();
 
@@ -47,7 +50,7 @@ export class BikeFormModal implements OnChanges {
 
   get title() { return this.bike ? 'Edit bike' : 'Add bike'; }
 
-  // ── tag inputs ──────────────────────────────────────────
+  // ── Tag inputs ──────────────────────────────────────────
   featEnInput = '';
   featArInput = '';
 
@@ -63,7 +66,7 @@ export class BikeFormModal implements OnChanges {
   }
   removeFeatAr(i: number) { this.draft.featuresAr = this.draft.featuresAr?.filter((_, idx) => idx !== i); }
 
-  // ── auto-slug ────────────────────────────────────────────
+  // ── Auto-slug ────────────────────────────────────────────
   autoSlug() {
     if (!this.bike) {
       this.draft.slug = `${this.draft.brand}-${this.draft.model}`
@@ -73,7 +76,26 @@ export class BikeFormModal implements OnChanges {
     }
   }
 
-  // ── submit ────────────────────────────────────────────────
+  // ── Image upload ─────────────────────────────────────────
+  triggerUpload() { this.fileInput.nativeElement.click(); }
+
+  onFileSelected(event: Event) {
+    const file = (event.target as HTMLInputElement).files?.[0];
+    if (!file) return;
+    this.uploading.set(true);
+    this.api.uploadFile(file).subscribe({
+      next: (upload: UploadFile) => {
+        this.draft.image = upload.url;
+        this.uploading.set(false);
+      },
+      error: () => {
+        this.error.set('Image upload failed');
+        this.uploading.set(false);
+      },
+    });
+  }
+
+  // ── Submit ────────────────────────────────────────────────
   submit() {
     this.saving.set(true);
     this.error.set('');
@@ -83,7 +105,7 @@ export class BikeFormModal implements OnChanges {
       : this.api.createBike(this.draft);
 
     req.subscribe({
-      next: () => { this.saving.set(false); this.saved.emit(); },
+      next:  () => { this.saving.set(false); this.saved.emit(); },
       error: (err) => {
         this.error.set(err?.error?.message ?? 'Save failed');
         this.saving.set(false);

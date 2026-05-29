@@ -53,6 +53,24 @@
           </div>
         </div>
 
+        <!-- Main image with upload -->
+        <div class="field">
+          <label>Main image *</label>
+          <div class="image-row">
+            @if (draft.image) {
+              <img class="img-preview" [src]="draft.image" alt="preview" />
+            }
+            <div class="image-inputs">
+              <input [(ngModel)]="draft.image" name="image" required placeholder="/uploads/bike.jpg" />
+              <button type="button" class="btn-upload" (click)="triggerUpload()" [disabled]="uploading()">
+                {{ uploading() ? 'Uploading…' : '⬆ Upload image' }}
+              </button>
+            </div>
+          </div>
+          <input #fileInput type="file" accept="image/*" class="hidden-file-input"
+                 (change)="onFileSelected($event)" />
+        </div>
+
         <!-- Desc EN / AR -->
         <div class="row-2">
           <div class="field">
@@ -65,20 +83,27 @@
           </div>
         </div>
 
-        <!-- Image URL -->
-        <div class="field">
-          <label>Main image URL *</label>
-          <input [(ngModel)]="draft.image" name="image" required placeholder="/uploads/bike.jpg" />
+        <!-- Intro EN / AR -->
+        <div class="row-2">
+          <div class="field">
+            <label>Intro (EN)</label>
+            <textarea [(ngModel)]="draft.introEn" name="introEn" rows="3" placeholder="Longer English introduction"></textarea>
+          </div>
+          <div class="field">
+            <label>Intro (AR)</label>
+            <textarea [(ngModel)]="draft.introAr" name="introAr" rows="3" placeholder="مقدمة بالعربية" dir="rtl"></textarea>
+          </div>
         </div>
 
         <!-- Features EN -->
         <div class="field">
           <label>Features (EN)</label>
           <div class="tag-row">
-            @for (f of draft.featuresEn; track $index) {
-              <span class="tag">{{ f }} <button type="button" (click)="removeFeatEn($index)">×</button></span>
+            @for (feat of draft.featuresEn; track $index) {
+              <span class="tag">{{ feat }} <button type="button" (click)="removeFeatEn($index)">×</button></span>
             }
-            <input [(ngModel)]="featEnInput" name="_featEn" placeholder="Add feature…" (keydown.enter)="$event.preventDefault(); addFeatEn()" />
+            <input [(ngModel)]="featEnInput" name="_featEn" placeholder="Add feature…"
+                   (keydown.enter)="$event.preventDefault(); addFeatEn()" />
             <button type="button" class="btn-sm" (click)="addFeatEn()">Add</button>
           </div>
         </div>
@@ -87,10 +112,11 @@
         <div class="field">
           <label>Features (AR)</label>
           <div class="tag-row" dir="rtl">
-            @for (f of draft.featuresAr; track $index) {
-              <span class="tag">{{ f }} <button type="button" (click)="removeFeatAr($index)">×</button></span>
+            @for (feat of draft.featuresAr; track $index) {
+              <span class="tag">{{ feat }} <button type="button" (click)="removeFeatAr($index)">×</button></span>
             }
-            <input [(ngModel)]="featArInput" name="_featAr" placeholder="أضف ميزة…" (keydown.enter)="$event.preventDefault(); addFeatAr()" />
+            <input [(ngModel)]="featArInput" name="_featAr" placeholder="أضف ميزة…"
+                   (keydown.enter)="$event.preventDefault(); addFeatAr()" />
             <button type="button" class="btn-sm" (click)="addFeatAr()">إضافة</button>
           </div>
         </div>

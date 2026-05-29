@@ -8,7 +8,7 @@ import type { Bike } from '@prisma/client';
 import { CreateBikeDto } from './dto/create-bike.dto';
 import { UpdateBikeDto } from './dto/update-bike.dto';
 
-/** Shape the frontend Angular model expects (snake_case bilingual fields) */
+/** Shape the public Angular catalog expects (snake_case bilingual fields) */
 function mapBike(b: Bike) {
   return {
     id:          b.id,
@@ -25,6 +25,34 @@ function mapBike(b: Bike) {
     intro_ar:    b.introAr,
     features_en: b.featuresEn,
     features_ar: b.featuresAr,
+    specs:       b.specs,
+    emoji:       b.emoji,
+    image:       b.image,
+    gallery:     b.gallery,
+    published:   b.published,
+    sortOrder:   b.sortOrder,
+    createdAt:   b.createdAt,
+    updatedAt:   b.updatedAt,
+  };
+}
+
+/** Shape the admin panel expects — camelCase throughout (matches DTO and Angular interface) */
+function mapBikeAdmin(b: Bike) {
+  return {
+    id:          b.id,
+    slug:        b.slug,
+    brand:       b.brand,
+    model:       b.model,
+    typeEn:      b.typeEn,
+    typeAr:      b.typeAr,
+    engine:      b.engine,
+    power:       b.power,
+    descEn:      b.descEn,
+    descAr:      b.descAr,
+    introEn:     b.introEn,
+    introAr:     b.introAr,
+    featuresEn:  b.featuresEn,
+    featuresAr:  b.featuresAr,
     specs:       b.specs,
     emoji:       b.emoji,
     image:       b.image,
@@ -62,13 +90,13 @@ export class BikesService {
     const bikes = await this.prisma.bike.findMany({
       orderBy: [{ sortOrder: 'asc' }, { createdAt: 'asc' }],
     });
-    return bikes.map(mapBike);
+    return bikes.map(mapBikeAdmin);
   }
 
   async findOne(id: string) {
     const bike = await this.prisma.bike.findUnique({ where: { id } });
     if (!bike) throw new NotFoundException('Bike not found');
-    return mapBike(bike);
+    return mapBikeAdmin(bike);
   }
 
   async create(dto: CreateBikeDto) {
@@ -78,7 +106,7 @@ export class BikesService {
     if (exists) throw new ConflictException(`Slug "${dto.slug}" already exists`);
 
     const bike = await this.prisma.bike.create({ data: dto });
-    return mapBike(bike);
+    return mapBikeAdmin(bike);
   }
 
   async update(id: string, dto: UpdateBikeDto) {
@@ -94,7 +122,7 @@ export class BikesService {
     }
 
     const bike = await this.prisma.bike.update({ where: { id }, data: dto });
-    return mapBike(bike);
+    return mapBikeAdmin(bike);
   }
 
   async remove(id: string) {

@@ -40,13 +40,18 @@ export interface AdminInquiry {
   bike: { id: string; brand: string; model: string; slug: string } | null;
 }
 
+/** Matches the actual API response from AnalyticsService.summary() */
 export interface AnalyticsSummary {
-  bikeId: string;
-  slug: string;
-  brand: string;
-  model: string;
-  totals: Record<string, number>;
-  total: number;
+  bikeId:     string | null;
+  slug:       string | null;
+  brand:      string | null;
+  model:      string | null;
+  views:      number;
+  cardClicks: number;
+  whatsapp:   number;
+  inquiries:  number;
+  gallery:    number;
+  total:      number;
 }
 
 export interface UploadFile {
@@ -64,11 +69,11 @@ export class AdminApiService {
   private base = `${environment.apiBase}/admin`;
 
   // ── Bikes ──────────────────────────────────────────────────
-  getBikes()                            { return this.http.get<AdminBike[]>(`${this.base}/bikes`); }
-  getBike(id: string)                   { return this.http.get<AdminBike>(`${this.base}/bikes/${id}`); }
-  createBike(body: Partial<AdminBike>)  { return this.http.post<AdminBike>(`${this.base}/bikes`, body); }
+  getBikes()                             { return this.http.get<AdminBike[]>(`${this.base}/bikes`); }
+  getBike(id: string)                    { return this.http.get<AdminBike>(`${this.base}/bikes/${id}`); }
+  createBike(body: Partial<AdminBike>)   { return this.http.post<AdminBike>(`${this.base}/bikes`, body); }
   updateBike(id: string, body: Partial<AdminBike>) { return this.http.patch<AdminBike>(`${this.base}/bikes/${id}`, body); }
-  deleteBike(id: string)                { return this.http.delete<void>(`${this.base}/bikes/${id}`); }
+  deleteBike(id: string)                 { return this.http.delete<void>(`${this.base}/bikes/${id}`); }
 
   // ── Inquiries ──────────────────────────────────────────────
   getInquiries(status?: string) {
@@ -89,11 +94,11 @@ export class AdminApiService {
   }
 
   // ── Uploads ───────────────────────────────────────────────
-  getUploads()             { return this.http.get<UploadFile[]>(`${environment.apiBase}/uploads`); }
-  deleteUpload(id: string) { return this.http.delete<void>(`${environment.apiBase}/uploads/${id}`); }
+  getUploads()             { return this.http.get<UploadFile[]>(`${this.base}/uploads`); }
+  deleteUpload(id: string) { return this.http.delete<void>(`${this.base}/uploads/${id}`); }
   uploadFile(file: File) {
     const fd = new FormData();
     fd.append('file', file);
-    return this.http.post<UploadFile>(`${environment.apiBase}/uploads`, fd);
+    return this.http.post<UploadFile>(`${this.base}/uploads`, fd);
   }
 }

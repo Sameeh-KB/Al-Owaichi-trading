@@ -24,6 +24,10 @@ export const adminRoutes: Routes = [
         path: 'inquiries',
         loadComponent: () => import('./inquiries/inquiries').then(m => m.AdminInquiries),
       },
+      {
+        path: 'uploads',
+        loadComponent: () => import('./uploads/uploads').then(m => m.AdminUploads),
+      },
     ],
   },
 ];

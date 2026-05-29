@@ -1,0 +1,43 @@
+<div class="page">
+  <header class="page-header">
+    <h1>Media Library</h1>
+    <p class="subtitle">All uploaded images</p>
+    <button class="btn-upload" (click)="triggerUpload()" [disabled]="uploading()">
+      {{ uploading() ? 'Uploading…' : '⬆ Upload images' }}
+    </button>
+    <input #fileInput type="file" accept="image/*" multiple class="hidden-file-input"
+           (change)="onFileSelected($event)" />
+  </header>
+
+  @if (error()) {
+    <p class="error-msg">{{ error() }}</p>
+  }
+
+  @if (loading()) {
+    <div class="loading">Loading media…</div>
+  } @else if (uploads().length === 0) {
+    <div class="empty">No uploads yet. Click "Upload images" to add your first file.</div>
+  } @else {
+    <div class="grid">
+      @for (file of uploads(); track file.id) {
+        <div class="card">
+          <div class="thumb-wrap">
+            <img class="thumb" [src]="file.url" [alt]="file.filename" loading="lazy" />
+          </div>
+          <div class="card-body">
+            <p class="filename" [title]="file.filename">{{ file.filename }}</p>
+            <p class="meta">{{ formatBytes(file.size) }}</p>
+            <div class="card-actions">
+              <button class="btn-copy"
+                      [class.copied]="copied() === file.url"
+                      (click)="copyUrl(file.url)">
+                {{ copied() === file.url ? '✓ Copied' : '📋 Copy URL' }}
+              </button>
+              <button class="btn-delete" (click)="confirmDelete(file)">🗑</button>
+            </div>
+          </div>
+        </div>
+      }
+    </div>
+  }
+</div>
