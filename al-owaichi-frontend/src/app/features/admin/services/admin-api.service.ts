@@ -21,6 +21,7 @@ export interface AdminBike {
   emoji: string;
   image: string;
   gallery: string[];
+  inStock: boolean;
   published: boolean;
   sortOrder: number;
   createdAt: string;

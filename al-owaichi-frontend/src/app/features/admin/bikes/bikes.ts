@@ -52,4 +52,11 @@ export class AdminBikes implements OnInit {
       error: () => alert('Update failed'),
     });
   }
+
+  toggleInStock(bike: AdminBike) {
+    this.api.updateBike(bike.id, { inStock: !bike.inStock }).subscribe({
+      next: (updated) => this.bikes.update(list => list.map(b => b.id === updated.id ? updated : b)),
+      error: () => alert('Update failed'),
+    });
+  }
 }

@@ -44,7 +44,7 @@ export class BikeFormModal implements OnChanges {
       featuresEn: [], featuresAr: [],
       specs: [],
       emoji: '🏍', image: '', gallery: [],
-      published: true, sortOrder: 0,
+      inStock: true, published: true, sortOrder: 0,
     };
   }
 

@@ -2,7 +2,9 @@
   <div class="detail">
 
     <!-- ── Dark hero ── full-width image with overlay text ──────── -->
-    <section class="detail-hero">
+    <section class="detail-hero"
+             [class.photo-mode]="photoMode()"
+             (click)="togglePhotoMode()">
 
       <!-- Background image -->
       <div class="detail-hero-bg">
@@ -10,8 +12,17 @@
         <div class="detail-hero-overlay"></div>
       </div>
 
-      <!-- Content over image -->
-      <div class="container detail-hero-content">
+      <!-- Photo-mode hint icon -->
+      <div class="photo-mode-hint" aria-hidden="true">
+        @if (photoMode()) {
+          <span class="hint-icon">✕</span>
+        } @else {
+          <span class="hint-icon">🔍</span>
+        }
+      </div>
+
+      <!-- Content over image — stop propagation so buttons work normally -->
+      <div class="container detail-hero-content" (click)="$event.stopPropagation()">
 
         <!-- Back link -->
         <a class="back-link" [routerLink]="['/']" fragment="catalog">
@@ -29,7 +40,10 @@
             <span class="brand-chip">{{ b.brand.toUpperCase() }}</span>
             {{ type() }}
           </span>
-          <h1 class="detail-title">{{ b.model }}</h1>
+          <h1 class="detail-title">
+            <span class="title-brand">{{ b.brand.toUpperCase() }}</span>
+            {{ b.model }}
+          </h1>
           <p class="detail-intro">{{ intro() }}</p>
 
           <!-- Spec chips strip -->
@@ -50,6 +64,14 @@
               </div>
             </div>
           </div>
+
+          <!-- Out-of-stock banner -->
+          @if (b.inStock === false) {
+            <div class="oos-banner">
+              <span class="oos-icon">⚠</span>
+              <span>Currently out of stock — inquire for availability</span>
+            </div>
+          }
 
           <!-- CTA -->
           <a class="cta-inquire"

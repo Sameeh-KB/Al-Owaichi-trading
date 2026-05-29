@@ -121,8 +121,14 @@
           </div>
         </div>
 
-        <!-- Published / sort order -->
-        <div class="row-2">
+        <!-- In stock / Published / sort order -->
+        <div class="row-3">
+          <div class="field field-check">
+            <label class="check-label">
+              <input type="checkbox" [(ngModel)]="draft.inStock" name="inStock" />
+              In stock
+            </label>
+          </div>
           <div class="field field-check">
             <label class="check-label">
               <input type="checkbox" [(ngModel)]="draft.published" name="published" />

@@ -29,6 +29,10 @@ export class BikeDetail {
   /** Lightbox-style active gallery image */
   protected readonly activeImage = signal<string>('');
 
+  /** Photo-only mode — hides text overlay so user can see the full image */
+  protected readonly photoMode = signal(false);
+  togglePhotoMode(): void { this.photoMode.update(v => !v); }
+
   protected readonly intro = computed(() => {
     const b = this.bike();
     if (!b) return '';

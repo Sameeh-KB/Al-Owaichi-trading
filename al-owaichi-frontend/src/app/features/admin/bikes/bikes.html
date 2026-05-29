@@ -19,6 +19,7 @@
             <th>Bike</th>
             <th>Engine</th>
             <th>Type</th>
+            <th>Stock</th>
             <th>Status</th>
             <th>Order</th>
             <th>Actions</th>
@@ -40,6 +41,17 @@
               <td>
                 <button
                   class="badge"
+                  [class.in-stock]="bike.inStock"
+                  [class.out-of-stock]="!bike.inStock"
+                  (click)="toggleInStock(bike)"
+                  title="Click to toggle stock"
+                >
+                  {{ bike.inStock ? 'In Stock' : 'Out of Stock' }}
+                </button>
+              </td>
+              <td>
+                <button
+                  class="badge"
                   [class.published]="bike.published"
                   [class.draft]="!bike.published"
                   (click)="togglePublished(bike)"
@@ -55,7 +67,7 @@
               </td>
             </tr>
           } @empty {
-            <tr><td colspan="6" class="empty">No bikes yet. <button (click)="openCreate()">Add the first one.</button></td></tr>
+            <tr><td colspan="7" class="empty">No bikes yet. <button (click)="openCreate()">Add the first one.</button></td></tr>
           }
         </tbody>
       </table>

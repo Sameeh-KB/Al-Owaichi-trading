@@ -26,6 +26,7 @@ export interface Bike {
   emoji:       string;
   image:       string;
   gallery?:    string[];
+  inStock?:    boolean;
 }
 
 export const BRAND_COLORS: Record<BrandKey, string> = {

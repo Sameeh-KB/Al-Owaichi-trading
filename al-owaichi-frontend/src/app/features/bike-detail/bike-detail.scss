@@ -10,6 +10,18 @@
   overflow: hidden;
   background: var(--navy);
   color: #fff;
+  cursor: pointer;         // hint that hero is clickable
+
+  // ── Photo mode — click background to reveal full photo ──
+  &.photo-mode {
+    .detail-hero-overlay { opacity: 0; }
+    .detail-hero-bg img  { opacity: 1; }
+    .detail-hero-content { opacity: 0; pointer-events: none; }
+    .photo-mode-hint     { opacity: 1; }
+  }
+
+  // Restore pointer on content so links/buttons work
+  .detail-hero-content { cursor: auto; }
 }
 
 .detail-hero-bg {
@@ -24,6 +36,7 @@
     object-position: center;
     display: block;
     opacity: .45;
+    transition: opacity 0.5s ease;
   }
 }
 
@@ -36,6 +49,32 @@
     rgba(0,0,0,.55) 50%,
     rgba(0,0,0,.85) 100%
   );
+  transition: opacity 0.5s ease;
+}
+
+// ── Photo-mode hint icon ─────────────────────────────
+.photo-mode-hint {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  z-index: 3;
+  width: 36px;
+  height: 36px;
+  background: rgba(0,0,0,.5);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  pointer-events: none;
+  .hint-icon { font-size: 14px; line-height: 1; }
+}
+
+.detail-hero:hover .photo-mode-hint {
+  opacity: 0.6;
 }
 
 // Uniform top stripe — same colour for all bikes
@@ -56,6 +95,7 @@
   display: flex;
   flex-direction: column;
   gap: 24px;
+  transition: opacity 0.4s ease;
 }
 
 // ── Back link ─────────────────────────
@@ -104,6 +144,17 @@
   font-family: 'IBM Plex Mono', monospace;
 }
 
+.title-brand {
+  display: block;
+  font-size: clamp(11px, 1.4vw, 14px);
+  font-weight: 700;
+  letter-spacing: 3px;
+  color: var(--cta);
+  font-family: 'IBM Plex Mono', monospace;
+  margin-bottom: 6px;
+  opacity: .9;
+}
+
 .detail-title {
   font-size: clamp(32px, 5vw, 56px);
   font-weight: 800;
@@ -112,6 +163,27 @@
   line-height: 1.0;
   margin-bottom: 16px;
 }
+
+// ── Out-of-stock banner ──────────────────────────────
+.oos-banner {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 18px;
+  background: rgba(185,28,28,.25);
+  border: 1px solid rgba(220,60,60,.4);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  color: #fca5a5;
+  font-size: 11.5px;
+  font-weight: 600;
+  letter-spacing: .5px;
+  margin-bottom: 8px;
+  font-family: 'IBM Plex Mono', monospace;
+  align-self: flex-start;
+}
+
+.oos-icon { font-size: 14px; opacity: .85; flex-shrink: 0; }
 
 .detail-intro {
   font-size: 15px;

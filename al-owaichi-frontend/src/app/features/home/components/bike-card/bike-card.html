@@ -25,13 +25,21 @@
 
       <!-- Type badge — top right -->
       <span class="card-type-badge">{{ type() }}</span>
+
+      <!-- Out of stock ribbon -->
+      @if (bike().inStock === false) {
+        <span class="card-oos-ribbon">Out of Stock</span>
+      }
     </div>
   </a>
 
   <!-- Card body -->
   <div class="card-body">
     <a class="card-title-link" [routerLink]="['/bike', bike().slug]" (click)="onCardClick()">
-      <h3 class="card-model">{{ bike().model }}</h3>
+      <h3 class="card-model">
+        <span class="card-model-brand">{{ bike().brand.toUpperCase() }}</span>
+        {{ bike().model }}
+      </h3>
     </a>
 
     <!-- Spec strip -->

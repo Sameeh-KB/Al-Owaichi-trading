@@ -79,6 +79,10 @@ export class CreateBikeDto {
 
   @IsOptional()
   @IsBoolean()
+  inStock?: boolean;
+
+  @IsOptional()
+  @IsBoolean()
   published?: boolean;
 
   @IsOptional()

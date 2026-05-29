@@ -87,6 +87,27 @@
   font-family: 'IBM Plex Mono', monospace;
 }
 
+// Out-of-stock ribbon — diagonal across top-left corner
+.card-oos-ribbon {
+  position: absolute;
+  top: 14px;
+  inset-inline-start: -28px;
+  width: 110px;
+  padding: 5px 0;
+  background: #b91c1c;
+  color: #fff;
+  font-size: 7.5px;
+  font-weight: 700;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+  text-align: center;
+  transform: rotate(-38deg);
+  transform-origin: center;
+  z-index: 3;
+  font-family: 'IBM Plex Mono', monospace;
+  pointer-events: none;
+}
+
 // Type badge — top-right, same uniform dark treatment
 .card-type-badge {
   position: absolute;
@@ -129,6 +150,18 @@
   transition: color var(--ease);
 
   .card-title-link:hover & { color: var(--cta); }
+}
+
+.card-model-brand {
+  display: block;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  color: var(--cta);
+  text-transform: uppercase;
+  font-family: 'IBM Plex Mono', monospace;
+  margin-bottom: 3px;
+  opacity: .85;
 }
 
 .card-specs {

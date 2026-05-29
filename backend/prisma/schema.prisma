@@ -82,6 +82,7 @@ model Bike {
   image       String
   gallery     String[]
 
+  inStock     Boolean  @default(true)
   published   Boolean  @default(true)
   sortOrder   Int      @default(0)
 
