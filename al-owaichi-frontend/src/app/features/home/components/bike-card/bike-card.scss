@@ -30,22 +30,40 @@
 .card-img-wrap {
   position: relative;
   height: 220px;
-  background: var(--spec-bg);
+  // Staged dark background that makes cut-out PNG bikes pop like studio shots
+  background:
+    radial-gradient(ellipse 80% 70% at 50% 80%, #1f1f1f 0%, #0a0a0a 100%);
   overflow: hidden;
 }
 
 .card-img {
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  object-fit: contain;        // show the whole bike — no cropping
+  padding: 14px 10px 10px;    // breathing room so the bike doesn't touch edges
   display: block;
-  transition: transform .5s cubic-bezier(.25,.46,.45,.94);
+  // Soft shadow so the bike "lifts" from the dark stage
+  filter: drop-shadow(0 6px 18px rgba(0,0,0,.65));
+  transition: transform .5s cubic-bezier(.25,.46,.45,.94),
+              filter .4s ease;
+
+  .bike-card:hover & {
+    // Orange-tinted glow on hover matches brand colour
+    filter: drop-shadow(0 8px 24px rgba(0,0,0,.7))
+            drop-shadow(0 2px 12px rgba(217,123,26,.3));
+  }
 }
 
 .card-img-gradient {
   position: absolute;
   inset: 0;
-  background: linear-gradient(to bottom, transparent 40%, rgba(0,0,0,.55) 100%);
+  // Stronger fade at the bottom so badges stay readable
+  background: linear-gradient(
+    to bottom,
+    transparent 30%,
+    rgba(0,0,0,.45) 75%,
+    rgba(0,0,0,.75) 100%
+  );
   pointer-events: none;
 }
 

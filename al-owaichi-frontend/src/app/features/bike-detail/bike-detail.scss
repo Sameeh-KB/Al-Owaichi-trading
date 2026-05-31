@@ -15,7 +15,11 @@
   // ── Photo mode — click background to reveal full photo ──
   &.photo-mode {
     .detail-hero-overlay { opacity: 0; }
-    .detail-hero-bg img  { opacity: 1; }
+    .detail-hero-bg img  {
+      opacity: 1;
+      filter: drop-shadow(0 12px 50px rgba(0,0,0,.8))
+              drop-shadow(0  4px 20px rgba(217,123,26,.15));
+    }
     .detail-hero-content { opacity: 0; pointer-events: none; }
     .photo-mode-hint     { opacity: 1; }
   }
@@ -28,15 +32,21 @@
   position: absolute;
   inset: 0;
   z-index: 0;
+  // Dark stage gradient — the bike floats over this
+  background: radial-gradient(ellipse 90% 80% at 65% 55%, #1a1a1a 0%, #050505 100%);
 
   img {
     width: 100%;
     height: 100%;
-    object-fit: cover;
-    object-position: center;
+    object-fit: contain;          // show the full bike — no cropping
+    object-position: 62% center;  // nudge the bike toward the right, leaving text room
     display: block;
-    opacity: .45;
-    transition: opacity 0.5s ease;
+    // Vivid at high opacity; the transparent bg simply reveals the dark stage
+    opacity: .9;
+    // Subtle glow so the bike pops off the dark background
+    filter: drop-shadow(0 10px 40px rgba(0,0,0,.7))
+            drop-shadow(0  4px 16px rgba(0,0,0,.5));
+    transition: opacity 0.5s ease, filter 0.5s ease;
   }
 }
 
