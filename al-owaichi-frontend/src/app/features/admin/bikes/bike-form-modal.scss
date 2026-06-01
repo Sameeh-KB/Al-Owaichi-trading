@@ -1,94 +1,145 @@
+$bg:     #0c0c0c;
+$surface:#1a1a1a;
+$alt:    #191919;
+$border: #2a2a2a;
+$text:   #f5f5f5;
+$muted:  #888888;
+$orange: #D97B1A;
+$mono:   'IBM Plex Mono', monospace;
+
 .modal-backdrop {
-  position: fixed; inset: 0; background: rgba(0,0,0,.75);
+  position: fixed; inset: 0;
+  background: rgba(0,0,0,.82);
   display: flex; align-items: center; justify-content: center;
   z-index: 1000; padding: 1rem;
+  backdrop-filter: blur(4px);
 }
 
 .modal {
-  background: #1a1a1a; border: 1px solid #2a2a2a; border-radius: 14px;
+  background: $surface;
+  border: 1px solid $border;
+  border-top: 3px solid $orange;
   width: 100%; max-width: 780px; max-height: 90vh;
   display: flex; flex-direction: column; overflow: hidden;
 }
 
 .modal-header {
   display: flex; align-items: center; justify-content: space-between;
-  padding: 1.25rem 1.5rem; border-bottom: 1px solid #222;
-  h2 { margin: 0; font-size: 1.1rem; color: #fff; }
+  padding: 1.1rem 1.5rem; border-bottom: 1px solid $border;
+
+  h2 {
+    margin: 0;
+    font-size: 0.75rem; font-weight: 700;
+    color: $muted; text-transform: uppercase;
+    letter-spacing: .12em; font-family: $mono;
+  }
+
   .close-btn {
-    background: none; border: none; color: #666; cursor: pointer;
-    font-size: 1.1rem; padding: 4px 8px; border-radius: 6px;
-    &:hover { background: #252525; color: #fff; }
+    background: none; border: 1px solid $border; color: $muted;
+    cursor: pointer; font-size: 0.9rem; padding: 3px 8px;
+    transition: border-color 0.12s, color 0.12s;
+    &:hover { border-color: #555; color: $text; }
   }
 }
 
 .modal-body { overflow-y: auto; padding: 1.5rem; }
 
-form { display: flex; flex-direction: column; gap: 1.1rem; }
+form { display: flex; flex-direction: column; gap: 1rem; }
 
 .row-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
 .row-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1rem; }
 
 .field {
   display: flex; flex-direction: column; gap: 0.35rem;
-  label { font-size: 0.78rem; font-weight: 600; color: #888; text-transform: uppercase; letter-spacing: 0.04em; }
-  input, textarea, select {
-    background: #111; border: 1px solid #2a2a2a; border-radius: 8px;
-    padding: 0.65rem 0.85rem; color: #fff; font-size: 0.9rem; width: 100%;
-    transition: border-color 0.2s;
-    &:focus { outline: none; border-color: #D97B1A; }
-    &::placeholder { color: #555; }
+
+  label {
+    font-size: 0.65rem; font-weight: 700; color: $muted;
+    text-transform: uppercase; letter-spacing: .1em; font-family: $mono;
   }
+
+  input, textarea, select {
+    background: $bg;
+    border: 1px solid $border;
+    padding: 0.65rem 0.85rem;
+    color: $text; font-size: 0.88rem;
+    font-family: 'IBM Plex Sans', sans-serif;
+    width: 100%;
+    transition: border-color 0.15s;
+
+    &:focus { outline: none; border-color: $orange; }
+    &::placeholder { color: #444; }
+  }
+
   textarea { resize: vertical; min-height: 72px; }
+
+  select option { background: $surface; }
 }
 
 .field-check {
   justify-content: flex-end;
   .check-label {
     display: flex; align-items: center; gap: 0.5rem;
-    color: #ccc; font-size: 0.9rem; cursor: pointer;
-    input[type=checkbox] { accent-color: #D97B1A; width: 16px; height: 16px; }
+    color: #c8c8c8; font-size: 0.88rem; cursor: pointer;
+    input[type=checkbox] { accent-color: $orange; width: 15px; height: 15px; }
   }
 }
 
 .tag-row {
   display: flex; flex-wrap: wrap; align-items: center; gap: 0.4rem;
-  padding: 0.5rem; background: #111; border: 1px solid #2a2a2a; border-radius: 8px;
-  input { flex: 1; min-width: 120px; background: none; border: none; color: #fff; font-size: 0.88rem; &:focus { outline: none; } }
+  padding: 0.5rem; background: $bg; border: 1px solid $border;
+
+  input {
+    flex: 1; min-width: 120px; background: none; border: none;
+    color: $text; font-size: 0.88rem;
+    &:focus { outline: none; }
+  }
 }
 
 .tag {
   display: inline-flex; align-items: center; gap: 0.25rem;
-  background: rgba(217,123,26,.15); color: #F5C08A;
-  padding: 0.2rem 0.5rem; border-radius: 20px; font-size: 0.8rem;
+  background: rgba(217,123,26,.1); color: #F5C08A;
+  border: 1px solid rgba(217,123,26,.2);
+  padding: 0.18rem 0.5rem;
+  font-size: 0.72rem; font-family: $mono;
+  text-transform: uppercase; letter-spacing: .06em;
+
   button { background: none; border: none; color: inherit; cursor: pointer; font-size: 0.85rem; padding: 0; }
 }
 
 .btn-sm {
-  padding: 0.3rem 0.65rem; background: #252525; color: #ccc;
-  border: none; border-radius: 6px; cursor: pointer; font-size: 0.82rem;
-  &:hover { background: #333; }
+  padding: 0.3rem 0.65rem; background: $alt; color: $muted;
+  border: 1px solid $border; cursor: pointer; font-size: 0.72rem;
+  font-family: $mono; text-transform: uppercase; letter-spacing: .06em;
+  &:hover { background: #222; color: $text; border-color: #444; }
 }
 
 .error {
-  padding: 0.65rem 1rem; background: rgba(217,123,26,.1); border: 1px solid rgba(217,123,26,.3);
-  border-radius: 8px; color: #F5C08A; font-size: 0.88rem; margin: 0;
+  padding: 0.65rem 1rem;
+  background: rgba(217,123,26,.08); border: 1px solid rgba(217,123,26,.25);
+  color: #F5C08A; font-size: 0.82rem; font-family: $mono; margin: 0;
 }
 
 .modal-actions {
-  display: flex; justify-content: flex-end; gap: 0.75rem; padding-top: 0.5rem;
+  display: flex; justify-content: flex-end; gap: 0.6rem; padding-top: 0.75rem;
+  border-top: 1px solid $border; margin-top: 0.5rem;
 }
 
 .btn-cancel {
-  padding: 0.7rem 1.25rem; background: #252525; color: #aaa;
-  border: none; border-radius: 8px; cursor: pointer; font-weight: 600;
-  &:hover { background: #2f2f2f; color: #fff; }
+  padding: 0.65rem 1.25rem; background: $alt; color: $muted;
+  border: 1px solid $border; cursor: pointer;
+  font-weight: 700; font-size: 0.72rem; font-family: $mono;
+  text-transform: uppercase; letter-spacing: .08em;
+  &:hover { background: #222; color: $text; border-color: #555; }
 }
 
 .btn-save {
-  padding: 0.7rem 1.5rem; background: #D97B1A; color: #fff;
-  border: none; border-radius: 8px; font-weight: 700; cursor: pointer;
-  &:hover:not(:disabled) { background: #B8660F; }
-  &:disabled { opacity: 0.5; cursor: not-allowed; }
+  padding: 0.65rem 1.5rem; background: $orange; color: #fff;
+  border: 2px solid $orange; font-weight: 700;
+  font-size: 0.72rem; font-family: $mono;
+  text-transform: uppercase; letter-spacing: .08em;
+  cursor: pointer;
+  &:hover:not(:disabled) { background: #B8660F; border-color: #B8660F; }
+  &:disabled { opacity: 0.45; cursor: not-allowed; }
 }
 
 // ── Image upload ─────────────────────────────────────────────
@@ -97,8 +148,9 @@ form { display: flex; flex-direction: column; gap: 1.1rem; }
 }
 
 .img-preview {
-  width: 80px; height: 60px; object-fit: cover;
-  border-radius: 6px; border: 1px solid #2a2a2a; flex-shrink: 0;
+  width: 80px; height: 60px; object-fit: contain;
+  border: 1px solid $border; flex-shrink: 0;
+  background: $bg; padding: 2px;
 }
 
 .image-inputs {
@@ -107,16 +159,16 @@ form { display: flex; flex-direction: column; gap: 1.1rem; }
 
 .btn-upload {
   align-self: flex-start;
-  padding: 0.45rem 0.9rem;
-  background: #1e1e1e;
-  border: 1px solid #D97B1A;
-  color: #D97B1A;
-  border-radius: 6px;
+  padding: 0.42rem 0.85rem;
+  background: transparent;
+  border: 1px solid rgba(217,123,26,.4);
+  color: $orange;
   cursor: pointer;
-  font-size: 0.82rem;
-  font-weight: 600;
-  transition: background 0.2s, color 0.2s;
-  &:hover:not(:disabled) { background: rgba(217,123,26,.15); }
+  font-size: 0.72rem; font-weight: 700;
+  font-family: $mono; text-transform: uppercase; letter-spacing: .08em;
+  transition: background 0.15s, border-color 0.15s;
+
+  &:hover:not(:disabled) { background: rgba(217,123,26,.1); border-color: $orange; }
   &:disabled { opacity: 0.45; cursor: not-allowed; }
 }
 

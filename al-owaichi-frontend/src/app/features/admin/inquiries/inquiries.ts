@@ -1,7 +1,8 @@
 import { Component, inject, OnInit, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import { FormsModule }  from '@angular/forms';
 import { AdminApiService, AdminInquiry } from '../services/admin-api.service';
+import { ExportService }                 from '../services/export.service';
 
 @Component({
   selector: 'aot-admin-inquiries',
@@ -11,7 +12,8 @@ import { AdminApiService, AdminInquiry } from '../services/admin-api.service';
   styleUrl: './inquiries.scss',
 })
 export class AdminInquiries implements OnInit {
-  private api = inject(AdminApiService);
+  private api    = inject(AdminApiService);
+  private export = inject(ExportService);
 
   inquiries   = signal<AdminInquiry[]>([]);
   loading     = signal(true);
@@ -78,5 +80,21 @@ export class AdminInquiries implements OnInit {
 
   sourceIcon(s: string) {
     return { WHATSAPP: '💬', FORM: '📝', OTHER: '❓' }[s] ?? '?';
+  }
+
+  exportXlsx() {
+    const rows = this.inquiries().map(i => ({
+      Name:    i.name || '',
+      Phone:   i.phone || '',
+      Email:   i.email || '',
+      Source:  i.source,
+      Status:  i.status,
+      Bike:    i.bike ? `${i.bike.brand} ${i.bike.model}` : '',
+      Message: i.message,
+      Notes:   i.notes || '',
+      Date:    new Date(i.createdAt).toLocaleDateString(),
+    }));
+    const date = new Date().toISOString().slice(0, 10);
+    this.export.toXlsx(rows as any, 'Inquiries', `aot-inquiries-${date}`);
   }
 }

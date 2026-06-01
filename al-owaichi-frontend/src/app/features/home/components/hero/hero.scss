@@ -2,20 +2,19 @@
 
 // ── Main hero section ──────────────────────────────────
 .hero {
-  background: var(--navy);
-  color: #fff;
+  background: var(--bg);
+  color: var(--text);
   position: relative;
   overflow: hidden;
 }
 
-// ── Logo watermark — light logo ghosted across the entire hero ─
-// The light logo (grey text + orange mark) at very low opacity
-// so the brand identity is literally the backdrop of the landing page.
+// ── Logo watermark ─────────────────────────────────────
+// Light mode: use the dark logo so it's visible on a light bg
 .hero-logo-watermark {
   position: absolute;
   inset: 0;
-  background: url('/logo-light.png') center/55% no-repeat;
-  opacity: 0.07;
+  background: url('/logo-full.png') center/55% no-repeat;
+  opacity: 0.05;
   pointer-events: none;
   z-index: 0;
   animation: breathe 12s ease-in-out infinite;
@@ -26,14 +25,14 @@
   position: absolute;
   inset: 0;
   background-image:
-    linear-gradient(rgba(255,255,255,.018) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255,255,255,.018) 1px, transparent 1px);
+    linear-gradient(rgba(0,0,0,.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0,0,0,.03) 1px, transparent 1px);
   background-size: 56px 56px;
   pointer-events: none;
   z-index: 1;
 }
 
-// Warm orange radial glow — behind the right-side logo visual
+// Warm orange radial glow — same in both modes
 .hero-glow {
   position: absolute;
   right: -80px;
@@ -41,7 +40,7 @@
   transform: translateY(-50%);
   width: 700px;
   height: 700px;
-  background: radial-gradient(circle, rgba(217,123,26,.18) 0%, transparent 65%);
+  background: radial-gradient(circle, rgba(217,123,26,.12) 0%, transparent 65%);
   pointer-events: none;
   z-index: 1;
 }
@@ -96,12 +95,12 @@
   gap: 2px;
 }
 
-.hero-title-line1 { color: rgba(255,255,255,.92); }
+.hero-title-line1 { color: var(--text); }
 .hero-title-line2 { color: var(--cta); }
 
 .hero-sub {
   font-size: clamp(13px, 1.5vw, 15px);
-  color: rgba(255,255,255,.48);
+  color: var(--text-muted);
   max-width: 480px;
   line-height: 1.8;
   font-weight: 400;
@@ -121,21 +120,21 @@
   font-size: 9.5px;
   font-weight: 700;
   letter-spacing: 2px;
-  color: rgba(255,255,255,.35);
+  color: var(--text-muted);
   text-transform: uppercase;
   font-family: 'IBM Plex Mono', monospace;
-  border: 1px solid rgba(255,255,255,.1);
+  border: 1px solid var(--border);
   padding: 4px 10px;
   transition: color var(--ease), border-color var(--ease);
 
   &:hover {
-    color: rgba(255,255,255,.7);
-    border-color: rgba(255,255,255,.25);
+    color: var(--text);
+    border-color: var(--text-muted);
   }
 }
 
 .brand-sep {
-  color: rgba(255,255,255,.15);
+  color: var(--border);
   font-size: 10px;
 }
 
@@ -186,22 +185,19 @@
   font-weight: 700;
   letter-spacing: 1px;
   text-transform: uppercase;
-  color: rgba(255,255,255,.65);
-  border: 2px solid rgba(255,255,255,.2);
+  color: var(--text-muted);
+  border: 2px solid var(--border);
   text-decoration: none;
   transition: color var(--ease), border-color var(--ease);
   font-family: inherit;
 
   &:hover {
-    color: #fff;
-    border-color: rgba(255,255,255,.5);
+    color: var(--text);
+    border-color: var(--text-muted);
   }
 }
 
-// ── Right: nameless triangle mark — large with glowing drop shadow ─
-// The logo mark (orange + dark triangle) at a large size.
-// A multi-layer drop-shadow in the brand orange creates a dramatic
-// halo glow that bleeds into the dark background.
+// ── Right: logo mark visual ────────────────────────────
 .hero-logo-visual {
   position: relative;
   flex-shrink: 0;
@@ -237,8 +233,8 @@
 
 // ── Stat bar ──────────────────────────
 .stat-bar {
-  background: rgba(255,255,255,.04);
-  border-top: 1px solid rgba(255,255,255,.07);
+  background: var(--bg-alt);
+  border-top: 1px solid var(--border);
   position: relative;
   z-index: 2;
 
@@ -271,7 +267,7 @@
 .stat-number {
   font-size: 28px;
   font-weight: 800;
-  color: #fff;
+  color: var(--text);
   font-family: 'IBM Plex Mono', monospace;
   letter-spacing: -1px;
   line-height: 1;
@@ -282,15 +278,43 @@
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 1.5px;
-  color: rgba(255,255,255,.38);
+  color: var(--text-muted);
   font-family: 'IBM Plex Mono', monospace;
 }
 
 .stat-divider {
   width: 1px;
   height: 36px;
-  background: rgba(255,255,255,.1);
+  background: var(--border);
   flex-shrink: 0;
+}
+
+// ── Dark mode — restore original dramatic dark appearance ─
+:host-context([data-theme='dark']) {
+  .hero                 { background: var(--navy); color: #fff; }
+  .hero-logo-watermark  {
+    background-image: url('/logo-light.png');
+    opacity: 0.07;
+    animation: breathe 12s ease-in-out infinite;
+  }
+  .hero-overlay {
+    background-image:
+      linear-gradient(rgba(255,255,255,.018) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,.018) 1px, transparent 1px);
+    background-size: 56px 56px;
+  }
+  .hero-glow            { background: radial-gradient(circle, rgba(217,123,26,.18) 0%, transparent 65%); }
+  .hero-title-line1     { color: rgba(255,255,255,.92); }
+  .hero-sub             { color: rgba(255,255,255,.48); }
+  .brand-tag            { color: rgba(255,255,255,.35); border-color: rgba(255,255,255,.1); }
+  .brand-tag:hover      { color: rgba(255,255,255,.7);  border-color: rgba(255,255,255,.25); }
+  .brand-sep            { color: rgba(255,255,255,.15); }
+  .btn-ghost            { color: rgba(255,255,255,.65); border-color: rgba(255,255,255,.2); }
+  .btn-ghost:hover      { color: #fff; border-color: rgba(255,255,255,.5); }
+  .stat-bar             { background: rgba(255,255,255,.04); border-top-color: rgba(255,255,255,.07); }
+  .stat-number          { color: #fff; }
+  .stat-label           { color: rgba(255,255,255,.38); }
+  .stat-divider         { background: rgba(255,255,255,.1); }
 }
 
 // ── RTL ───────────────────────────────

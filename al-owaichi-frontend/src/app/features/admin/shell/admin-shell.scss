@@ -1,122 +1,258 @@
 :host { display: block; height: 100vh; }
 
+// ── Shared tokens (match website dark mode) ───────────────────
+$navy:    #0c0c0c;    // sidebar bg  (matches --header-bg dark)
+$bg:      #0c0c0c;    // main bg     (matches --header-bg dark)
+$surface: #1a1a1a;    // cards       (--card dark)
+$alt:     #191919;    // alt surface (--bg-alt dark)
+$border:  #2a2a2a;    // borders     (--border dark)
+$text:    #f5f5f5;    // primary     (--text dark)
+$muted:   #888888;    // muted       (--text-muted dark)
+$orange:  #D97B1A;    // brand       (--cta)
+$mono:    'IBM Plex Mono', monospace;
+
+// ── Layout ───────────────────────────────────────────────────
 .admin-layout {
   display: grid;
-  grid-template-columns: 220px 1fr;
+  grid-template-columns: 240px 1fr;
   height: 100vh;
-  background: #0d0d0d;
-  color: #e0e0e0;
-  transition: grid-template-columns 0.25s ease;
+  background: $bg;
+  color: $text;
+  font-family: 'IBM Plex Sans', system-ui, sans-serif;
+  transition: grid-template-columns 0.22s ease;
 
   &.collapsed {
-    grid-template-columns: 60px 1fr;
+    grid-template-columns: 56px 1fr;
 
-    .brand-name, .label, .user-name { display: none; }
-    .sidebar-header { justify-content: center; }
-    .toggle-btn { margin-left: 0; }
+    .brand-text, .nav-label, .nav-section-label,
+    .user-info, .logout-label { display: none; }
+
+    .sidebar-brand  { justify-content: center; padding: 0 0 1rem; }
+    .collapse-btn   { display: none; }
+    .nav-item       { justify-content: center; padding: 0.7rem; }
+    .user-row       { justify-content: center; }
+    .logout-btn     { justify-content: center; }
   }
 }
 
-// ── Sidebar ───────────────────────────────────────────────────
+// ── Sidebar ──────────────────────────────────────────────────
 .sidebar {
   display: flex;
   flex-direction: column;
-  background: #111;
-  border-right: 1px solid #222;
+  background: $navy;
+  border-right: 1px solid $border;
   overflow: hidden;
-  padding: 0.5rem 0;
-}
 
-.sidebar-header {
-  display: flex;
-  align-items: center;
-  gap: 0.6rem;
-  padding: 1rem 1rem 1.25rem;
-  border-bottom: 1px solid #222;
-
-  .logo-img { width: 32px; height: 32px; object-fit: contain; flex-shrink: 0; }
-  .brand-name { font-weight: 700; font-size: 1rem; color: #fff; flex: 1; }
-  .toggle-btn {
-    background: none; border: none; color: #666;
-    cursor: pointer; font-size: 0.85rem; margin-left: auto;
-    padding: 2px 4px; border-radius: 4px;
-    &:hover { color: #fff; background: #222; }
+  // Orange top stripe — same pattern as website page headers
+  &::before {
+    content: '';
+    display: block;
+    height: 3px;
+    background: $orange;
+    flex-shrink: 0;
   }
 }
 
+// Brand header
+.sidebar-brand {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 1rem 1rem 1rem;
+  border-bottom: 1px solid $border;
+  min-height: 60px;
+}
+
+.brand-logo {
+  width: 32px;
+  height: 32px;
+  object-fit: contain;
+  flex-shrink: 0;
+}
+
+.brand-text {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  flex: 1;
+  min-width: 0;
+}
+
+.brand-name {
+  font-size: 0.88rem;
+  font-weight: 800;
+  color: $text;
+  letter-spacing: .02em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-family: $mono;
+}
+
+.brand-role {
+  font-size: 0.65rem;
+  font-weight: 600;
+  color: $muted;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  font-family: $mono;
+}
+
+.collapse-btn {
+  width: 26px;
+  height: 26px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: none;
+  border: 1px solid $border;
+  color: $muted;
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: border-color 0.15s, color 0.15s;
+
+  svg { width: 13px; height: 13px; }
+
+  &:hover { border-color: $orange; color: $text; }
+}
+
+// Navigation
 .sidebar-nav {
   flex: 1;
   display: flex;
   flex-direction: column;
-  gap: 2px;
+  gap: 1px;
   padding: 0.75rem 0.5rem;
+  overflow-y: auto;
+}
+
+.nav-section-label {
+  font-size: 0.6rem;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  color: $muted;
+  opacity: .6;
+  padding: 0.5rem 0.6rem 0.3rem;
+  font-family: $mono;
+  margin: 0;
 }
 
 .nav-item {
   display: flex;
   align-items: center;
   gap: 0.75rem;
-  padding: 0.65rem 0.75rem;
-  border-radius: 8px;
+  padding: 0.6rem 0.75rem;
   text-decoration: none;
-  color: #aaa;
-  font-size: 0.9rem;
-  font-weight: 500;
-  transition: background 0.15s, color 0.15s;
+  color: $muted;
+  font-size: 0.82rem;
+  font-weight: 600;
+  transition: background 0.12s, color 0.12s;
+  position: relative;
+  letter-spacing: .02em;
 
-  .icon { font-size: 1.1rem; flex-shrink: 0; }
+  .nav-icon {
+    width: 17px;
+    height: 17px;
+    flex-shrink: 0;
+  }
 
-  &:hover { background: #1e1e1e; color: #fff; }
-  &.active { background: rgba(217, 123, 26, 0.15); color: #E88C2A; }
+  &:hover {
+    background: $surface;
+    color: $text;
+  }
+
+  &.active {
+    background: rgba(217, 123, 26, 0.1);
+    color: $orange;
+
+    &::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      width: 3px;
+      background: $orange;
+    }
+  }
 }
 
+// Footer
 .sidebar-footer {
-  padding: 0.75rem 0.5rem;
-  border-top: 1px solid #222;
+  padding: 0.6rem 0.5rem;
+  border-top: 1px solid $border;
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
+  gap: 0.4rem;
+}
+
+.user-row {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  padding: 0.5rem 0.75rem;
+}
+
+.user-avatar {
+  width: 30px;
+  height: 30px;
+  background: $orange;
+  color: #fff;
+  font-weight: 700;
+  font-size: 0.8rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  font-family: $mono;
 }
 
 .user-info {
   display: flex;
-  align-items: center;
-  gap: 0.6rem;
-  padding: 0.4rem 0.75rem;
+  flex-direction: column;
+  gap: 1px;
+  min-width: 0;
+}
 
-  .avatar {
-    width: 30px; height: 30px;
-    border-radius: 50%;
-    background: #D97B1A;
-    color: #fff;
-    font-weight: 700;
-    font-size: 0.85rem;
-    display: flex; align-items: center; justify-content: center;
-    flex-shrink: 0;
-  }
-  .user-name { font-size: 0.85rem; color: #ccc; }
+.user-name {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: $text;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.user-role {
+  font-size: 0.62rem;
+  color: $muted;
+  font-family: $mono;
+  text-transform: uppercase;
+  letter-spacing: .08em;
 }
 
 .logout-btn {
   display: flex;
   align-items: center;
-  gap: 0.75rem;
+  gap: 0.65rem;
   padding: 0.6rem 0.75rem;
   background: none;
   border: none;
-  border-radius: 8px;
-  color: #777;
+  color: $muted;
   cursor: pointer;
-  font-size: 0.9rem;
+  font-size: 0.82rem;
+  font-family: inherit;
   width: 100%;
-  transition: background 0.15s, color 0.15s;
+  transition: background 0.12s, color 0.12s;
 
-  .icon { font-size: 1.1rem; flex-shrink: 0; }
-  &:hover { background: #1e1e1e; color: #fff; }
+  svg { width: 15px; height: 15px; flex-shrink: 0; }
+
+  &:hover { background: rgba(239,68,68,.08); color: #f87171; }
 }
 
-// ── Main content ──────────────────────────────────────────────
+// ── Main content ─────────────────────────────────────────────
 .main-content {
   overflow-y: auto;
-  background: #0d0d0d;
+  background: $bg;
 }

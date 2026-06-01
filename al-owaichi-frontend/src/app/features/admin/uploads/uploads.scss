@@ -1,127 +1,137 @@
+$bg:     #0c0c0c;
+$surface:#1a1a1a;
+$alt:    #191919;
+$border: #2a2a2a;
+$text:   #f5f5f5;
+$muted:  #888888;
+$orange: #D97B1A;
+$mono:   'IBM Plex Mono', monospace;
+
 .page {
-  padding: 2rem;
-  max-width: 1200px;
+  padding: 2rem 2.25rem;
+  max-width: 1280px;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
 }
 
 .page-header {
-  display: flex; align-items: center; gap: 1rem; flex-wrap: wrap;
-  margin-bottom: 1.75rem;
+  display: flex; align-items: flex-end; gap: 1rem; flex-wrap: wrap;
+  padding-bottom: 1.5rem;
+  border-bottom: 1px solid $border;
 
-  h1 { margin: 0; font-size: 1.6rem; color: #fff; flex: 1; }
-
-  .subtitle { margin: 0; color: #666; font-size: 0.88rem; flex-basis: 100%; order: 2; }
+  h1 { margin: 0 0 0.2rem; font-size: 1.5rem; font-weight: 800; color: $text; letter-spacing: -.03em; flex: 1; }
+  .subtitle { margin: 0; color: $muted; font-size: 0.72rem; font-family: $mono; text-transform: uppercase; letter-spacing: .08em; flex-basis: 100%; order: 2; }
 }
 
 .btn-upload {
-  padding: 0.65rem 1.2rem;
-  background: #D97B1A;
-  color: #fff;
-  border: none;
-  border-radius: 8px;
-  font-weight: 700;
-  cursor: pointer;
-  font-size: 0.9rem;
-  &:hover:not(:disabled) { background: #B8660F; }
-  &:disabled { opacity: 0.5; cursor: not-allowed; }
+  display: inline-flex; align-items: center; gap: 0.45rem;
+  padding: 0.55rem 1.1rem;
+  background: $orange; color: #fff;
+  border: 2px solid $orange;
+  font-weight: 700; font-size: 0.78rem; font-family: $mono;
+  text-transform: uppercase; letter-spacing: .08em;
+  cursor: pointer; transition: background 0.15s, border-color 0.15s;
+
+  &:hover:not(:disabled) { background: #B8660F; border-color: #B8660F; }
+  &:disabled { opacity: 0.45; cursor: not-allowed; }
 }
 
 .hidden-file-input { display: none; }
 
 // ── States ───────────────────────────────────────────────────
 .loading, .empty {
-  text-align: center; color: #666; padding: 4rem 2rem; font-size: 0.95rem;
+  text-align: center; color: $muted; padding: 4rem 2rem;
+  font-size: 0.82rem; font-family: $mono; text-transform: uppercase; letter-spacing: .08em;
 }
 
 .error-msg {
   padding: 0.75rem 1.1rem;
-  background: rgba(217,123,26,.1);
-  border: 1px solid rgba(217,123,26,.3);
-  border-radius: 8px;
+  background: rgba(217,123,26,.06);
+  border: 1px solid rgba(217,123,26,.25);
   color: #F5C08A;
-  font-size: 0.88rem;
-  margin-bottom: 1.25rem;
+  font-size: 0.82rem;
+  font-family: $mono;
 }
 
 // ── Grid ─────────────────────────────────────────────────────
 .grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
-  gap: 1.1rem;
+  gap: 1px;
+  background: $border;
+  border: 1px solid $border;
 }
 
 // ── Card ─────────────────────────────────────────────────────
 .card {
-  background: #1a1a1a;
-  border: 1px solid #2a2a2a;
-  border-radius: 10px;
+  background: $surface;
   overflow: hidden;
-  transition: border-color 0.2s;
-  &:hover { border-color: #D97B1A; }
+  transition: background 0.12s;
+  &:hover { background: $alt; }
 }
 
 .thumb-wrap {
   aspect-ratio: 4/3;
-  background: #111;
+  background: $bg;
   overflow: hidden;
+  border-bottom: 1px solid $border;
 }
 
 .thumb {
   width: 100%; height: 100%;
-  object-fit: cover;
-  display: block;
+  object-fit: cover; display: block;
   transition: transform 0.3s;
   .card:hover & { transform: scale(1.04); }
 }
 
-.card-body {
-  padding: 0.65rem 0.75rem;
-}
+.card-body { padding: 0.65rem 0.75rem; }
 
 .filename {
   margin: 0 0 0.2rem;
-  font-size: 0.8rem;
-  color: #ccc;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+  font-size: 0.78rem;
+  color: $text;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  font-family: $mono;
 }
 
 .meta {
-  margin: 0 0 0.55rem;
-  font-size: 0.75rem;
-  color: #555;
+  margin: 0 0 0.5rem;
+  font-size: 0.7rem;
+  color: $muted;
+  font-family: $mono;
 }
 
-.card-actions {
-  display: flex; align-items: center; gap: 0.4rem;
-}
+.card-actions { display: flex; align-items: center; gap: 0.35rem; }
 
 .btn-copy {
   flex: 1;
-  padding: 0.35rem 0.55rem;
-  background: #222;
-  border: 1px solid #333;
-  border-radius: 6px;
-  color: #aaa;
-  font-size: 0.78rem;
+  padding: 0.3rem 0.5rem;
+  background: $alt;
+  border: 1px solid $border;
+  color: $muted;
+  font-size: 0.68rem;
+  font-family: $mono;
+  text-transform: uppercase;
+  letter-spacing: .06em;
   cursor: pointer;
-  transition: background 0.2s, color 0.2s, border-color 0.2s;
-  &:hover { background: #2a2a2a; color: #fff; }
+  transition: background 0.12s, color 0.12s, border-color 0.12s;
+
+  &:hover { background: #222; color: $text; border-color: #444; }
   &.copied {
-    background: rgba(217,123,26,.15);
-    border-color: rgba(217,123,26,.4);
-    color: #D97B1A;
+    background: rgba(217,123,26,.1);
+    border-color: rgba(217,123,26,.35);
+    color: $orange;
   }
 }
 
 .btn-delete {
-  padding: 0.35rem 0.5rem;
-  background: #1e1e1e;
-  border: 1px solid #333;
-  border-radius: 6px;
-  color: #888;
+  padding: 0.3rem 0.45rem;
+  background: $alt;
+  border: 1px solid $border;
+  color: $muted;
   cursor: pointer;
-  font-size: 0.9rem;
-  transition: background 0.2s, color 0.2s;
-  &:hover { background: rgba(180,40,40,.2); color: #e06060; border-color: rgba(180,40,40,.4); }
+  font-size: 0.85rem;
+  transition: background 0.12s, color 0.12s, border-color 0.12s;
+  &:hover { background: rgba(239,68,68,.1); color: #f87171; border-color: rgba(239,68,68,.3); }
 }

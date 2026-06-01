@@ -1,10 +1,14 @@
 :host { display: block; }
 
 .footer {
-  background: #080808;
-  border-top: 1px solid rgba(255,255,255,.06);
-  color: rgba(255,255,255,.35);
+  background: var(--header-bg);
+  border-top: 1px solid var(--border);
+  color: var(--text-muted);
   padding: 36px 0 28px;
+}
+
+:host-context([data-theme='dark']) .footer {
+  border-top-color: rgba(255,255,255,.06);
 }
 
 .footer-inner {
@@ -33,7 +37,7 @@
 .footer-brand {
   font-size: 13px;
   font-weight: 800;
-  color: rgba(255,255,255,.65);
+  color: var(--text);
   letter-spacing: .5px;
   text-transform: uppercase;
   font-family: 'IBM Plex Mono', monospace;
@@ -43,15 +47,22 @@
   font-size: 11px;
   max-width: 420px;
   line-height: 1.7;
-  color: rgba(255,255,255,.28);
+  color: var(--text-muted);
 }
 
 .footer-copy {
   font-size: 10px;
-  color: rgba(255,255,255,.18);
+  color: var(--text-muted);
+  opacity: .6;
   letter-spacing: 1px;
   font-family: 'IBM Plex Mono', monospace;
   text-transform: uppercase;
+}
+
+:host-context([data-theme='dark']) {
+  .footer-brand { color: rgba(255,255,255,.65); }
+  .footer-note  { color: rgba(255,255,255,.28); }
+  .footer-copy  { color: rgba(255,255,255,.18); opacity: 1; }
 }
 
 :host-context([dir='rtl']) {

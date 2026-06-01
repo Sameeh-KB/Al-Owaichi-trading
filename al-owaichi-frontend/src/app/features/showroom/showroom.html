@@ -2,8 +2,8 @@
 <div class="page-header">
   <div class="container">
     <p class="page-overline">{{ langSvc.t().navShowroom }}</p>
-    <h1 class="page-title">Visit Our Showroom</h1>
-    <p class="page-sub">Come see the full range in person. Our team is ready to help you find the right bike.</p>
+    <h1 class="page-title">{{ langSvc.t().visitShowroom }}</h1>
+    <p class="page-sub">{{ langSvc.t().visitShowroomSub }}</p>
   </div>
 </div>
 
@@ -26,7 +26,7 @@
                 <path d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 0 1 15 0Z"/>
               </svg>
             </div>
-            <span class="info-card-title">Location</span>
+            <span class="info-card-title">{{ langSvc.t().location }}</span>
           </div>
           <p class="info-card-body">
             Al Owaichi Trading<br>
@@ -36,7 +36,7 @@
              href="https://maps.google.com"
              target="_blank"
              rel="noopener noreferrer">
-            Get Directions
+            {{ langSvc.t().getDirections }}
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
                  stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"
                  aria-hidden="true">
@@ -57,13 +57,13 @@
                 <polyline points="12 6 12 12 16 14"/>
               </svg>
             </div>
-            <span class="info-card-title">Opening Hours</span>
+            <span class="info-card-title">{{ langSvc.t().openingHours }}</span>
           </div>
           <div class="hours-list">
             @for (h of hours; track h.day_en) {
               <div class="hours-row">
                 <span class="hours-day">{{ day(h) }}</span>
-                <span class="hours-time" [class.closed]="h.time === 'Closed'">{{ h.time }}</span>
+                <span class="hours-time" [class.closed]="h.closed">{{ timeLabel(h) }}</span>
               </div>
             }
           </div>
@@ -79,7 +79,7 @@
                 <path d="M7.5 8.25h9m-9 3H12m-9.75 1.51c0 1.6 1.123 2.994 2.707 3.227 1.129.166 2.27.293 3.423.379.35.026.67.21.865.501L12 21l2.755-4.133a1.14 1.14 0 0 1 .865-.501 48.172 48.172 0 0 0 3.423-.379c1.584-.233 2.707-1.626 2.707-3.228V6.741c0-1.602-1.123-2.995-2.707-3.228A48.394 48.394 0 0 0 12 3c-2.392 0-4.744.175-7.043.513C3.373 3.746 2.25 5.14 2.25 6.741v6.018Z"/>
               </svg>
             </div>
-            <span class="info-card-title">Contact Us</span>
+            <span class="info-card-title">{{ langSvc.t().contactUs }}</span>
           </div>
           <div class="contact-list">
             <a class="contact-item contact-item--wa"
@@ -113,49 +113,23 @@
              href="https://maps.google.com"
              target="_blank"
              rel="noopener noreferrer">
-            Open in Google Maps
+            {{ langSvc.t().openInMaps }}
           </a>
         </div>
 
         <!-- Services -->
         <div class="services-block">
-          <p class="services-heading">What We Offer</p>
+          <p class="services-heading">{{ langSvc.t().whatWeOffer }}</p>
           <ul class="services-list">
-            <li>
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
-                   stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                <polyline points="20 6 9 17 4 12"/>
-              </svg>
-              Authorized sales for all 7 brands
-            </li>
-            <li>
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
-                   stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                <polyline points="20 6 9 17 4 12"/>
-              </svg>
-              Genuine spare parts
-            </li>
-            <li>
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
-                   stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                <polyline points="20 6 9 17 4 12"/>
-              </svg>
-              After-sales service and maintenance
-            </li>
-            <li>
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
-                   stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                <polyline points="20 6 9 17 4 12"/>
-              </svg>
-              Test rides available on request
-            </li>
-            <li>
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
-                   stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                <polyline points="20 6 9 17 4 12"/>
-              </svg>
-              WhatsApp inquiry and pricing
-            </li>
+            @for (service of langSvc.t().services; track $index) {
+              <li>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+                     stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <polyline points="20 6 9 17 4 12"/>
+                </svg>
+                {{ service }}
+              </li>
+            }
           </ul>
         </div>
 

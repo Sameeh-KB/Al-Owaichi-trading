@@ -56,7 +56,7 @@
           <app-bike-card [bike]="bike" />
         }
         @empty {
-          <p class="no-results">No bikes match this filter.</p>
+          <p class="no-results">{{ langSvc.t().noResults }}</p>
         }
       </div>
     }

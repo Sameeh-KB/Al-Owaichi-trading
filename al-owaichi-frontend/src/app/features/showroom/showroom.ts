@@ -11,12 +11,16 @@ export class Showroom {
   protected readonly langSvc = inject(LanguageService);
 
   protected readonly hours = [
-    { day_en: 'Monday – Friday',   day_ar: 'الاثنين – الجمعة',   time: '9:00 – 18:00' },
-    { day_en: 'Saturday',          day_ar: 'السبت',               time: '9:00 – 16:00' },
-    { day_en: 'Sunday',            day_ar: 'الأحد',               time: 'Closed'       },
+    { day_en: 'Monday – Friday', day_ar: 'الاثنين – الجمعة', time: '9:00 – 18:00', closed: false },
+    { day_en: 'Saturday',        day_ar: 'السبت',             time: '9:00 – 16:00', closed: false },
+    { day_en: 'Sunday',          day_ar: 'الأحد',             time: '',             closed: true  },
   ];
 
   protected day(h: { day_en: string; day_ar: string }): string {
     return this.langSvc.lang() === 'ar' ? h.day_ar : h.day_en;
+  }
+
+  protected timeLabel(h: { time: string; closed: boolean }): string {
+    return h.closed ? this.langSvc.t().closedLabel : h.time;
   }
 }

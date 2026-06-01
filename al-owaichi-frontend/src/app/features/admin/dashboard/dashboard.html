@@ -1,100 +1,202 @@
 <div class="page">
-  <header class="page-header">
-    <h1>Dashboard</h1>
-    <p class="subtitle">Engagement overview across all bikes</p>
+
+  <!-- Page header -->
+  <header class="page-top">
+    <div class="page-top-left">
+      <h1 class="page-title">Dashboard</h1>
+      <p class="page-sub">Engagement overview across all bikes</p>
+    </div>
+    <div class="page-top-actions">
+      <button class="btn-export" (click)="exportXlsx()" title="Download as Excel">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
+             stroke-linecap="round" stroke-linejoin="round">
+          <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+          <polyline points="7 10 12 15 17 10"/>
+          <line x1="12" y1="15" x2="12" y2="3"/>
+        </svg>
+        Export XLSX
+      </button>
+    </div>
   </header>
 
   @if (loading()) {
-    <div class="loading">Loading analytics…</div>
+    <div class="loading-state">
+      <div class="spinner"></div>
+      <span>Loading analytics…</span>
+    </div>
   } @else if (error()) {
-    <div class="error-msg">{{ error() }}</div>
+    <div class="error-state">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/>
+        <line x1="12" y1="16" x2="12.01" y2="16"/>
+      </svg>
+      {{ error() }}
+    </div>
   } @else {
 
-    <!-- Stat cards -->
-    <section class="stat-grid">
-      <div class="stat-card">
-        <span class="stat-icon">👁</span>
-        <div class="stat-body">
-          <span class="stat-value">{{ totalViews | number }}</span>
-          <span class="stat-label">Total views</span>
+    <!-- KPI strip -->
+    <div class="kpi-strip">
+      <div class="kpi-card">
+        <div class="kpi-icon kpi-icon--views">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
+               stroke-linecap="round" stroke-linejoin="round">
+            <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+            <circle cx="12" cy="12" r="3"/>
+          </svg>
+        </div>
+        <div class="kpi-body">
+          <span class="kpi-value">{{ totalViews | number }}</span>
+          <span class="kpi-label">Total Views</span>
         </div>
       </div>
-      <div class="stat-card">
-        <span class="stat-icon">🖱</span>
-        <div class="stat-body">
-          <span class="stat-value">{{ totalClicks | number }}</span>
-          <span class="stat-label">Card clicks</span>
-        </div>
-      </div>
-      <div class="stat-card">
-        <span class="stat-icon">💬</span>
-        <div class="stat-body">
-          <span class="stat-value">{{ totalWhatsApp | number }}</span>
-          <span class="stat-label">WhatsApp taps</span>
-        </div>
-      </div>
-      <div class="stat-card">
-        <span class="stat-icon">📬</span>
-        <div class="stat-body">
-          <span class="stat-value">{{ totalInquiry | number }}</span>
-          <span class="stat-label">Form inquiries</span>
-        </div>
-      </div>
-      <div class="stat-card">
-        <span class="stat-icon">🖼</span>
-        <div class="stat-body">
-          <span class="stat-value">{{ totalGallery | number }}</span>
-          <span class="stat-label">Gallery opens</span>
-        </div>
-      </div>
-    </section>
 
-    <!-- Top bikes table -->
-    <section class="top-bikes">
-      <h2>Top 5 bikes by engagement</h2>
-      @if (analytics().length === 0) {
-        <p class="empty-note">No events tracked yet — engagement data will appear here as visitors browse the site.</p>
-      } @else {
-        <table>
-          <thead>
-            <tr>
-              <th>#</th>
-              <th>Bike</th>
-              <th>Views</th>
-              <th>Clicks</th>
-              <th>WhatsApp</th>
-              <th>Inquiries</th>
-              <th>Gallery</th>
-              <th>Total</th>
-            </tr>
-          </thead>
-          <tbody>
+      <div class="kpi-card">
+        <div class="kpi-icon kpi-icon--clicks">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
+               stroke-linecap="round" stroke-linejoin="round">
+            <path d="M5 3l14 9-14 9V3z"/>
+          </svg>
+        </div>
+        <div class="kpi-body">
+          <span class="kpi-value">{{ totalClicks | number }}</span>
+          <span class="kpi-label">Card Clicks</span>
+        </div>
+      </div>
+
+      <div class="kpi-card">
+        <div class="kpi-icon kpi-icon--wa">
+          <svg viewBox="0 0 24 24" fill="currentColor">
+            <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+          </svg>
+        </div>
+        <div class="kpi-body">
+          <span class="kpi-value">{{ totalWhatsApp | number }}</span>
+          <span class="kpi-label">WhatsApp Taps</span>
+        </div>
+      </div>
+
+      <div class="kpi-card">
+        <div class="kpi-icon kpi-icon--inq">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
+               stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+          </svg>
+        </div>
+        <div class="kpi-body">
+          <span class="kpi-value">{{ totalInquiry | number }}</span>
+          <span class="kpi-label">Form Inquiries</span>
+        </div>
+      </div>
+
+      <div class="kpi-card">
+        <div class="kpi-icon kpi-icon--gallery">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
+               stroke-linecap="round" stroke-linejoin="round">
+            <rect x="3" y="3" width="18" height="18" rx="2"/>
+            <circle cx="8.5" cy="8.5" r="1.5"/>
+            <polyline points="21 15 16 10 5 21"/>
+          </svg>
+        </div>
+        <div class="kpi-body">
+          <span class="kpi-value">{{ totalGallery | number }}</span>
+          <span class="kpi-label">Gallery Opens</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Chart + Top table row -->
+    <div class="content-row">
+
+      <!-- Bar chart -->
+      <div class="card chart-card">
+        <div class="card-header">
+          <h2>Top 5 Bikes — Engagement Breakdown</h2>
+        </div>
+        <div class="chart-wrap">
+          @if (analytics().length === 0) {
+            <div class="empty-chart">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                <path d="M3 3v18h18"/><path d="m7 16 4-4 4 4 4-4"/>
+              </svg>
+              <p>No data yet — engagement events will appear here as visitors browse.</p>
+            </div>
+          } @else {
+            <canvas #chartCanvas></canvas>
+          }
+        </div>
+      </div>
+
+      <!-- Top bikes list -->
+      <div class="card top-card">
+        <div class="card-header">
+          <h2>Top 5 by Total</h2>
+        </div>
+        @if (topBikes.length === 0) {
+          <p class="card-empty">No data yet.</p>
+        } @else {
+          <ol class="top-list">
             @for (bike of topBikes; track bike.bikeId; let i = $index) {
-              <tr>
-                <td class="rank">{{ i + 1 }}</td>
-                <td class="bike-name">
-                  <span class="brand">{{ bike.brand }}</span>
-                  <span class="model">{{ bike.model }}</span>
-                </td>
-                <td>{{ bike.views }}</td>
-                <td>{{ bike.cardClicks }}</td>
-                <td>{{ bike.whatsapp }}</td>
-                <td>{{ bike.inquiries }}</td>
-                <td>{{ bike.gallery }}</td>
-                <td class="total">{{ bike.total }}</td>
-              </tr>
+              <li class="top-item">
+                <span class="top-rank">{{ i + 1 }}</span>
+                <div class="top-meta">
+                  <span class="top-brand">{{ bike.brand }}</span>
+                  <span class="top-model">{{ bike.model }}</span>
+                </div>
+                <span class="top-total">{{ bike.total }}</span>
+              </li>
             }
-          </tbody>
-        </table>
-      }
-    </section>
+          </ol>
+        }
+      </div>
 
-    <!-- Quick links -->
-    <section class="quick-links">
-      <a routerLink="/admin/bikes"     class="quick-link"><span>🏍</span> Manage Bikes</a>
-      <a routerLink="/admin/inquiries" class="quick-link"><span>📬</span> View Inquiries</a>
-      <a routerLink="/admin/uploads"   class="quick-link"><span>🖼</span> Media Library</a>
-    </section>
+    </div>
+
+    <!-- Full engagement table -->
+    <div class="card table-card">
+      <div class="card-header">
+        <h2>All Bikes — Engagement</h2>
+        <span class="card-meta">{{ analytics().length }} models tracked</span>
+      </div>
+      @if (analytics().length === 0) {
+        <p class="card-empty">No engagement events recorded yet.</p>
+      } @else {
+        <div class="table-scroll">
+          <table>
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Bike</th>
+                <th>Views</th>
+                <th>Clicks</th>
+                <th>WhatsApp</th>
+                <th>Inquiries</th>
+                <th>Gallery</th>
+                <th>Total</th>
+              </tr>
+            </thead>
+            <tbody>
+              @for (bike of topBikes; track bike.bikeId; let i = $index) {
+                <tr>
+                  <td class="td-rank">{{ i + 1 }}</td>
+                  <td>
+                    <div class="bike-cell">
+                      <span class="cell-brand">{{ bike.brand }}</span>
+                      <span class="cell-model">{{ bike.model }}</span>
+                    </div>
+                  </td>
+                  <td>{{ bike.views }}</td>
+                  <td>{{ bike.cardClicks }}</td>
+                  <td>{{ bike.whatsapp }}</td>
+                  <td>{{ bike.inquiries }}</td>
+                  <td>{{ bike.gallery }}</td>
+                  <td class="td-total">{{ bike.total }}</td>
+                </tr>
+              }
+            </tbody>
+          </table>
+        </div>
+      }
+    </div>
 
   }
 </div>

@@ -2,7 +2,8 @@ import { Component, inject, OnInit, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { AdminApiService, AdminBike } from '../services/admin-api.service';
-import { BikeFormModal } from './bike-form-modal';
+import { ExportService }              from '../services/export.service';
+import { BikeFormModal }              from './bike-form-modal';
 
 @Component({
   selector: 'aot-admin-bikes',
@@ -12,7 +13,8 @@ import { BikeFormModal } from './bike-form-modal';
   styleUrl: './bikes.scss',
 })
 export class AdminBikes implements OnInit {
-  private api = inject(AdminApiService);
+  private api    = inject(AdminApiService);
+  private export = inject(ExportService);
 
   bikes    = signal<AdminBike[]>([]);
   loading  = signal(true);
@@ -58,5 +60,20 @@ export class AdminBikes implements OnInit {
       next: (updated) => this.bikes.update(list => list.map(b => b.id === updated.id ? updated : b)),
       error: () => alert('Update failed'),
     });
+  }
+
+  exportXlsx() {
+    const rows = this.bikes().map(b => ({
+      Brand:      b.brand,
+      Model:      b.model,
+      Slug:       b.slug,
+      Engine:     b.engine,
+      Type:       b.typeEn,
+      'In Stock': b.inStock ? 'Yes' : 'No',
+      Published:  b.published ? 'Yes' : 'No',
+      'Sort Order': b.sortOrder,
+    }));
+    const date = new Date().toISOString().slice(0, 10);
+    this.export.toXlsx(rows as any, 'Bikes', `aot-bikes-${date}`);
   }
 }

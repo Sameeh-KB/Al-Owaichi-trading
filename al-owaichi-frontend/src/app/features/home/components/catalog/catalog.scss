@@ -86,15 +86,10 @@
   }
 
   &.active {
-    background: var(--navy);
-    color: #fff;
-    border-color: var(--navy);
-    font-weight: 700;
-  }
-
-  [data-theme='dark'] &.active {
     background: var(--cta);
+    color: #fff;
     border-color: var(--cta);
+    font-weight: 700;
   }
 }
 

@@ -47,6 +47,24 @@ export interface Translations {
   afterSalesService: string;
   // Footer
   footerNote: string;
+  // Products page
+  noResults:    string;
+  // Brands page
+  ourBrands:    string;
+  ourBrandsSub: string;
+  viewModels:   string;
+  series:       string;
+  // Showroom page
+  visitShowroom:    string;
+  visitShowroomSub: string;
+  location:         string;
+  openingHours:     string;
+  contactUs:        string;
+  getDirections:    string;
+  whatWeOffer:      string;
+  openInMaps:       string;
+  closedLabel:      string;
+  services:         string[];
   // WA message builder
   waMsg: (model: string) => string;
 }
@@ -91,6 +109,27 @@ export const TRANSLATIONS: Record<Lang, Translations> = {
     whatsappInquiry:  'WhatsApp Inquiry',
     afterSalesService:'After-Sales Service',
     footerNote:       'All prices are available on request via WhatsApp. Images are for illustration purposes.',
+    noResults:        'No bikes match this filter.',
+    ourBrands:        'Our Brands',
+    ourBrandsSub:     'Official dealer for 7 international motorcycle and scooter manufacturers.',
+    viewModels:       'View Models',
+    series:           'Series',
+    visitShowroom:    'Visit Our Showroom',
+    visitShowroomSub: 'Come see the full range in person. Our team is ready to help you find the right bike.',
+    location:         'Location',
+    openingHours:     'Opening Hours',
+    contactUs:        'Contact Us',
+    getDirections:    'Get Directions',
+    whatWeOffer:      'What We Offer',
+    openInMaps:       'Open in Google Maps',
+    closedLabel:      'Closed',
+    services: [
+      'Authorized sales for all 7 brands',
+      'Genuine spare parts',
+      'After-sales service and maintenance',
+      'Test rides available on request',
+      'WhatsApp inquiry and pricing',
+    ],
     waMsg: (model) => `Hi! I'm interested in the ${model}. Could you please send me details and pricing? Thank you.`,
   },
   ar: {
@@ -132,6 +171,27 @@ export const TRANSLATIONS: Record<Lang, Translations> = {
     whatsappInquiry:  'استفسار واتساب',
     afterSalesService:'خدمة ما بعد البيع',
     footerNote:       'جميع الأسعار متاحة عند الطلب عبر واتساب. الصور للإيضاح فقط.',
+    noResults:        'لا توجد دراجات تطابق هذا الفلتر.',
+    ourBrands:        'ماركاتنا',
+    ourBrandsSub:     'وكيل رسمي لـ 7 شركات عالمية للدراجات النارية والسكوترات.',
+    viewModels:       'عرض الموديلات',
+    series:           'سيريز',
+    visitShowroom:    'زوروا معرضنا',
+    visitShowroomSub: 'تفضلوا لرؤية المجموعة الكاملة شخصياً. فريقنا جاهز لمساعدتكم في اختيار الدراجة المناسبة.',
+    location:         'الموقع',
+    openingHours:     'ساعات العمل',
+    contactUs:        'تواصل معنا',
+    getDirections:    'احصل على الاتجاهات',
+    whatWeOffer:      'ما نقدمه',
+    openInMaps:       'افتح في خرائط جوجل',
+    closedLabel:      'مغلق',
+    services: [
+      'مبيعات موكّلة لجميع الماركات السبع',
+      'قطع غيار أصلية',
+      'خدمة ما بعد البيع والصيانة',
+      'تجربة قيادة متاحة عند الطلب',
+      'استفسار عبر واتساب والأسعار',
+    ],
     waMsg: (model) => `مرحبا! أنا مهتم بـ ${model}. هل يمكنك إرسال التفاصيل والسعر؟ شكراً.`,
   },
 };

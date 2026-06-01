@@ -1,24 +1,36 @@
-:host {
-  display: block;
-  height: 100vh;
-}
+:host { display: block; height: 100vh; }
+
+$navy:   #0c0c0c;
+$bg:     #0c0c0c;
+$surface:#1a1a1a;
+$border: #2a2a2a;
+$text:   #f5f5f5;
+$muted:  #888888;
+$orange: #D97B1A;
+$mono:   'IBM Plex Mono', monospace;
 
 .login-page {
   display: flex;
   align-items: center;
   justify-content: center;
   min-height: 100vh;
-  background: #0d0d0d;
+  background: $navy;
   padding: 1rem;
+  // Subtle grid texture — same as page headers
+  background-image:
+    linear-gradient(rgba(255,255,255,.02) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,.02) 1px, transparent 1px);
+  background-size: 56px 56px;
 }
 
 .login-card {
   width: 100%;
   max-width: 400px;
-  background: #1a1a1a;
-  border: 1px solid #2a2a2a;
-  border-radius: 12px;
+  background: $surface;
+  border: 1px solid $border;
   padding: 2.5rem 2rem;
+  // Orange top stripe
+  border-top: 3px solid $orange;
 }
 
 .brand {
@@ -28,75 +40,86 @@
   margin-bottom: 2rem;
 
   .logo-img {
-    width: 48px;
-    height: 48px;
-    object-fit: contain;
-    flex-shrink: 0;
+    width: 44px; height: 44px;
+    object-fit: contain; flex-shrink: 0;
+  }
+
+  .brand-text {
+    display: flex; flex-direction: column; gap: 1px;
   }
 
   h1 {
     margin: 0;
-    font-size: 1.25rem;
-    font-weight: 700;
-    color: #fff;
-    span { color: #D97B1A; }
+    font-size: 1rem;
+    font-weight: 800;
+    color: $text;
+    text-transform: uppercase;
+    letter-spacing: .04em;
+    font-family: $mono;
+    span { color: $orange; }
+  }
+
+  .tagline {
+    font-size: 0.62rem;
+    font-weight: 600;
+    color: $muted;
+    text-transform: uppercase;
+    letter-spacing: .12em;
+    font-family: $mono;
   }
 }
 
-form { display: flex; flex-direction: column; gap: 1.25rem; }
+form { display: flex; flex-direction: column; gap: 1.1rem; }
 
 .field {
-  display: flex;
-  flex-direction: column;
-  gap: 0.4rem;
+  display: flex; flex-direction: column; gap: 0.35rem;
 
   label {
-    font-size: 0.8rem;
-    font-weight: 600;
-    color: #999;
+    font-size: 0.65rem;
+    font-weight: 700;
+    color: $muted;
     text-transform: uppercase;
-    letter-spacing: 0.05em;
+    letter-spacing: .1em;
+    font-family: $mono;
   }
 
   input {
-    background: #111;
-    border: 1px solid #333;
-    border-radius: 8px;
+    background: $bg;
+    border: 1px solid $border;
     padding: 0.75rem 1rem;
-    color: #fff;
-    font-size: 0.95rem;
-    transition: border-color 0.2s;
+    color: $text;
+    font-size: 0.92rem;
+    font-family: 'IBM Plex Sans', sans-serif;
+    transition: border-color 0.15s;
 
-    &:focus {
-      outline: none;
-      border-color: #D97B1A;
-    }
-
-    &::placeholder { color: #555; }
+    &:focus { outline: none; border-color: $orange; }
+    &::placeholder { color: #444; }
   }
 }
 
 .error {
   margin: 0;
   padding: 0.65rem 1rem;
-  background: rgba(217, 123, 26, 0.12);
+  background: rgba(217, 123, 26, 0.08);
   border: 1px solid rgba(217, 123, 26, 0.3);
-  border-radius: 8px;
   color: #F5C08A;
-  font-size: 0.88rem;
+  font-size: 0.82rem;
+  font-family: $mono;
 }
 
 .btn-login {
   padding: 0.85rem;
-  background: #D97B1A;
+  background: $orange;
   color: #fff;
-  border: none;
-  border-radius: 8px;
-  font-size: 1rem;
+  border: 2px solid $orange;
+  font-size: 0.78rem;
   font-weight: 700;
+  font-family: $mono;
+  text-transform: uppercase;
+  letter-spacing: .1em;
   cursor: pointer;
-  transition: background 0.2s, opacity 0.2s;
+  transition: background 0.15s, border-color 0.15s;
 
-  &:hover:not(:disabled) { background: #B8660F; }
-  &:disabled { opacity: 0.5; cursor: not-allowed; }
+  &:hover:not(:disabled) { background: #B8660F; border-color: #B8660F; }
+  &:disabled { opacity: 0.45; cursor: not-allowed; }
 }

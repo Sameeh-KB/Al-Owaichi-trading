@@ -1,9 +1,16 @@
 :host { display: block; }
 
 .about-strip {
-  background: var(--navy);
+  background: var(--bg-alt);
   padding: 0;
-  border-top: 1px solid rgba(255,255,255,.06);
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+}
+
+:host-context([data-theme='dark']) .about-strip {
+  background: var(--navy);
+  border-top-color: rgba(255,255,255,.06);
+  border-bottom-color: rgba(255,255,255,.04);
 }
 
 .about-inner {
@@ -24,8 +31,12 @@
   transition: background-color var(--ease);
 
   &:hover {
-    background: rgba(255,255,255,.03);
+    background: var(--spec-bg);
   }
+}
+
+:host-context([data-theme='dark']) .about-item:hover {
+  background: rgba(255,255,255,.03);
 }
 
 .about-icon {
@@ -37,21 +48,24 @@
 }
 
 .about-label {
-  font-size: 12.5px;
-  font-weight: 700;
-  color: rgba(255,255,255,.75);
-  white-space: nowrap;
-  letter-spacing: .3px;
-  text-transform: uppercase;
   font-size: 10.5px;
+  font-weight: 700;
+  color: var(--text);
+  white-space: nowrap;
   letter-spacing: 1px;
+  text-transform: uppercase;
   font-family: 'IBM Plex Mono', monospace;
 }
 
 .about-divider {
   width: 1px;
-  background: rgba(255,255,255,.07);
+  background: var(--border);
   align-self: stretch;
+}
+
+:host-context([data-theme='dark']) {
+  .about-label   { color: rgba(255,255,255,.75); }
+  .about-divider { background: rgba(255,255,255,.07); }
 }
 
 // ── RTL ───────────────────────────────

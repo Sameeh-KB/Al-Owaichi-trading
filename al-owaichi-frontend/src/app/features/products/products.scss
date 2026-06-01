@@ -2,10 +2,10 @@
 
 // ── Page header ────────────────────────────────────────
 .page-header {
-  background: var(--navy);
-  color: #fff;
+  background: var(--bg-alt);
+  color: var(--text);
   padding: 56px 0 48px;
-  border-bottom: 1px solid rgba(255,255,255,.07);
+  border-bottom: 1px solid var(--border);
   position: relative;
   overflow: hidden;
 
@@ -14,8 +14,8 @@
     position: absolute;
     inset: 0;
     background-image:
-      linear-gradient(rgba(255,255,255,.025) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(255,255,255,.025) 1px, transparent 1px);
+      linear-gradient(rgba(0,0,0,.04) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(0,0,0,.04) 1px, transparent 1px);
     background-size: 56px 56px;
     pointer-events: none;
   }
@@ -29,6 +29,20 @@
   }
 
   .container { position: relative; z-index: 1; }
+}
+
+:host-context([data-theme='dark']) {
+  .page-header {
+    background: var(--navy);
+    color: #fff;
+    border-bottom-color: rgba(255,255,255,.07);
+
+    &::before {
+      background-image:
+        linear-gradient(rgba(255,255,255,.025) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,.025) 1px, transparent 1px);
+    }
+  }
 }
 
 .page-overline {
@@ -56,7 +70,7 @@
 .page-title {
   font-size: clamp(28px, 4vw, 44px);
   font-weight: 800;
-  color: #fff;
+  color: var(--text);
   letter-spacing: -.03em;
   line-height: 1.1;
   margin-bottom: 10px;
@@ -64,9 +78,14 @@
 
 .page-sub {
   font-size: 14px;
-  color: rgba(255,255,255,.45);
+  color: var(--text-muted);
   max-width: 480px;
   line-height: 1.7;
+}
+
+:host-context([data-theme='dark']) {
+  .page-title { color: #fff; }
+  .page-sub   { color: rgba(255,255,255,.45); }
 }
 
 // ── Body ───────────────────────────────────────────────
